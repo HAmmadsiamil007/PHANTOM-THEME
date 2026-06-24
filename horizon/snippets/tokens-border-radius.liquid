@@ -1,0 +1,39 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════════
+       BORDER RADIUS SCALE
+       Consistent corner rounding across components
+       ═══════════════════════════════════════════════════════ */
+
+    --radius-none: 0;
+    --radius-sm: 0.125rem;     /* 2px  - subtle */
+    --radius-base: 0.25rem;    /* 4px  - default */
+    --radius-md: 0.375rem;     /* 6px  - medium */
+    --radius-lg: 0.5rem;       /* 8px  - large */
+    --radius-xl: 0.75rem;      /* 12px - extra large */
+    --radius-2xl: 1rem;        /* 16px - cards */
+    --radius-3xl: 1.5rem;      /* 24px - sections */
+    --radius-full: 9999px;     /* pills, badges */
+
+    /* Shape tokens */
+    --radius-circle: 50%;
+    --radius-blob: 35% 65% 45% 55% / 55% 45% 65% 35%;
+
+    /* Component-specific radii (mapped from theme settings) */
+    --radius-button-primary: {{ settings.button_border_radius_primary }}px;
+    --radius-button-secondary: {{ settings.button_border_radius_secondary }}px;
+    --radius-input: {{ settings.inputs_border_radius }}px;
+    --radius-popover: {{ settings.popover_border_radius }}px;
+    --radius-pill: {{ settings.pills_border_radius }}px;
+    --radius-swatch: {{ settings.variant_swatch_radius }}px;
+    --radius-variant-button: {{ settings.variant_button_radius }}px;
+    --radius-card: 0px;
+    --radius-badge: {{ settings.badge_corner_radius }}px;
+
+    /* Card and product media */
+    --radius-product-media: 0px;
+    --radius-product-card: 0px;
+    --radius-collection-card: 0px;
+    --radius-article-card: 0px;
+  }
+{% endstyle %}

@@ -58,6 +58,8 @@
 </script>
 {% endif %}
 
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <swiper-slider
   id="featured-products-{{ section.id }}" 
   class="
@@ -89,22 +91,27 @@
     style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
     {% render 'section-header' %}
     <div class="swiper mx-n4 mx-desktop-n5 mt-n3 mt-desktop-n5">
-      <div class="swiper-wrapper">
-        {% if section.settings.recommended_mode and request.path contains 'recommendations' %}
-          {% for product in recommendations.products %}
-            <div class="swiper-slide p-4 p-desktop-5">
-              {% render 'product-card', product: product %}
-            </div>
-          {% endfor %}
-        {% elsif products == blank %}
-          {{ empty_state }}
-        {% else %}
-          {% for product in products limit: section.settings.limit %} 
-            <div class="swiper-slide p-4 p-desktop-5">
-              {% render 'product-card', product: product %}
-            </div>
-          {% endfor %}
-        {% endif %}
+      <div class="swiper-wrapper" data-skeleton-wrapper>
+        <div data-skeleton-content>
+          {% if section.settings.recommended_mode and request.path contains 'recommendations' %}
+            {% for product in recommendations.products %}
+              <div class="swiper-slide p-4 p-desktop-5">
+                {% render 'product-card', product: product %}
+              </div>
+            {% endfor %}
+          {% elsif products == blank %}
+            {{ empty_state }}
+          {% else %}
+            {% for product in products limit: section.settings.limit %} 
+              <div class="swiper-slide p-4 p-desktop-5">
+                {% render 'product-card', product: product %}
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div data-skeleton-placeholder>
+          {% render 'skeleton-ui', type: 'product-card', count: 4 %}
+        </div>
       </div>
       <div class="swiper-controls">
         <div class="swiper-pagination"></div>
@@ -426,6 +433,68 @@
       "max": 20,
       "step": 1,
       "default": 10
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_border_color",
+      "label": "Border color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "disabled_on": {

@@ -1,52 +1,72 @@
-<div
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+  <div
   id="richtext-{{ section.id }}" 
   class="
     richtext 
     {{ section.settings.bg_color }} 
     {{ section.settings.bg_gradient }}
-    {{ section.settings.text_color }}
+    {{ section.settings.text_color }} 
     {{ section.settings.border_top_width | prepend: 'border-top-' }}
     {{ section.settings.border_bottom_width | prepend: 'border-bottom-' }}
     {{ section.settings.border_color }} 
     {{ section.settings.text_align }}
     {{ section.settings.pt | prepend: 'pt-' }} 
     {{ section.settings.pb | prepend: 'pb-' }}
-  "
+   px-mobile-3"
   style="
     --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
     --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
-  <div 
-    class="container phantom-animate"
-    style="max-width: {{ section.settings.container_max_width }}px;">
-    {% unless section.settings.title == blank %}
-      <h2 class="title mb-0 {{ section.settings.title_font_size }}">
-        {{ section.settings.title }}
-      </h2>
-    {% endunless %}
-    {% unless section.settings.description == blank %}
-      <div class="description rte mt-3 mb-0 {{ section.settings.description_font_size }}">
-        {{ section.settings.description }}
-      </div>
-    {% endunless %}
-    {% unless section.settings.btn_primary_text == blank %}
-      <div class="d-inline-flex mx-n2 mt-7">
+  <div data-skeleton-wrapper>
+    <div data-skeleton-content>
+      <div 
+        class="container phantom-animate"
+        style="max-width: {{ section.settings.container_max_width }}px;">
+        {% unless section.settings.title == blank %}
+          <h2 class="title mb-0 {{ section.settings.title_font_size }}">
+            {{ section.settings.title }}
+          </h2>
+        {% endunless %}
+        {% unless section.settings.description == blank %}
+          <div class="description rte mt-3 mb-0 {{ section.settings.description_font_size }}">
+            {{ section.settings.description }}
+          </div>
+        {% endunless %}
         {% unless section.settings.btn_primary_text == blank %}
-          <a 
-            class="btn m-2 {{ section.settings.btn_primary_color }}" 
-            href="{{ section.settings.btn_primary_url }}">
-            {{ section.settings.btn_primary_text }}
-          </a>
-        {% endunless %}
-        {% unless section.settings.btn_secondary_text == blank %}
-          <a 
-            class="btn m-2 {{ section.settings.btn_secondary_color }}" 
-            href="{{ section.settings.btn_secondary_url }}">
-            {{ section.settings.btn_secondary_text }}
-          </a>
+          <div class="d-inline-flex mx-n2 mt-7">
+            {% unless section.settings.btn_primary_text == blank %}
+              <a 
+                class="btn m-2 {{ section.settings.btn_primary_color }}" 
+                href="{{ section.settings.btn_primary_url }}">
+                {{ section.settings.btn_primary_text }}
+              </a>
+            {% endunless %}
+            {% unless section.settings.btn_secondary_text == blank %}
+              <a 
+                class="btn m-2 {{ section.settings.btn_secondary_color }}" 
+                href="{{ section.settings.btn_secondary_url }}">
+                {{ section.settings.btn_secondary_text }}
+              </a>
+            {% endunless %}
+          </div>
         {% endunless %}
       </div>
-    {% endunless %}
+    </div>
+    <div data-skeleton-placeholder>
+      <div class="container" style="max-width: {{ section.settings.container_max_width }}px; text-align: {{ section.settings.text_align }};">
+        <div class="skeleton-text-block" style="{% if section.settings.text_align == 'text-center' %}margin: 0 auto; align-items: center;{% endif %} max-width: 700px;">
+          <span class="skeleton skeleton-heading" style="width: 280px;"></span>
+          <span class="skeleton skeleton-text"></span>
+          <span class="skeleton skeleton-text"></span>
+          <span class="skeleton skeleton-text" style="width: 65%;"></span>
+          <div style="display: flex; gap: 8px; margin-top: 24px; {% if section.settings.text_align == 'text-center' %}justify-content: center;{% endif %}">
+            <span class="skeleton skeleton-button"></span>
+            <span class="skeleton skeleton-button"></span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -294,6 +314,63 @@
       "max": 20,
       "step": 1,
       "default": 9
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_link_color",
+      "label": "Link color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" },
+        { "value": "var(--font-accent--family)", "label": "Accent font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
     }
   ],
   "presets": [

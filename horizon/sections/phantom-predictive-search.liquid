@@ -12,9 +12,12 @@
         assign results = results | plus: predictive_search.resources.pages.size
     endif
   %}
-  <div 
+  
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<div 
     id="predictive-search-results"
-    class="predictive-search-results pt-7"
+    class="predictive-search-results pt-7 px-mobile-3"
     data-results-text="{{ 'general.search.results' | t: count: results }}">
     {%- if predictive_search.resources.products.size > 0 -%}
       <h3 

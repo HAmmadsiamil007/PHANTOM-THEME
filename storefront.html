@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Skeleton UI — Visual Catalog</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a2e;
+      transition: background 0.3s, color 0.3s;
+    }
+    .header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 16px 24px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .header h1 { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.01em; }
+    .header-controls { display: flex; align-items: center; gap: 16px; }
+    .header-controls label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.875rem; font-weight: 500; cursor: pointer; user-select: none;
+    }
+    .toggle-track {
+      position: relative; width: 40px; height: 22px;
+      background: #d1d5db; border-radius: 11px;
+      transition: background 0.25s; flex-shrink: 0;
+    }
+    .toggle-track::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 16px; height: 16px; background: #fff;
+      border-radius: 50%;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+    input[type="checkbox"]:checked + .toggle-track { background: #6366f1; }
+    input[type="checkbox"]:checked + .toggle-track::after { transform: translateX(18px); }
+    input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .badge-count {
+      font-size: 0.75rem; background: #6366f1; color: #fff;
+      padding: 2px 10px; border-radius: 100px; font-weight: 500;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .section-card {
+      background: #fff; border-radius: 12px;
+      border: 1px solid rgba(0,0,0,0.06); overflow: hidden;
+      transition: box-shadow 0.2s, background 0.3s, border-color 0.3s;
+    }
+    .section-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .section-card-header {
+      padding: 16px 20px 0;
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 8px;
+    }
+    .section-card-header h2 { margin: 0; font-size: 0.9375rem; font-weight: 600; }
+    .variant-tag {
+      font-size: 0.6875rem; padding: 2px 8px; border-radius: 100px;
+      background: rgba(99,102,241,0.1); color: #6366f1;
+      font-weight: 500; letter-spacing: 0.01em; white-space: nowrap;
+    }
+    .section-card-body { padding: 20px; }
+    .preview-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: flex-end; }
+    .preview-column { display: flex; flex-direction: column; gap: 6px; }
+    .preview-labeled { display: flex; flex-direction: column; gap: 4px; align-items: center; }
+    .preview-labeled .label {
+      font-size: 0.6875rem; color: #9ca3af;
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .hero-preview { width: 100%; max-width: 100%; }
+    .stacked-previews { display: flex; flex-direction: column; gap: 16px; }
+    .notice {
+      padding: 12px 16px; border-radius: 8px; background: #f0f4ff;
+      border: 1px solid rgba(99,102,241,0.15);
+      font-size: 0.8125rem; color: #4b5563; margin-bottom: 24px;
+    }
+    .footer {
+      text-align: center; padding: 32px 24px;
+      font-size: 0.8125rem; color: #9ca3af;
+      border-top: 1px solid rgba(0,0,0,0.06); margin-top: 48px;
+    }
+
+    /* Dark mode */
+    body.dark { background: #0f0f1a; color: #e5e7eb; }
+    body.dark .header { background: rgba(15,15,26,0.85); border-color: rgba(255,255,255,0.06); }
+    body.dark .section-card { background: #1a1a2e; border-color: rgba(255,255,255,0.06); }
+    body.dark .section-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    body.dark .variant-tag { background: rgba(129,140,248,0.15); color: #818cf8; }
+    body.dark .notice { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.2); color: #9ca3af; }
+    body.dark .footer { color: #6b7280; border-color: rgba(255,255,255,0.06); }
+
+    /* Loading toggle: show placeholders */
+    body.show-skeletons [data-skeleton-content] { display: none !important; }
+    body.show-skeletons [data-skeleton-placeholder] { display: block !important; }
+
+    @media (max-width: 749px) {
+      .container { padding: 16px; }
+      .header { padding: 12px 16px; }
+      .catalog-grid { grid-template-columns: 1fr; gap: 16px; }
+    }
+  </style>
+  <link rel="stylesheet" href="horizon/assets/skeleton-ui.css">
+</head>
+<body>
+
+  <header class="header">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <h1>⏳ Skeleton UI</h1>
+      <span class="badge-count">13 variants</span>
+    </div>
+    <div class="header-controls">
+      <label>
+        <input type="checkbox" id="toggleSkeletons">
+        <span class="toggle-track"></span>
+        Show skeletons
+      </label>
+      <label>
+        <input type="checkbox" id="toggleDark">
+        <span class="toggle-track"></span>
+        Dark mode
+      </label>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="notice">
+      Each skeleton variant shown with <strong>content visible</strong> (the default server-rendered state).
+      Toggle <strong>"Show skeletons"</strong> above to see the placeholder state — the same visual that appears when
+      <code>skeleton-loading</code> is applied.
+    </div>
+
+    <div class="catalog-grid">
+
+      <!-- Text -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Text</h2>
+          <span class="variant-tag">skeleton-text</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <p style="margin:0;font-size:0.9375rem;line-height:1.6;color:#6b7280;">
+                This is the real content. It stays visible by default — the skeleton only shows when loading.
+              </p>
+            </div>
+            <div data-skeleton-placeholder>
+              <span class="skeleton skeleton-text"></span>
+              <span class="skeleton skeleton-text"></span>
+              <span class="skeleton skeleton-text"></span>
+              <span class="skeleton skeleton-text" style="width:60%;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Heading -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Heading</h2>
+          <span class="variant-tag">skeleton-heading</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <h3 style="margin:0;font-size:1.25rem;font-weight:600;">This is the real heading</h3>
+            </div>
+            <div data-skeleton-placeholder>
+              <span class="skeleton skeleton-heading"></span>
+              <span class="skeleton skeleton-subheading"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subheading -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Subheading</h2>
+          <span class="variant-tag">skeleton-subheading</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <p style="margin:0;font-size:0.9375rem;color:#6b7280;">A shorter, secondary heading line.</p>
+            </div>
+            <div data-skeleton-placeholder>
+              <span class="skeleton skeleton-subheading"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Button</h2>
+          <span class="variant-tag">skeleton-button</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <button style="padding:12px 28px;border:none;border-radius:8px;background:#6366f1;color:#fff;font-weight:600;cursor:pointer;">Add to cart</button>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="preview-row">
+                <span class="skeleton skeleton-button"></span>
+                <span class="skeleton skeleton-button" style="width:120px;"></span>
+                <span class="skeleton skeleton-button" style="width:160px;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badge -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Badge</h2>
+          <span class="variant-tag">skeleton-badge</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <span style="display:inline-block;padding:4px 12px;border-radius:100px;background:#f0f4ff;color:#6366f1;font-size:0.75rem;font-weight:600;">SALE</span>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="preview-row">
+                <span class="skeleton skeleton-badge"></span>
+                <span class="skeleton skeleton-badge" style="width:60px;"></span>
+                <span class="skeleton skeleton-badge" style="width:100px;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Price</h2>
+          <span class="variant-tag">skeleton-price</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <span style="font-size:1.125rem;font-weight:600;color:#1a1a2e;">$53,900</span>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="preview-row">
+                <span class="skeleton skeleton-price" style="width:60px;"></span>
+                <span class="skeleton skeleton-price" style="width:80px;"></span>
+                <span class="skeleton skeleton-price" style="width:70px;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Avatar</h2>
+          <span class="variant-tag">skeleton-avatar</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:48px;height:48px;border-radius:50%;background:#e5e7eb;"></div>
+                <div>
+                  <div style="font-weight:600;font-size:0.875rem;">Jane Doe</div>
+                  <div style="font-size:0.75rem;color:#6b7280;">Verified buyer</div>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="preview-row">
+                <span class="skeleton skeleton-avatar"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icon -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Icon</h2>
+          <span class="variant-tag">skeleton-icon</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="display:flex;gap:12px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="preview-row">
+                <span class="skeleton skeleton-icon"></span>
+                <span class="skeleton skeleton-icon"></span>
+                <span class="skeleton skeleton-icon"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image: Square -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Image — Square</h2>
+          <span class="variant-tag">skeleton-image--square ×3</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:8px;">
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:8px;">
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image: Portrait -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Image — Portrait</h2>
+          <span class="variant-tag">skeleton-image--portrait ×4</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:4;--skeleton-grid-gap:10px;">
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;"></div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:4;--skeleton-grid-gap:10px;">
+                <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image: Landscape -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Image — Landscape</h2>
+          <span class="variant-tag">skeleton-image--landscape</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="width:100%;aspect-ratio:16/9;background:#e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:0.75rem;">📷 Photo</div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image: Wide -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Image — Wide</h2>
+          <span class="variant-tag">skeleton-image--wide</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="width:100%;aspect-ratio:21/9;background:#e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:0.75rem;">📷 Wide banner</div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton skeleton-image skeleton-image--wide"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text block -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Text Block</h2>
+          <span class="variant-tag">skeleton-text-block</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="max-width:640px;">
+                <h3 style="margin:0 0 8px;font-size:1.125rem;">A Rich Text Section</h3>
+                <p style="margin:0 0 4px;font-size:0.875rem;color:#6b7280;line-height:1.6;">This section features a heading with a body of text that describes something important about your brand or products.</p>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-text-block">
+                <span class="skeleton skeleton-heading"></span>
+                <span class="skeleton skeleton-text"></span>
+                <span class="skeleton skeleton-text"></span>
+                <span class="skeleton skeleton-text" style="width:70%;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product card -->
+      <div class="section-card" style="grid-column: span 1;">
+        <div class="section-card-header">
+          <h2>Product Card</h2>
+          <span class="variant-tag">skeleton-product-card ×4</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:4;--skeleton-grid-gap:12px;">
+                <div style="text-align:center;">
+                  <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="font-size:0.875rem;font-weight:500;">Aviator | Black</div>
+                  <div style="font-size:0.8125rem;color:#6b7280;">$53,900</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="font-size:0.875rem;font-weight:500;">Aviator | Brown</div>
+                  <div style="font-size:0.8125rem;color:#6b7280;">$53,900</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="font-size:0.875rem;font-weight:500;">Bifold Wallet</div>
+                  <div style="font-size:0.8125rem;color:#6b7280;">$18,700</div>
+                </div>
+                <div style="text-align:center;">
+                  <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="font-size:0.875rem;font-weight:500;">Belt | Black</div>
+                  <div style="font-size:0.8125rem;color:#6b7280;">$12,500</div>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:4;--skeleton-grid-gap:12px;">
+                <div class="skeleton-product-card">
+                  <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                  <div class="skeleton-product-info">
+                    <span class="skeleton skeleton-text" style="width:85%;"></span>
+                    <span class="skeleton skeleton-text" style="width:55%;"></span>
+                    <span class="skeleton skeleton-price"></span>
+                  </div>
+                </div>
+                <div class="skeleton-product-card">
+                  <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                  <div class="skeleton-product-info">
+                    <span class="skeleton skeleton-text" style="width:75%;"></span>
+                    <span class="skeleton skeleton-text" style="width:50%;"></span>
+                    <span class="skeleton skeleton-price"></span>
+                  </div>
+                </div>
+                <div class="skeleton-product-card">
+                  <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                  <div class="skeleton-product-info">
+                    <span class="skeleton skeleton-text" style="width:80%;"></span>
+                    <span class="skeleton skeleton-text" style="width:45%;"></span>
+                    <span class="skeleton skeleton-price"></span>
+                  </div>
+                </div>
+                <div class="skeleton-product-card">
+                  <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+                  <div class="skeleton-product-info">
+                    <span class="skeleton skeleton-text" style="width:70%;"></span>
+                    <span class="skeleton skeleton-text" style="width:60%;"></span>
+                    <span class="skeleton skeleton-price"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Collection card -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Collection Card</h2>
+          <span class="variant-tag">skeleton-collection-card ×3</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:12px;">
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:12px;display:flex;align-items:flex-end;padding:16px;">
+                  <div style="font-weight:600;">Men's Boots</div>
+                </div>
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:12px;display:flex;align-items:flex-end;padding:16px;">
+                  <div style="font-weight:600;">Women's Boots</div>
+                </div>
+                <div style="aspect-ratio:3/4;background:#e5e7eb;border-radius:12px;display:flex;align-items:flex-end;padding:16px;">
+                  <div style="font-weight:600;">Accessories</div>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:12px;">
+                <div class="skeleton-collection-card">
+                  <div class="skeleton-collection-overlay">
+                    <span class="skeleton skeleton-heading" style="width:70%;"></span>
+                    <span class="skeleton skeleton-text" style="width:40%;"></span>
+                  </div>
+                </div>
+                <div class="skeleton-collection-card">
+                  <div class="skeleton-collection-overlay">
+                    <span class="skeleton skeleton-heading" style="width:65%;"></span>
+                    <span class="skeleton skeleton-text" style="width:45%;"></span>
+                  </div>
+                </div>
+                <div class="skeleton-collection-card">
+                  <div class="skeleton-collection-overlay">
+                    <span class="skeleton skeleton-heading" style="width:75%;"></span>
+                    <span class="skeleton skeleton-text" style="width:35%;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero banner -->
+      <div class="section-card" style="grid-column: 1 / -1;">
+        <div class="section-card-header">
+          <h2>Hero / Banner</h2>
+          <span class="variant-tag">skeleton-hero</span>
+        </div>
+        <div class="section-card-body" style="padding:0;">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="width:100%;aspect-ratio:21/9;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;padding:5% 5%;">
+                <div>
+                  <div style="font-size:1.75rem;font-weight:700;color:#fff;">Spring Collection</div>
+                  <div style="font-size:1rem;color:rgba(255,255,255,0.8);margin-top:8px;">Discover the latest arrivals — up to 40% off</div>
+                  <button style="margin-top:12px;padding:10px 24px;border:none;border-radius:6px;background:#fff;color:#1a1a2e;font-weight:600;">Shop now</button>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-hero">
+                <div class="skeleton-hero-content">
+                  <span class="skeleton skeleton-heading"></span>
+                  <span class="skeleton skeleton-text"></span>
+                  <span class="skeleton skeleton-text" style="width:40%;"></span>
+                  <span class="skeleton skeleton-button"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blog card -->
+      <div class="section-card" style="grid-column: span 1;">
+        <div class="section-card-header">
+          <h2>Blog Card</h2>
+          <span class="variant-tag">skeleton-blog-card ×3</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:12px;">
+                <div>
+                  <div style="aspect-ratio:16/9;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="display:flex;gap:8px;margin-bottom:4px;">
+                    <span style="font-size:0.6875rem;color:#9ca3af;">Jan 15</span>
+                    <span style="font-size:0.6875rem;color:#9ca3af;">2 min read</span>
+                  </div>
+                  <div style="font-size:0.875rem;font-weight:600;">How to Choose the Perfect Leather Boots</div>
+                </div>
+                <div>
+                  <div style="aspect-ratio:16/9;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="display:flex;gap:8px;margin-bottom:4px;">
+                    <span style="font-size:0.6875rem;color:#9ca3af;">Jan 12</span>
+                    <span style="font-size:0.6875rem;color:#9ca3af;">4 min read</span>
+                  </div>
+                  <div style="font-size:0.875rem;font-weight:600;">The Ultimate Guide to Boot Care</div>
+                </div>
+                <div>
+                  <div style="aspect-ratio:16/9;background:#e5e7eb;border-radius:8px;margin-bottom:8px;"></div>
+                  <div style="display:flex;gap:8px;margin-bottom:4px;">
+                    <span style="font-size:0.6875rem;color:#9ca3af;">Jan 8</span>
+                    <span style="font-size:0.6875rem;color:#9ca3af;">3 min read</span>
+                  </div>
+                  <div style="font-size:0.875rem;font-weight:600;">Behind the Craft: Our Artisan Process</div>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:12px;">
+                <div class="skeleton-blog-card">
+                  <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+                  <div class="skeleton-blog-meta">
+                    <span class="skeleton skeleton-text" style="width:60px;height:0.75em;"></span>
+                    <span class="skeleton skeleton-text" style="width:80px;height:0.75em;"></span>
+                  </div>
+                  <span class="skeleton skeleton-text skeleton-blog-title"></span>
+                  <span class="skeleton skeleton-text skeleton-blog-excerpt"></span>
+                  <span class="skeleton skeleton-text skeleton-blog-excerpt" style="width:70%;"></span>
+                </div>
+                <div class="skeleton-blog-card">
+                  <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+                  <div class="skeleton-blog-meta">
+                    <span class="skeleton skeleton-text" style="width:50px;height:0.75em;"></span>
+                    <span class="skeleton skeleton-text" style="width:75px;height:0.75em;"></span>
+                  </div>
+                  <span class="skeleton skeleton-text skeleton-blog-title"></span>
+                  <span class="skeleton skeleton-text skeleton-blog-excerpt"></span>
+                  <span class="skeleton skeleton-text skeleton-blog-excerpt" style="width:65%;"></span>
+                </div>
+                <div class="skeleton-blog-card">
+                  <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+                  <div class="skeleton-blog-meta">
+                    <span class="skeleton skeleton-text" style="width:55px;height:0.75em;"></span>
+                    <span class="skeleton skeleton-text" style="width:70px;height:0.75em;"></span>
+                  </div>
+                  <span class="skeleton skeleton-text skeleton-blog-title"></span>
+                  <span class="skeleton skeleton-text skeleton-blog-excerpt"></span>
+                  <span class="skeleton skeleton-text skeleton-blog-excerpt" style="width:75%;"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart item -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Cart Item</h2>
+          <span class="variant-tag">skeleton-cart-item ×2</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="stacked-previews" style="max-width:400px;">
+                <div style="display:flex;gap:16px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,0.06);">
+                  <div style="width:80px;height:80px;background:#e5e7eb;border-radius:8px;flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-weight:600;font-size:0.875rem;">Aviator | Black</div>
+                    <div style="font-size:0.75rem;color:#6b7280;">Size 10</div>
+                    <div style="font-weight:600;font-size:0.875rem;margin-top:4px;">$53,900</div>
+                  </div>
+                </div>
+                <div style="display:flex;gap:16px;padding:12px 0;">
+                  <div style="width:80px;height:80px;background:#e5e7eb;border-radius:8px;flex-shrink:0;"></div>
+                  <div>
+                    <div style="font-weight:600;font-size:0.875rem;">Bifold Wallet | Black</div>
+                    <div style="font-size:0.75rem;color:#6b7280;">Qty: 1</div>
+                    <div style="font-weight:600;font-size:0.875rem;margin-top:4px;">$18,700</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-cart-item">
+                <div class="skeleton skeleton-image" style="width:80px;height:80px;aspect-ratio:unset;"></div>
+                <div class="skeleton-cart-info">
+                  <span class="skeleton skeleton-text" style="width:65%;"></span>
+                  <span class="skeleton skeleton-text" style="width:35%;"></span>
+                  <span class="skeleton skeleton-price"></span>
+                </div>
+              </div>
+              <div class="skeleton-cart-item">
+                <div class="skeleton skeleton-image" style="width:80px;height:80px;aspect-ratio:unset;"></div>
+                <div class="skeleton-cart-info">
+                  <span class="skeleton skeleton-text" style="width:55%;"></span>
+                  <span class="skeleton skeleton-text" style="width:40%;"></span>
+                  <span class="skeleton skeleton-price"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Cart Summary</h2>
+          <span class="variant-tag">skeleton-cart-summary</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div style="max-width:320px;">
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                  <span style="font-size:0.875rem;color:#6b7280;">Subtotal</span>
+                  <span style="font-size:0.875rem;font-weight:600;">$72,600</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                  <span style="font-size:0.875rem;color:#6b7280;">Shipping</span>
+                  <span style="font-size:0.875rem;">Free</span>
+                </div>
+                <div style="height:1px;background:rgba(0,0,0,0.06);margin:8px 0;"></div>
+                <div style="display:flex;justify-content:space-between;padding:4px 0;">
+                  <span style="font-weight:600;">Total</span>
+                  <span style="font-weight:600;font-size:1.125rem;">$72,600</span>
+                </div>
+                <button style="width:100%;margin-top:12px;padding:14px;border:none;border-radius:8px;background:#6366f1;color:#fff;font-weight:600;font-size:0.9375rem;">Checkout</button>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-cart-summary">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span class="skeleton skeleton-text" style="width:40%;height:1em;"></span>
+                  <span class="skeleton skeleton-price" style="width:60px;"></span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span class="skeleton skeleton-text" style="width:30%;height:0.9em;"></span>
+                  <span class="skeleton skeleton-price" style="width:50px;"></span>
+                </div>
+                <div style="height:1px;background:rgba(0,0,0,0.06);margin:4px 0;"></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span class="skeleton skeleton-heading" style="width:25%;height:1.2em;"></span>
+                  <span class="skeleton skeleton-heading" style="width:80px;height:1.4em;"></span>
+                </div>
+                <span class="skeleton skeleton-button" style="width:100%;height:50px;margin-top:8px;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid (image only) -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Grid — Image Only</h2>
+          <span class="variant-tag">skeleton-grid + image</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:4;--skeleton-grid-gap:8px;">
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+                <div style="aspect-ratio:1/1;background:#e5e7eb;border-radius:8px;"></div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:4;--skeleton-grid-gap:8px;">
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+                <div class="skeleton skeleton-image skeleton-image--square"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card (generic) -->
+      <div class="section-card">
+        <div class="section-card-header">
+          <h2>Card (Generic)</h2>
+          <span class="variant-tag">skeleton-card ×3</span>
+        </div>
+        <div class="section-card-body">
+          <div data-skeleton-wrapper>
+            <div data-skeleton-content>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:12px;">
+                <div style="background:#f3f4f6;border-radius:12px;overflow:hidden;">
+                  <div style="aspect-ratio:16/9;background:#e5e7eb;"></div>
+                  <div style="padding:12px;">
+                    <div style="font-weight:600;font-size:0.875rem;">Card Title</div>
+                    <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">Description text here</div>
+                  </div>
+                </div>
+                <div style="background:#f3f4f6;border-radius:12px;overflow:hidden;">
+                  <div style="aspect-ratio:16/9;background:#e5e7eb;"></div>
+                  <div style="padding:12px;">
+                    <div style="font-weight:600;font-size:0.875rem;">Another Title</div>
+                    <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">Description text here</div>
+                  </div>
+                </div>
+                <div style="background:#f3f4f6;border-radius:12px;overflow:hidden;">
+                  <div style="aspect-ratio:16/9;background:#e5e7eb;"></div>
+                  <div style="padding:12px;">
+                    <div style="font-weight:600;font-size:0.875rem;">Third Title</div>
+                    <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">Description text here</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div data-skeleton-placeholder>
+              <div class="skeleton-grid" style="--skeleton-grid-cols:3;--skeleton-grid-gap:12px;">
+                <div style="display:flex;flex-direction:column;gap:12px;border-radius:12px;overflow:hidden;">
+                  <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+                  <div style="display:flex;flex-direction:column;gap:8px;padding:0 4px;">
+                    <span class="skeleton skeleton-heading" style="width:80%;"></span>
+                    <span class="skeleton skeleton-text"></span>
+                    <span class="skeleton skeleton-text" style="width:50%;"></span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:12px;border-radius:12px;overflow:hidden;">
+                  <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+                  <div style="display:flex;flex-direction:column;gap:8px;padding:0 4px;">
+                    <span class="skeleton skeleton-heading" style="width:75%;"></span>
+                    <span class="skeleton skeleton-text"></span>
+                    <span class="skeleton skeleton-text" style="width:45%;"></span>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:12px;border-radius:12px;overflow:hidden;">
+                  <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+                  <div style="display:flex;flex-direction:column;gap:8px;padding:0 4px;">
+                    <span class="skeleton skeleton-heading" style="width:85%;"></span>
+                    <span class="skeleton skeleton-text"></span>
+                    <span class="skeleton skeleton-text" style="width:55%;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    Skeleton UI Visual Catalog &mdash; Built with skeleton-ui.css &bull; Toggle "Show skeletons" to preview loading states
+  </div>
+
+  <script>
+    (function () {
+      var skeletonToggle = document.getElementById('toggleSkeletons');
+      var darkToggle = document.getElementById('toggleDark');
+
+      skeletonToggle.addEventListener('change', function () {
+        document.body.classList.toggle('show-skeletons', this.checked);
+      });
+
+      darkToggle.addEventListener('change', function () {
+        document.body.classList.toggle('dark', this.checked);
+      });
+    })();
+  </script>
+</body>
+</html>

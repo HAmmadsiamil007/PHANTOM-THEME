@@ -5,8 +5,6 @@
     {% for type in shop.enabled_payment_types %}
       <li 
         class="" 
-        data-bs-toggle="tooltip" 
-        data-bs-placement="top" 
         title="{{ type | replace: "_", " " | camelcase }}">
         {{ type | payment_type_svg_tag: class: 'icon' }}
       </li>

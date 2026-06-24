@@ -6,6 +6,8 @@
   endif
 %}
 
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <section 
   id="blog-main-{{ collection.id }}" 
   class="
@@ -19,9 +21,6 @@
     {{ section.settings.pt | prepend: 'pt-' }} 
     {{ section.settings.pb | prepend: 'pb-' }}
   "
-  style="
-    --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
-    --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
   <div 
     class="container"
@@ -42,8 +41,6 @@
             <button 
               class="btn btn-sm mx px-4 mx-2 {{ section.settings.tags_btn_color }}" 
               type="button" 
-              data-bs-toggle="offcanvas" 
-              data-bs-target="#offcanvas-blog-tags"
               aria-controls="offcanvas-blog-tags">
               <span class="d-flex align-items-center">
                 {% render 'svg-icons', icon: 'tag', size: 16, class: 'me-3' %}
@@ -59,12 +56,18 @@
             {{ section.settings.breakpoint_tablet | prepend: 'row-cols-tablet-' }}
             {{ section.settings.breakpoint_desktop | prepend: 'row-cols-desktop-' }}
           "
-          role="list">
+          role="list"
+          data-skeleton-wrapper>
+          <div data-skeleton-content>
           {% for article in blog.articles %}
             <div class="p-3 p-desktop-4 mb-3 mb-desktop-4" role="list-item">
               {% render 'article-card', article: article %}
             </div>
           {% endfor %}
+          </div>
+          <div data-skeleton-placeholder>
+            {% render 'skeleton-ui', type: 'blog-card', count: 4 %}
+          </div>
         </div>
         {% render 'pagination', paginate: paginate %}
       {% endif %}
@@ -81,7 +84,7 @@
     <h2 id="offcanvas-blog-tags-label" class="offcanvas-title">
       {{ 'general.blog.tags_title' | t }}
     </h2>
-    <button class="btn-close" type="button" data-bs-dismiss="offcanvas" aria-label="{{ 'general.accessibility.close' | t }}">
+    <button class="btn-close" type="button" aria-label="{{ 'general.accessibility.close' | t }}">
       {% render 'svg-icons', icon: 'x' %}
     </button>
   </div>
@@ -369,6 +372,68 @@
       "max": 20,
       "step": 1,
       "default": 10
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_border_color",
+      "label": "Border color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "templates": ["blog"],

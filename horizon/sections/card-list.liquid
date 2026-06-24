@@ -1,3 +1,5 @@
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <div
   id="card-list-{{ section.id }}" 
   class="
@@ -19,58 +21,66 @@
     class="container phantom-animate"
     style="max-width: {{ section.settings.container_max_width }}px">
     {% render 'section-header' %}
-    <div 
-      class="
-        m-n4 m-desktop-n5 align-items-desktop-center row
-        {{ section.settings.breakpoint_mobile | prepend: 'row-cols-' }}
-        {{ section.settings.breakpoint_tablet | prepend: 'row-cols-tablet-' }}
-        {{ section.settings.breakpoint_desktop | prepend: 'row-cols-desktop-' }}
-      ">
-      {% for block in section.blocks %}
+    <div data-skeleton-wrapper>
+      <div data-skeleton-content>
         <div 
-          class="p-4 p-desktop-5"
-          {{ block.shopify_attributes }}>
-          <div 
-            class="
-              card h-100 phantom-card
-              {{ section.settings.item_bg_color }}
-              {{ section.settings.item_text_color }}
-              {{ section.settings.item_border_width | prepend: 'border-' }}
-              {{ section.settings.item_shadow }} 
-              {{ section.settings.item_border_color }}
-              {{ section.settings.item_text_align }}
-            "
-            style="
-              --bs-bg-opacity: {{ section.settings.item_bg_opacity | append: '%' }};
-              --bs-border-opacity: {{ section.settings.item_border_opacity | append: '%' }};
-            ">
-            {% unless block.settings.img == blank %}
-              <div class="card-img-top overflow-hidden">
-                {% render 'image-url', img: block.settings.img, orientation: section.settings.item_img_orientation, class: '' %}
-              </div>
-            {% endunless %}
-            <div class="card-body">
-              {% unless block.settings.title == blank %}
-                <h3 class="title mb-2 {{ section.settings.item_title_font_size }}">
-                  {{ block.settings.title }}
-                </h3>
-              {% endunless %}
-              {% unless block.settings.description == blank %}
-                <div class="description rte mb-0 {{ section.settings.item_description_font_size }}">
-                  {{ block.settings.description }}
+          class="
+            m-n4 m-desktop-n5 align-items-desktop-center row
+            {{ section.settings.breakpoint_mobile | prepend: 'row-cols-' }}
+            {{ section.settings.breakpoint_tablet | prepend: 'row-cols-tablet-' }}
+            {{ section.settings.breakpoint_desktop | prepend: 'row-cols-desktop-' }}
+          ">
+          {% for block in section.blocks %}
+            {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+            <div 
+              class="p-4 p-desktop-5"
+              {{ block.shopify_attributes }}>
+              <div 
+                class="
+                  card h-100 phantom-card
+                  {{ section.settings.item_bg_color }}
+                  {{ section.settings.item_text_color }}
+                  {{ section.settings.item_border_width | prepend: 'border-' }}
+                  {{ section.settings.item_shadow }} 
+                  {{ section.settings.item_border_color }}
+                  {{ section.settings.item_text_align }}
+                "
+                style="
+                  --bs-bg-opacity: {{ section.settings.item_bg_opacity | append: '%' }};
+                  --bs-border-opacity: {{ section.settings.item_border_opacity | append: '%' }};
+                ">
+                {% unless block.settings.img == blank %}
+                  <div class="card-img-top overflow-hidden">
+                    {% render 'image-url', img: block.settings.img, orientation: section.settings.item_img_orientation, class: '' %}
+                  </div>
+                {% endunless %}
+                <div class="card-body">
+                  {% unless block.settings.title == blank %}
+                    <h3 class="title mb-2 {{ section.settings.item_title_font_size }}">
+                      {{ block.settings.title }}
+                    </h3>
+                  {% endunless %}
+                  {% unless block.settings.description == blank %}
+                    <div class="description rte mb-0 {{ section.settings.item_description_font_size }}">
+                      {{ block.settings.description }}
+                    </div>
+                  {% endunless %}
+                  {% unless block.settings.btn_text == blank %}
+                    <a 
+                      class="btn w-100 mt-5 phantom-btn {{ section.settings.item_btn_color }} {{ section.settings.item_btn_size }}" 
+                      href="{{ block.settings.btn_url }}">
+                      {{ block.settings.btn_text }}
+                    </a>
+                  {% endunless %}
                 </div>
-              {% endunless %}
-              {% unless block.settings.btn_text == blank %}
-                <a 
-                  class="btn w-100 mt-5 phantom-btn {{ section.settings.item_btn_color }} {{ section.settings.item_btn_size }}" 
-                  href="{{ block.settings.btn_url }}">
-                  {{ block.settings.btn_text }}
-                </a>
-              {% endunless %}
+              </div>
             </div>
-          </div>
+          {% endfor %}
         </div>
-      {% endfor %}
+      </div>
+      <div data-skeleton-placeholder>
+        {% render 'skeleton-ui', type: 'card', count: 4, columns: section.settings.breakpoint_desktop %}
+      </div>
     </div>
   </div>
 </div>
@@ -436,6 +446,63 @@
       "step": 1,
       "default": 10
     }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
+    }
   ],
   "blocks": [
     {
@@ -468,6 +535,70 @@
           "type": "url",
           "id": "btn_url",
           "label": "Button URL"
+        }
+              {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
         }
       ]
     }

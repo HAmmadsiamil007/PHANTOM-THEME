@@ -1,5 +1,7 @@
 
 
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <script type="application/ld+json">
   {{ section.settings.product | structured_data }}
 </script>
@@ -23,7 +25,7 @@
 {% endcapture %}
 
 <featured-product-information id="{{ section.id }}">
-  <h2 class="visually-hidden">{{ 'accessibility.featured_product' | t }}</h2>
+  <h2 class="visually-hidden px-mobile-3">{{ 'accessibility.featured_product' | t }}</h2>
   {% render 'product-information-content',
     product: section.settings.product,
     section_id: section.id,
@@ -142,6 +144,63 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "presets": [

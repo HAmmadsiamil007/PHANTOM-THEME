@@ -1,0 +1,160 @@
+{%- doc -%}
+  ═══════════════════════════════════════════════════════════════
+  SECTION TOKEN OVERRIDE ENGINE
+  ───────────────────────────────────────────────────────────
+  Generates section-scoped CSS custom properties that override
+  global design tokens. Each section can independently customize
+  its design tokens via the Theme Editor.
+
+  Usage:
+    {% render 'section-tokens',
+      settings: section.settings,
+      section_id: section.id
+    %}
+
+  This is called automatically from the section wrapper.
+  @param {object} settings      - Section settings containing token_* fields
+  @param {string} section_id    - Unique section ID for CSS scoping
+  ═══════════════════════════════════════════════════════════════
+{%- enddoc -%}
+
+{%- liquid
+  assign sid = section_id | default: ''
+  if sid != '' and settings != blank
+    capture css_vars
+      echo '/* === Section Token Overrides: ' | append: sid | append: ' === */'
+      if settings.token_text_color != blank
+        echo '--section-text-color: ' | append: settings.token_text_color | append: ';'
+      endif
+      if settings.token_bg_color != blank
+        echo '--section-bg-color: ' | append: settings.token_bg_color | append: ';'
+      endif
+      if settings.token_primary_color != blank
+        echo '--section-primary-color: ' | append: settings.token_primary_color | append: ';'
+      endif
+      if settings.token_secondary_color != blank
+        echo '--section-secondary-color: ' | append: settings.token_secondary_color | append: ';'
+      endif
+      if settings.token_accent_color != blank
+        echo '--section-accent-color: ' | append: settings.token_accent_color | append: ';'
+      endif
+      if settings.token_heading_color != blank
+        echo '--section-heading-color: ' | append: settings.token_heading_color | append: ';'
+      endif
+      if settings.token_body_color != blank
+        echo '--section-body-color: ' | append: settings.token_body_color | append: ';'
+      endif
+      if settings.token_link_color != blank
+        echo '--section-link-color: ' | append: settings.token_link_color | append: ';'
+      endif
+      if settings.token_border_color != blank
+        echo '--section-border-color: ' | append: settings.token_border_color | append: ';'
+      endif
+      if settings.token_success_color != blank
+        echo '--section-success-color: ' | append: settings.token_success_color | append: ';'
+      endif
+      if settings.token_error_color != blank
+        echo '--section-error-color: ' | append: settings.token_error_color | append: ';'
+      endif
+      if settings.token_warning_color != blank
+        echo '--section-warning-color: ' | append: settings.token_warning_color | append: ';'
+      endif
+      if settings.token_surface_color != blank
+        echo '--section-surface-color: ' | append: settings.token_surface_color | append: ';'
+      endif
+      if settings.token_heading_font != blank and settings.token_heading_font != ''
+        echo '--section-heading-font: ' | append: settings.token_heading_font | append: ';'
+      endif
+      if settings.token_body_font != blank and settings.token_body_font != ''
+        echo '--section-body-font: ' | append: settings.token_body_font | append: ';'
+      endif
+      if settings.token_accent_font != blank and settings.token_accent_font != ''
+        echo '--section-accent-font: ' | append: settings.token_accent_font | append: ';'
+      endif
+      if settings.token_base_size != blank
+        echo '--section-base-font-size: ' | append: settings.token_base_size | append: 'px;'
+      endif
+      if settings.token_heading_scale != blank
+        echo '--section-heading-scale: ' | append: settings.token_heading_scale | append: ';'
+      endif
+      if settings.token_letter_spacing != blank
+        echo '--section-letter-spacing: ' | append: settings.token_letter_spacing | append: 'em;'
+      endif
+      if settings.token_line_height != blank
+        echo '--section-line-height: ' | append: settings.token_line_height | append: ';'
+      endif
+      if settings.token_spacing_scale != blank
+        echo '--section-spacing-scale: ' | append: settings.token_spacing_scale | append: ';'
+      endif
+      if settings.token_section_gap != blank
+        echo '--section-gap: ' | append: settings.token_section_gap | append: 'px;'
+      endif
+      if settings.token_content_gap != blank
+        echo '--section-content-gap: ' | append: settings.token_content_gap | append: 'px;'
+      endif
+      if settings.token_padding != blank
+        echo '--section-padding: ' | append: settings.token_padding | append: 'px;'
+      endif
+      if settings.token_border_radius != blank
+        echo '--section-border-radius: ' | append: settings.token_border_radius | append: 'px;'
+      endif
+      if settings.token_border_width != blank
+        echo '--section-border-width: ' | append: settings.token_border_width | append: 'px;'
+      endif
+      if settings.token_border_opacity != blank
+        echo '--section-border-opacity: ' | append: settings.token_border_opacity | append: '%;'
+      endif
+      if settings.token_card_radius != blank
+        echo '--section-card-radius: ' | append: settings.token_card_radius | append: 'px;'
+      endif
+      if settings.token_button_radius != blank
+        echo '--section-button-radius: ' | append: settings.token_button_radius | append: 'px;'
+      endif
+      if settings.token_input_radius != blank
+        echo '--section-input-radius: ' | append: settings.token_input_radius | append: 'px;'
+      endif
+      if settings.token_shadow_size != blank
+        echo '--section-shadow-size: ' | append: settings.token_shadow_size | append: ';'
+      endif
+      if settings.token_shadow_opacity != blank
+        echo '--section-shadow-opacity: ' | append: settings.token_shadow_opacity | append: ';'
+      endif
+      if settings.token_anim_duration != blank
+        echo '--section-anim-duration: ' | append: settings.token_anim_duration | append: 's;'
+      endif
+      if settings.token_anim_easing != blank
+        echo '--section-anim-easing: ' | append: settings.token_anim_easing | append: ';'
+      endif
+      if settings.token_anim_delay != blank
+        echo '--section-anim-delay: ' | append: settings.token_anim_delay | append: 's;'
+      endif
+      if settings.token_container_width != blank
+        echo '--section-container-width: ' | append: settings.token_container_width | append: 'px;'
+      endif
+      if settings.token_content_max_width != blank
+        echo '--section-content-max-width: ' | append: settings.token_content_max_width | append: 'px;'
+      endif
+      if settings.token_icon_size != blank
+        echo '--section-icon-size: ' | append: settings.token_icon_size | append: 'px;'
+      endif
+      if settings.token_icon_stroke != blank
+        echo '--section-icon-stroke: ' | append: settings.token_icon_stroke | append: 'px;'
+      endif
+      if settings.token_muted_opacity != blank
+        echo '--section-muted-opacity: ' | append: settings.token_muted_opacity | append: ';'
+      endif
+      if settings.token_disabled_opacity != blank
+        echo '--section-disabled-opacity: ' | append: settings.token_disabled_opacity | append: ';'
+      endif
+    endcapture
+  endif
+%}
+
+{%- if css_vars != '' -%}
+  {%- style -%}
+    #{{ sid }},
+    [data-section-tokens="{{ sid }}"] {
+      {{ css_vars }}
+    }
+  {%- endstyle -%}
+{%- endif -%}

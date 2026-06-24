@@ -10,21 +10,33 @@
     {{ section.settings.border_color }} 
     {{ section.settings.pt | prepend: 'pt-' }} 
     {{ section.settings.pb | prepend: 'pb-' }}
-  "
+   px-mobile-3"
   style="
     --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
     --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
-  <div 
-    class="container" 
-    style="max-width: {{ section.settings.container_max_width }}px">
-    {% unless section.settings.show_title == blank %}
-      <h1 class="title {{ section.settings.title_font_size }}">
-        {{ page.title }}
-      </h1>
-    {% endunless %}
-    <div class="description rte {{ section.settings.description_font_size }}">
-      {{ page.content }}
+  
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+  <div data-skeleton-wrapper>
+    <div data-skeleton-content>
+      <div 
+        class="container" 
+        style="max-width: {{ section.settings.container_max_width }}px">
+        {% unless section.settings.show_title == blank %}
+          <h1 class="title {{ section.settings.title_font_size }}">
+            {{ page.title }}
+          </h1>
+        {% endunless %}
+        <div class="description rte {{ section.settings.description_font_size }}">
+          {{ page.content }}
+        </div>
+      </div>
+    </div>
+    <div data-skeleton-placeholder>
+      <div class="container" style="max-width: {{ section.settings.container_max_width }}px">
+        {% render 'skeleton-ui', type: 'text-block' %}
+      </div>
     </div>
   </div>
 </article>
@@ -187,6 +199,63 @@
       "max": 20,
       "step": 1,
       "default": 10
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "templates": ["page"],

@@ -1,0 +1,229 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════════
+       PADDING & MARGIN SYSTEM
+       Semantic spacing tokens for all directional values.
+       Extends the base spacing scale with semantic roles.
+       ═══════════════════════════════════════════════════════ */
+
+    /* ── Section padding (top/bottom) ──────────────── */
+    --section-pt: clamp(2rem, 5vw, 5rem);
+    --section-pb: clamp(2rem, 5vw, 5rem);
+    --section-py: var(--section-pt) var(--section-pb);
+
+    /* ── Section margin ────────────────────────────── */
+    --section-mt: 0;
+    --section-mb: 0;
+    --section-my: var(--section-mt) var(--section-mb);
+
+    /* ── Component padding scale ───────────────────── */
+    --p-0: 0;
+    --p-px: 1px;
+    --p-0_5: var(--space-0_5);
+    --p-1: var(--space-1);
+    --p-1_5: var(--space-1_5);
+    --p-2: var(--space-2);
+    --p-2_5: var(--space-2_5);
+    --p-3: var(--space-3);
+    --p-3_5: var(--space-3_5);
+    --p-4: var(--space-4);
+    --p-5: var(--space-5);
+    --p-6: var(--space-6);
+    --p-7: var(--space-7);
+    --p-8: var(--space-8);
+    --p-9: var(--space-9);
+    --p-10: var(--space-10);
+    --p-11: var(--space-11);
+    --p-12: var(--space-12);
+    --p-14: var(--space-14);
+    --p-16: var(--space-16);
+
+    /* ── Component margin scale ────────────────────── */
+    --m-0: 0;
+    --m-px: 1px;
+    --m-0_5: var(--space-0_5);
+    --m-1: var(--space-1);
+    --m-1_5: var(--space-1_5);
+    --m-2: var(--space-2);
+    --m-2_5: var(--space-2_5);
+    --m-3: var(--space-3);
+    --m-3_5: var(--space-3_5);
+    --m-4: var(--space-4);
+    --m-5: var(--space-5);
+    --m-6: var(--space-6);
+    --m-7: var(--space-7);
+    --m-8: var(--space-8);
+    --m-9: var(--space-9);
+    --m-10: var(--space-10);
+    --m-11: var(--space-11);
+    --m-12: var(--space-12);
+    --m-14: var(--space-14);
+    --m-16: var(--space-16);
+
+    /* ── Negative margins ──────────────────────────── */
+    --m-n1: calc(-1 * var(--space-1));
+    --m-n2: calc(-1 * var(--space-2));
+    --m-n3: calc(-1 * var(--space-3));
+    --m-n4: calc(-1 * var(--space-4));
+    --m-n5: calc(-1 * var(--space-5));
+    --m-n6: calc(-1 * var(--space-6));
+    --m-n8: calc(-1 * var(--space-8));
+    --m-n10: calc(-1 * var(--space-10));
+    --m-n12: calc(-1 * var(--space-12));
+    --m-n16: calc(-1 * var(--space-16));
+
+    /* ── Directional padding shortcuts ─────────────── */
+    --pt-0: 0;
+    --pt-1: var(--space-1);
+    --pt-2: var(--space-2);
+    --pt-3: var(--space-3);
+    --pt-4: var(--space-4);
+    --pt-5: var(--space-5);
+    --pt-6: var(--space-6);
+    --pt-8: var(--space-8);
+    --pt-10: var(--space-10);
+    --pt-12: var(--space-12);
+    --pt-16: var(--space-16);
+    --pt-20: var(--space-20);
+    --pt-24: var(--space-24);
+
+    --pb-0: 0;
+    --pb-1: var(--space-1);
+    --pb-2: var(--space-2);
+    --pb-3: var(--space-3);
+    --pb-4: var(--space-4);
+    --pb-5: var(--space-5);
+    --pb-6: var(--space-6);
+    --pb-8: var(--space-8);
+    --pb-10: var(--space-10);
+    --pb-12: var(--space-12);
+    --pb-16: var(--space-16);
+    --pb-20: var(--space-20);
+    --pb-24: var(--space-24);
+
+    --ps-0: 0;
+    --ps-1: var(--space-1);
+    --ps-2: var(--space-2);
+    --ps-3: var(--space-3);
+    --ps-4: var(--space-4);
+    --ps-5: var(--space-5);
+    --ps-6: var(--space-6);
+    --ps-8: var(--space-8);
+    --ps-10: var(--space-10);
+    --ps-12: var(--space-12);
+    --ps-16: var(--space-16);
+    --ps-20: var(--space-20);
+
+    --pe-0: 0;
+    --pe-1: var(--space-1);
+    --pe-2: var(--space-2);
+    --pe-3: var(--space-3);
+    --pe-4: var(--space-4);
+    --pe-5: var(--space-5);
+    --pe-6: var(--space-6);
+    --pe-8: var(--space-8);
+    --pe-10: var(--space-10);
+    --pe-12: var(--space-12);
+    --pe-16: var(--space-16);
+    --pe-20: var(--space-20);
+
+    /* ── Directional margin shortcuts ──────────────── */
+    --mt-0: 0;
+    --mt-1: var(--space-1);
+    --mt-2: var(--space-2);
+    --mt-3: var(--space-3);
+    --mt-4: var(--space-4);
+    --mt-5: var(--space-5);
+    --mt-6: var(--space-6);
+    --mt-8: var(--space-8);
+    --mt-10: var(--space-10);
+    --mt-12: var(--space-12);
+    --mt-16: var(--space-16);
+    --mt-20: var(--space-20);
+
+    --mb-0: 0;
+    --mb-1: var(--space-1);
+    --mb-2: var(--space-2);
+    --mb-3: var(--space-3);
+    --mb-4: var(--space-4);
+    --mb-5: var(--space-5);
+    --mb-6: var(--space-6);
+    --mb-8: var(--space-8);
+    --mb-10: var(--space-10);
+    --mb-12: var(--space-12);
+    --mb-16: var(--space-16);
+    --mb-20: var(--space-20);
+    --mb-24: var(--space-24);
+
+    --ms-0: 0;
+    --ms-1: var(--space-1);
+    --ms-2: var(--space-2);
+    --ms-3: var(--space-3);
+    --ms-4: var(--space-4);
+    --ms-5: var(--space-5);
+    --ms-6: var(--space-6);
+    --ms-8: var(--space-8);
+    --ms-10: var(--space-10);
+
+    --me-0: 0;
+    --me-1: var(--space-1);
+    --me-2: var(--space-2);
+    --me-3: var(--space-3);
+    --me-4: var(--space-4);
+    --me-5: var(--space-5);
+    --me-6: var(--space-6);
+    --me-8: var(--space-8);
+    --me-10: var(--space-10);
+
+    /* ── Inset (shorthand for top/right/bottom/left) ─ */
+    --inset-0: 0;
+    --inset-1: var(--space-1);
+    --inset-2: var(--space-2);
+    --inset-3: var(--space-3);
+    --inset-4: var(--space-4);
+    --inset-5: var(--space-5);
+    --inset-6: var(--space-6);
+    --inset-8: var(--space-8);
+    --inset-10: var(--space-10);
+
+    /* ── Legacy spacing tokens (backward compat) ───── */
+    --margin-3xs: 0.125rem;
+    --margin-2xs: 0.3rem;
+    --margin-xs: 0.5rem;
+    --margin-sm: 0.7rem;
+    --margin-md: 0.8rem;
+    --margin-lg: 1rem;
+    --margin-xl: 1.25rem;
+    --margin-2xl: 1.5rem;
+    --margin-3xl: 1.75rem;
+    --margin-4xl: 2rem;
+    --margin-5xl: 3rem;
+    --margin-6xl: 5rem;
+
+    --padding-3xs: 0.125rem;
+    --padding-2xs: 0.25rem;
+    --padding-xs: 0.5rem;
+    --padding-sm: 0.7rem;
+    --padding-md: 0.8rem;
+    --padding-lg: 1rem;
+    --padding-xl: 1.25rem;
+    --padding-2xl: 1.5rem;
+    --padding-3xl: 1.75rem;
+    --padding-4xl: 2rem;
+    --padding-5xl: 3rem;
+    --padding-6xl: 4rem;
+
+    --gap-3xs: 0.125rem;
+    --gap-2xs: 0.3rem;
+    --gap-xs: 0.5rem;
+    --gap-sm: 0.7rem;
+    --gap-md: 0.9rem;
+    --gap-lg: 1rem;
+    --gap-xl: 1.25rem;
+    --gap-2xl: 2rem;
+    --gap-3xl: 3rem;
+
+    /* Scroll margin for anchor links */
+    --scroll-margin: 50px;
+  }
+{% endstyle %}

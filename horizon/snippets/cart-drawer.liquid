@@ -106,19 +106,31 @@
             {%- if cart.empty? -%}
               {{ empty_cart_drawer_content }}
             {%- else -%}
-              <scroll-hint
-                class="cart-drawer__content"
-                aria-label="{{ 'accessibility.cart' | t }}"
-                style="--header-height: 60px;"
-              >
-                <scroll-hint class="cart-drawer__items">
-                  {% render 'cart-products', context: 'drawer' %}
-                </scroll-hint>
+              <div data-skeleton-wrapper>
+                <div data-skeleton-content>
+                  <scroll-hint
+                    class="cart-drawer__content"
+                    aria-label="{{ 'accessibility.cart' | t }}"
+                    style="--header-height: 60px;"
+                  >
+                    <scroll-hint class="cart-drawer__items">
+                      {% render 'cart-products', context: 'drawer' %}
+                    </scroll-hint>
 
-                <div class="cart-drawer__summary">
-                  {% render 'cart-summary', section_id: 'cart-drawer-section' %}
+                    <div class="cart-drawer__summary">
+                      {% render 'cart-summary', section_id: 'cart-drawer-section' %}
+                    </div>
+                  </scroll-hint>
                 </div>
-              </scroll-hint>
+                <div data-skeleton-placeholder>
+                  <div style="padding: 16px;">
+                    {% render 'skeleton-ui', type: 'cart-item', count: 2 %}
+                    <div style="margin-top: 24px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 20px;">
+                      {% render 'skeleton-ui', type: 'cart-summary' %}
+                    </div>
+                  </div>
+                </div>
+              </div>
             {%- endif -%}
           {% endcapture %}
           {% render 'cart-items-component',
