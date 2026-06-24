@@ -10,7 +10,12 @@
 
 {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
 
-<div class="section-background color-custom-{{ section.id }}"></div>
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+{% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+<div class="section-background color-custom-{{ section.id }} px-mobile-3"></div>
 <aside
   class="announcement-bar spacing-style section section--{{ section.settings.section_width }} color-custom-{{ section.id }}"
   style="{% render 'spacing-padding', settings: section.settings %}; --border-bottom-width: {{ section.settings.divider_width }}px;{% if section.settings.divider_color != blank %} --color-border: {{ section.settings.divider_color }};{% endif %}"
@@ -212,6 +217,79 @@
       "step": 1,
       "unit": "px",
       "default": 15
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
+    }
+      {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
     }
   ],
   "presets": [

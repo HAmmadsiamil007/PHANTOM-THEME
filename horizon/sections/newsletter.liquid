@@ -1,3 +1,5 @@
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <div
   id="newsletter-{{ section.id }}" 
   class="
@@ -10,58 +12,76 @@
     {{ section.settings.border_color }} 
     {{ section.settings.pt | prepend: 'pt-' }} 
     {{ section.settings.pb | prepend: 'pb-' }}
-  "
+   px-mobile-3"
   style="
     --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
     --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
-  <div 
-    class="container phantom-animate"
-    style="max-width: {{ section.settings.container_max_width }}px;">
-    {% render 'section-header' %}
-    {% form 'customer', class: 'newsletter-form' %}
-      <input type="hidden" name="contact[tags]" value="newsletter">
-      {{ form.errors | default_errors }}
-      {% if form.posted_successfully? %}
-        <p class="alert alert-success">
-          {{ 'general.newsletter.confirmation_text' | t }}
-        </p>
-      {% endif %}
-      <div class="form-floating mt-n3">
-        <div class="form-floating-icon">
-          {% render 'svg-icons', icon: 'mail' %}
-        </div>
-        <input 
-          id="newsletter-input-email"
-          type="email" 
-          name="contact[email]" 
-          size="30"
-          class="form-control phantom-input"
-          value="{% if customer.email != blank %}{{ customer.email }}{% endif %}" 
-          placeholder="{{ 'general.newsletter.input_label' | t }}"
-          autocorrect="off" 
-          autocapitalize="off">
-        <label for="newsletter-input-email">
-          {{ 'general.newsletter.input_label' | t }}
-        </label>
-        <button
-          class="btn {{ section.settings.btn_color }} {{ section.settings.btn_size }} phantom-btn"
-          type="submit"
-          name="commit"
-          aria-label="{{ 'general.newsletter.submit_button' | t }}">
-          <svg width="22" height="22" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                <path d="M28,61 C28,161.710136 28,212.065204 28,212.065204 C28,212.065204 351.044692,255.885938 351.044692,255.885938 C351.044692,255.885938 243.363128,270.4319 28,299.523824 L28,451 L483.555218,256 L28,61 Z" fill="currentColor"></path>
-            </g>
-          </svg>
-        </button>
+  <div data-skeleton-wrapper>
+    <div data-skeleton-content>
+      <div 
+        class="container phantom-animate"
+        style="max-width: {{ section.settings.container_max_width }}px;">
+        {% render 'section-header' %}
+        {% form 'customer', class: 'newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {{ form.errors | default_errors }}
+          {% if form.posted_successfully? %}
+            <p class="alert alert-success">
+              {{ 'general.newsletter.confirmation_text' | t }}
+            </p>
+          {% endif %}
+          <div class="form-floating mt-n3">
+            <div class="form-floating-icon">
+              {% render 'svg-icons', icon: 'mail' %}
+            </div>
+            <input 
+              id="newsletter-input-email"
+              type="email" 
+              name="contact[email]" 
+              size="30"
+              class="form-control phantom-input"
+              value="{% if customer.email != blank %}{{ customer.email }}{% endif %}" 
+              placeholder="{{ 'general.newsletter.input_label' | t }}"
+              autocorrect="off" 
+              autocapitalize="off">
+            <label for="newsletter-input-email">
+              {{ 'general.newsletter.input_label' | t }}
+            </label>
+            <button
+              class="btn {{ section.settings.btn_color }} {{ section.settings.btn_size }} phantom-btn"
+              type="submit"
+              name="commit"
+              aria-label="{{ 'general.newsletter.submit_button' | t }}">
+              <svg width="22" height="22" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <path d="M28,61 C28,161.710136 28,212.065204 28,212.065204 C28,212.065204 351.044692,255.885938 351.044692,255.885938 C351.044692,255.885938 243.363128,270.4319 28,299.523824 L28,451 L483.555218,256 L28,61 Z" fill="currentColor"></path>
+                </g>
+              </svg>
+            </button>
+          </div>
+          {% unless section.settings.notice == blank %}
+            <div class="newsletter-notice rte mt-4 lh-sm small text-center opacity-70 fst-italic">
+              {{ section.settings.notice }}
+            </div>
+          {% endunless %}
+        {% endform %}
       </div>
-      {% unless section.settings.notice == blank %}
-        <div class="newsletter-notice rte mt-4 lh-sm small text-center opacity-70 fst-italic">
-          {{ section.settings.notice }}
+    </div>
+    <div data-skeleton-placeholder>
+      <div class="container" style="max-width: {{ section.settings.container_max_width }}px; text-align: center;">
+        <div class="skeleton-text-block" style="margin: 0 auto; align-items: center; max-width: 500px;">
+          <span class="skeleton skeleton-heading" style="width: 200px;"></span>
+          <span class="skeleton skeleton-text"></span>
+          <span class="skeleton skeleton-text" style="width: 70%;"></span>
+          <div style="display: flex; gap: 8px; width: 100%; margin-top: 16px;">
+            <span class="skeleton skeleton-text" style="height: 56px; flex: 1;"></span>
+            <span class="skeleton skeleton-button" style="height: 56px; width: 56px;"></span>
+          </div>
+          <span class="skeleton skeleton-text" style="width: 60%; height: 0.75em; margin-top: 16px;"></span>
         </div>
-      {% endunless %}
-    {% endform %}
+      </div>
+    </div>
   </div>
 </div>
 
@@ -269,6 +289,51 @@
       "max": 20,
       "step": 1,
       "default": 10
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_input_radius",
+      "label": "Input border radius",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
     }
   ],
   "presets": [

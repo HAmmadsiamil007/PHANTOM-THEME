@@ -1,3 +1,5 @@
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <section 
   id="announcement-bar-{{ section.id }}" 
   class="
@@ -12,17 +14,13 @@
     {{ section.settings.font_size_desktop }} 
     {{ section.settings.text_transform }} 
     {{ section.settings.letter_spacing | prepend: 'ls-' }} 
-  "
-  style="
-    --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
-    --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
-  ">
+   px-mobile-3">
   <div class="container">
     <div 
       id="carousel-{{ section.id }}" 
-      class="carousel slide " 
-      data-bs-ride="{% if section.settings.carousel_autoplay > 0 %}carousel{% else %}false{% endif %}"
-      data-bs-interval="{{ section.settings.carousel_autoplay | times: 1000 }}"
+      class="carousel slide" 
+      data-interval="{{ section.settings.carousel_autoplay | times: 1000 }}"
+      data-autoplay="{{ section.settings.carousel_autoplay }}"
       aria-label="{{ 'general.accessibility.announcements' | t }}"
       style="max-width: {{ section.settings.container_max_width }}px;">
       <div class="carousel-inner">
@@ -36,6 +34,7 @@
             " 
             data-index="{{ forloop.index0 }}" 
             {{ block.shopify_attributes }}>
+            {% render 'block-positioning', settings: block.settings, block_id: block.id %}
             <div class="description rte lh-sm">
               {{ block.settings.announcement }}
             </div>
@@ -46,16 +45,14 @@
         <button 
           class="carousel-control carousel-control-prev" 
           type="button" 
-          data-bs-target="#carousel-{{ section.id }}" 
-          data-bs-slide="prev"
+          data-slide="prev"
           aria-label="{{ 'general.accessibility.previous' | t }}">
           {% render 'svg-icons', icon: 'chevron-left', size: 22 %}
         </button>
         <button 
           class="carousel-control carousel-control-next" 
           type="button" 
-          data-bs-target="#carousel-{{ section.id }}" 
-          data-bs-slide="next"
+          data-slide="next"
           aria-label="{{ 'general.accessibility.next' | t }}">
           {% render 'svg-icons', icon: 'chevron-right', size: 22 %}
         </button>
@@ -64,18 +61,97 @@
   </div>
 </section>
 
-{% if request.design_mode %}
-  <script>
-    document.addEventListener('shopify:block:select', (event) => {
-      const carousel = event.target.closest('#carousel-{{ section.id }}')
-    
-      if (carousel) {
-        bootstrap.Carousel.getOrCreateInstance(carousel, { ride: false })
-          .to(event.target.dataset.index)
+<script>
+  (function() {
+    'use strict';
+
+    function initAnnouncementCarousel(container) {
+      var carouselEl = container.querySelector('#carousel-{{ section.id }}');
+      if (!carouselEl) return;
+
+      var inner = carouselEl.querySelector('.carousel-inner');
+      var slides = carouselEl.querySelectorAll('.carousel-item');
+      var prevBtn = carouselEl.querySelector('[data-slide="prev"]');
+      var nextBtn = carouselEl.querySelector('[data-slide="next"]');
+      var currentIndex = 0;
+      var autoplayMs = parseInt(carouselEl.dataset.interval) || 5000;
+      var autoplayEnabled = parseInt(carouselEl.dataset.autoplay) > 0;
+      var timer = null;
+
+      function goTo(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+
+        slides.forEach(function(s) { s.classList.remove('active'); });
+
+        currentIndex = index;
+        slides[index].classList.add('active');
+
+        resetAutoplay();
       }
-    })
-  </script>
-{% endif %}
+
+      function next() { goTo(currentIndex + 1); }
+      function prev() { goTo(currentIndex - 1); }
+
+      function startAutoplay() {
+        if (!autoplayEnabled || autoplayMs <= 0) return;
+        stopAutoplay();
+        timer = setInterval(next, autoplayMs);
+      }
+
+      function stopAutoplay() {
+        if (timer) { clearInterval(timer); timer = null; }
+      }
+
+      function resetAutoplay() {
+        if (autoplayEnabled) {
+          stopAutoplay();
+          startAutoplay();
+        }
+      }
+
+      if (prevBtn) prevBtn.addEventListener('click', function(e) { e.preventDefault(); prev(); });
+      if (nextBtn) nextBtn.addEventListener('click', function(e) { e.preventDefault(); next(); });
+
+      carouselEl.addEventListener('mouseenter', stopAutoplay);
+      carouselEl.addEventListener('mouseleave', startAutoplay);
+
+      // Mobile swipe support
+      if (slides.length > 1 && window.PhantomTouch && window.PhantomTouch.SwipeDetector) {
+        var swipe = new window.PhantomTouch.SwipeDetector(carouselEl, {
+          onSwipeLeft:  next,
+          onSwipeRight: prev,
+          threshold: 40,
+        });
+      }
+
+      startAutoplay();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initAnnouncementCarousel(document.getElementById('announcement-bar-{{ section.id }}'));
+      });
+    } else {
+      initAnnouncementCarousel(document.getElementById('announcement-bar-{{ section.id }}'));
+    }
+
+    {% if request.design_mode %}
+      document.addEventListener('shopify:block:select', function(event) {
+        var sectionEl = document.getElementById('announcement-bar-{{ section.id }}');
+        if (!sectionEl) return;
+        var carousel = sectionEl.querySelector('#carousel-{{ section.id }}');
+        if (!carousel) return;
+        var targetSlide = sectionEl.querySelector('[data-index="' + event.target.dataset.index + '"]');
+        if (targetSlide) {
+          var allSlides = carousel.querySelectorAll('.carousel-item');
+          allSlides.forEach(function(s) { s.classList.remove('active'); });
+          targetSlide.classList.add('active');
+        }
+      });
+    {% endif %}
+  })();
+</script>
 
 {% schema %}
 {
@@ -271,6 +347,52 @@
       "max": 20,
       "step": 1,
       "default": 3
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_border_color",
+      "label": "Border color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "blocks": [
@@ -283,6 +405,74 @@
           "id": "announcement",
           "label": "Announcement",
           "default": "Announce something important here"
+        },
+        {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Visibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
         }
       ]
     }

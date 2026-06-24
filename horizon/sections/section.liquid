@@ -1,5 +1,7 @@
 
 
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 {% capture children %}
   {% content_for 'blocks' %}
 {% endcapture %}
@@ -435,6 +437,133 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_secondary_color",
+      "label": "Secondary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_link_color",
+      "label": "Link color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_border_color",
+      "label": "Border color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_surface_color",
+      "label": "Surface/card background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" },
+        { "value": "var(--font-accent--family)", "label": "Accent font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "token_body_font",
+      "label": "Body font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-body--family)", "label": "Body font" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-accent--family)", "label": "Accent font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_section_gap",
+      "label": "Section gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_anim_duration",
+      "label": "Animation duration",
+      "min": 0,
+      "max": 3,
+      "step": 0.1,
+      "default": 0,
+      "unit": "s"
+    },
+    {
+      "type": "select",
+      "id": "token_anim_easing",
+      "label": "Animation easing",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "ease", "label": "Ease" },
+        { "value": "ease-in", "label": "Ease In" },
+        { "value": "ease-out", "label": "Ease Out" },
+        { "value": "ease-in-out", "label": "Ease In Out" },
+        { "value": "linear", "label": "Linear" }
+      ],
+      "default": ""
     }
   ],
   "presets": [

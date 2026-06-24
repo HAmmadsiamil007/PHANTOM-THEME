@@ -1,0 +1,60 @@
+{% doc %}
+  ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS — Master Loader
+   Renders all 21 foundation token systems as CSS custom
+   properties on :root for global use across all sections,
+   blocks, snippets, and templates.
+   ═══════════════════════════════════════════════════════════
+
+   Token categories:
+    1.  Typography Scale
+    2.  Font Pairing System
+    3.  Color Palette System     (in color-palette.liquid)
+    4.  Semantic Color Tokens
+    5.  Spacing Scale
+    6.  Border Radius Scale
+    7.  Shadow System
+    8.  Border System
+    9.  Opacity Tokens
+    10. Z-Index Layers
+    11. Animation Tokens
+    12. Transition Tokens
+    13. Grid System
+    14. Breakpoints
+    15. Container Widths
+    16. Icon System
+    17. Illustration System
+    18. Image Ratio System
+    19. Elevation System
+    20. Theme Presets
+    21. Padding & Margin System
+
+   Usage: {% render 'design-tokens' %}
+{% enddoc %}
+
+{%- comment -%}
+  Load all design token systems as modular snippets.
+  Each file outputs {% style %} blocks with CSS custom properties on :root.
+  This keeps the token system maintainable and individually overridable.
+{%- endcomment -%}
+
+{%- render 'tokens-typography-scale' -%}
+{%- render 'tokens-font-pairing' -%}
+{%- render 'tokens-semantic-colors' -%}
+{%- render 'tokens-spacing' -%}
+{%- render 'tokens-border-radius' -%}
+{%- render 'tokens-shadows' -%}
+{%- render 'tokens-borders' -%}
+{%- render 'tokens-opacity' -%}
+{%- render 'tokens-z-index' -%}
+{%- render 'tokens-animations' -%}
+{%- render 'tokens-transitions' -%}
+{%- render 'tokens-grid' -%}
+{%- render 'tokens-breakpoints' -%}
+{%- render 'tokens-container-widths' -%}
+{%- render 'tokens-icons' -%}
+{%- render 'tokens-illustrations' -%}
+{%- render 'tokens-image-ratios' -%}
+{%- render 'tokens-elevation' -%}
+{%- render 'tokens-theme-presets' -%}
+{%- render 'tokens-padding-margin' -%}

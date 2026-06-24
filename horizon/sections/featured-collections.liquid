@@ -1,6 +1,9 @@
 {% capture empty_state %}
   {% for num in (1..6) %}
-    <div class="swiper-slide p-4 p-desktop-4">
+    
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<div class="swiper-slide p-4 p-desktop-4">
       <div class="collection-card text-center">
         {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
         {{ 'collection-' | append: current | placeholder_svg_tag: 'collection-card-img img-thumbnail mb-4' }}
@@ -43,15 +46,21 @@
     style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
     {% render 'section-header' %}
     <div class="swiper mx-n4 mx-desktop-n5 mt-n3 mt-desktop-n5">
-      <div class="swiper-wrapper">
-        {% for block in section.blocks %} 
-          {% assign collection = block.settings.collection %}
-          <div class="swiper-slide p-4 p-desktop-5" {{ block.shopify_attributes }}>
-            {% render 'collection-card', collection: collection, block: block %}
-          </div>
-        {% else %}
-          {{ empty_state }}
-        {% endfor %}
+      <div class="swiper-wrapper" data-skeleton-wrapper>
+        <div data-skeleton-content>
+          {% for block in section.blocks %} 
+            {% assign collection = block.settings.collection %}
+            {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+            <div class="swiper-slide p-4 p-desktop-5" {{ block.shopify_attributes }}>
+              {% render 'collection-card', collection: collection, block: block %}
+            </div>
+          {% else %}
+            {{ empty_state }}
+          {% endfor %}
+        </div>
+        <div data-skeleton-placeholder>
+          {% render 'skeleton-ui', type: 'collection-card', count: 4 %}
+        </div>
       </div>
       <div class="swiper-controls">
         <div class="swiper-pagination"></div>
@@ -403,6 +412,63 @@
       "step": 1,
       "default": 10
     }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
+    }
   ],
   "blocks": [
     {
@@ -425,6 +491,70 @@
           "id": "title",
           "label": "Title",
           "info": "Optional - Leave empty to use the default collection title"
+        }
+              {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
         }
       ]
     }

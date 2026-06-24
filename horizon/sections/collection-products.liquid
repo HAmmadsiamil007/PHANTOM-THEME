@@ -23,7 +23,10 @@
     --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
     --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
-  <div 
+  
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<div 
     class="container"
     style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
     {% paginate collection.products by limit %}
@@ -33,19 +36,26 @@
         </p>
       {% else %}
         {% render 'collection-utilities' %}
-        <div 
-          class="
-            product-list mx-n4 mx-desktop-n5 mb-0 row 
-            {{ section.settings.breakpoint_mobile | prepend: 'row-cols-' }}
-            {{ section.settings.breakpoint_tablet | prepend: 'row-cols-tablet-' }}
-            {{ section.settings.breakpoint_desktop | prepend: 'row-cols-desktop-' }}
-          " 
-          role="list">
-          {% for product in collection.products %}
-            <div class="p-4 p-desktop-5 mb-4 mb-desktop-5" role="list-item">
-              {% render 'product-card', product: product %}
+        <div data-skeleton-wrapper>
+          <div data-skeleton-content>
+            <div 
+              class="
+                product-list mx-n4 mx-desktop-n5 mb-0 row 
+                {{ section.settings.breakpoint_mobile | prepend: 'row-cols-' }}
+                {{ section.settings.breakpoint_tablet | prepend: 'row-cols-tablet-' }}
+                {{ section.settings.breakpoint_desktop | prepend: 'row-cols-desktop-' }}
+              " 
+              role="list">
+              {% for product in collection.products %}
+                <div class="p-4 p-desktop-5 mb-4 mb-desktop-5" role="list-item">
+                  {% render 'product-card', product: product %}
+                </div>
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
+          <div data-skeleton-placeholder>
+            {% render 'skeleton-ui', type: 'product-card', count: limit, columns: section.settings.breakpoint_desktop %}
+          </div>
         </div>
         <collection-pagination class="collection-pagination"> 
           {% render 'pagination', paginate: paginate %}
@@ -277,6 +287,63 @@
       "max": 20,
       "step": 1,
       "default": 10
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "templates": ["collection"],

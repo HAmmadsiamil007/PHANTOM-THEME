@@ -12,13 +12,16 @@
     {{ section.settings.pb | prepend: 'pb-' }}
     {{ section.settings.pt_desktop | prepend: 'pt-desktop-' }} 
     {{ section.settings.pb_desktop | prepend: 'pb-desktop-' }}
-  "
+   px-mobile-3"
   style="
     --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
     --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
   {% if section.settings.img_show and collection.image != nil %}
-    <div 
+    
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<div 
       class="img-wrapper"
       style="
         --overlay-color-rgb: {{ section.settings.img_overlay_color | color_to_rgb | remove: 'rgb(' | remove: ')' }};
@@ -35,17 +38,28 @@
         loading="eager">
       </div>
   {% endif %}
-  <div 
-    class="container"
-    style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
-    <h2 class="title {{ section.settings.title_font_size }}">
-      <span>{{ collection.title }}</span>
-    </h2>
-    {% if section.settings.description_show and collection.description != blank %}
-      <div class="description rte mb-0 {{ section.settings.description_font_size }}">
-        {{ collection.description }}
+  <div data-skeleton-wrapper>
+    <div data-skeleton-content>
+      <div 
+        class="container"
+        style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
+        <h2 class="title {{ section.settings.title_font_size }}">
+          <span>{{ collection.title }}</span>
+        </h2>
+        {% if section.settings.description_show and collection.description != blank %}
+          <div class="description rte mb-0 {{ section.settings.description_font_size }}">
+            {{ collection.description }}
+          </div>
+        {% endif %}
       </div>
-    {% endif %}
+    </div>
+    <div data-skeleton-placeholder>
+      <div class="container" style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
+        <span class="skeleton skeleton-heading" style="width: 300px;"></span>
+        <span class="skeleton skeleton-text" style="margin-top: 12px; max-width: 500px;"></span>
+        <span class="skeleton skeleton-text" style="width: 60%; max-width: 400px;"></span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -265,6 +279,63 @@
       "max": 20,
       "step": 1,
       "default": 14
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "templates": ["collection"],

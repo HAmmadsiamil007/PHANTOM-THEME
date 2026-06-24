@@ -1,5 +1,11 @@
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<!-- Sentinel for scroll-aware navbar auto-hide (mobile) -->
+<div id="navbar-sentinel" aria-hidden="true"></div>
+
 <navbar-wrapper 
   id="navbar-wrapper"
+  data-section-tokens="{{ section.id }}"
   class="
     {{ section.settings.bg_color }} 
     {{ section.settings.bg_gradient }}
@@ -9,16 +15,15 @@
     {{ section.settings.border_color }} 
     {{ section.settings.shadow }}
   "
-  style="
-    --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
-    --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
   {% for block in section.blocks %}
     {% if block.type == 'mobile' %}
       <nav 
         id="navbar-mobile" 
-        class="navbar d-desktop-none p-0"
+        class="navbar d-desktop-none p-0 navbar-mobile-bar"
         {{ block.shopify_attributes }}>
+        {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+        <div class="scroll-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         <div 
           class="container d-block {{ block.settings.pt | prepend: 'pt-' }} {{  block.settings.pb | prepend: 'pb-' }}"
           style="max-width: {{ block.settings.container_max_width | append: 'px' }};">
@@ -27,9 +32,8 @@
               <ul class="nav flex-nowrap">
                 <li class="nav-item">
                   <a 
-                    class="nav-link nav-link-icon ms-n3"
+                    class="nav-link nav-link-icon"
                     href="#offcanvas-menu" 
-                    data-bs-toggle="offcanvas" 
                     aria-controls="offcanvas-menu"
                     aria-label="{{ 'general.accessibility.menu' | t }}"
                     role="button">
@@ -59,7 +63,6 @@
                     <a
                       class="nav-link nav-link-icon" 
                       href="#offcanvas-search" 
-                      data-bs-toggle="offcanvas"
                       aria-controls="offcanvas-search" 
                       aria-label="{{ 'general.accessibility.search' | t }}"
                       role="button">
@@ -69,9 +72,8 @@
                 {% endif %}
                 <li class="nav-item">
                   <a 
-                    class="nav-link nav-link-icon me-n3" 
+                    class="nav-link nav-link-icon" 
                     href="#offcanvas-cart" 
-                    data-bs-toggle="offcanvas" 
                     aria-controls="offcanvas-cart" 
                     aria-label="{{ 'general.accessibility.cart' | t }} {{ cart.item_count }}"
                     role="button">
@@ -89,6 +91,7 @@
         id="navbar-desktop" 
         class="navbar d-none d-desktop-block p-0"
         {{ block.shopify_attributes }}>
+        {% render 'block-positioning', settings: block.settings, block_id: block.id %}
         <div 
           class="container d-block {{ block.settings.pt | prepend: 'pt-' }} {{  block.settings.pb | prepend: 'pb-' }}"
           style="max-width: {{ block.settings.container_max_width | append: 'px' }};">
@@ -220,6 +223,35 @@
         { "value": "", "label": "No" }
       ],
       "default": "shadow-sm"
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent color",
+      "placeholder": "Global default"
     }
   ],
   "blocks": [
@@ -293,6 +325,74 @@
           "max": 20,
           "step": 1,
           "default": 3
+        },
+        {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Visibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
         }
       ]
     },
@@ -354,6 +454,74 @@
           "max": 20,
           "step": 1,
           "default": 3
+        },
+        {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Visibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
         }
       ]
     }

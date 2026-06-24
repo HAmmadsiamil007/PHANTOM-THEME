@@ -1,0 +1,70 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       IMAGE RATIO SYSTEM
+       Aspect ratio and object-fit tokens
+       ═══════════════════════════════════════════════════ */
+
+    /* Standard aspect ratios */
+    --ratio-square: 1 / 1;
+    --ratio-portrait: 3 / 4;
+    --ratio-landscape: 4 / 3;
+    --ratio-video: 16 / 9;
+    --ratio-video-portrait: 9 / 16;
+    --ratio-widescreen: 21 / 9;
+    --ratio-ultrawide: 21 / 9;
+    --ratio-panaromic: 2.35 / 1;
+    --ratio-photo: 3 / 2;
+    --ratio-photo-portrait: 2 / 3;
+    --ratio-card: 4 / 5;
+    --ratio-circle: 1 / 1;
+
+    /* Aspect ratio as percentage (for legacy compat) */
+    --ratio-1x1: 100%;
+    --ratio-3x4: 133.33333%;
+    --ratio-4x3: 75%;
+    --ratio-16x9: 56.25%;
+    --ratio-9x16: 177.77778%;
+    --ratio-21x9: 42.85714%;
+    --ratio-9x21: 233.33333%;
+
+    /* Image fit tokens */
+    --object-cover: cover;
+    --object-contain: contain;
+    --object-fill: fill;
+    --object-none: none;
+    --object-scale-down: scale-down;
+
+    /* Image position tokens */
+    --object-position-center: center;
+    --object-position-top: top;
+    --object-position-bottom: bottom;
+    --object-position-left: left;
+    --object-position-right: right;
+    --object-position-top-left: top left;
+    --object-position-top-right: top right;
+    --object-position-bottom-left: bottom left;
+    --object-position-bottom-right: bottom right;
+
+    /* Product media aspect ratios */
+    --media-preview-ratio: var(--ratio-square);
+    --gallery-aspect-ratio: var(--ratio-square);
+
+    /* Product card image ratio */
+    --product-card-image-ratio: var(--ratio-square);
+    --collection-card-image-ratio: var(--ratio-portrait);
+    --blog-card-image-ratio: var(--ratio-landscape);
+
+    /* Image overlay opacity */
+    --image-overlay-opacity: 0.15;
+    --gradient-image-overlay: linear-gradient(to top, rgb(0 0 0 / 0.5), transparent);
+
+    /* Image sizes */
+    --image-size-sm: 10rem;
+    --image-size-md: 16rem;
+    --image-size-lg: 24rem;
+    --image-size-xl: 32rem;
+    --image-size-full: 100%;
+    --image-size-auto: auto;
+  }
+{% endstyle %}

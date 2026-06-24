@@ -6,6 +6,8 @@
   More info: https://shopify.dev/docs/storefronts/themes/architecture/blocks/ai-generated-theme-blocks
 {% endcomment %}
 
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 {% capture children %}
   {% content_for 'blocks' %}
 {% endcapture %}
@@ -438,6 +440,22 @@
       "step": 1,
       "unit": "px",
       "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
     }
   ],
   "presets": [

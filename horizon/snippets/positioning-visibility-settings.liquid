@@ -1,0 +1,167 @@
+{%- doc -%}
+  ═══════════════════════════════════════════════════════════════
+  POSITIONING & VISIBILITY SETTINGS REFERENCE
+  ───────────────────────────────────────────────────────────
+  Copy these settings into any section or block schema that
+  should support X/Y positioning and visibility toggles.
+
+  USAGE:
+    1. Add {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+       or {% render 'block-positioning', settings: section.settings, block_id: section.id, is_section: true %}
+       to the rendering.
+
+    2. Copy the relevant settings group(s) below into the
+       {% schema %} settings array.
+
+  ═══════════════════════════════════════════════════════════════
+  AVAILABLE SETTINGS GROUPS
+  ═══════════════════════════════════════════════════════════════
+
+  ── GROUP 1: X/Y Positioning (for blocks and sections) ────
+    {
+      "type": "header",
+      "content": "X/Y Positioning",
+      "info": "Control block position on X (horizontal) and Y (vertical) axes"
+    },
+    {
+      "type": "select",
+      "id": "position_x",
+      "label": "X position — desktop",
+      "options": [
+        { "value": "inherit", "label": "Default / inherit" },
+        { "value": "left",    "label": "Left" },
+        { "value": "center",  "label": "Center" },
+        { "value": "right",   "label": "Right" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "position_y",
+      "label": "Y position — desktop",
+      "options": [
+        { "value": "inherit", "label": "Default / inherit" },
+        { "value": "top",     "label": "Top" },
+        { "value": "middle",  "label": "Middle" },
+        { "value": "bottom",  "label": "Bottom" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "position_x_mobile",
+      "label": "X position — mobile",
+      "options": [
+        { "value": "inherit", "label": "Same as desktop" },
+        { "value": "left",    "label": "Left" },
+        { "value": "center",  "label": "Center" },
+        { "value": "right",   "label": "Right" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "position_y_mobile",
+      "label": "Y position — mobile",
+      "options": [
+        { "value": "inherit", "label": "Same as desktop" },
+        { "value": "top",     "label": "Top" },
+        { "value": "middle",  "label": "Middle" },
+        { "value": "bottom",  "label": "Bottom" }
+      ],
+      "default": "inherit"
+    }
+
+  ── GROUP 2: Visibility Toggles (for blocks and sections) ──
+    {
+      "type": "header",
+      "content": "Visibility",
+      "info": "Show or hide this block on specific devices"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile (< 750px)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop (≥ 750px)",
+      "default": false
+    }
+
+  ── COMPLETE DEFAULT SET — copy this into any section schema ──
+    {
+      "type": "header",
+      "content": "X/Y Positioning",
+      "info": "Control the horizontal (X) and vertical (Y) alignment of this section's content"
+    },
+    {
+      "type": "select",
+      "id": "position_x",
+      "label": "X position — desktop",
+      "options": [
+        { "value": "inherit", "label": "Default" },
+        { "value": "left",    "label": "Left" },
+        { "value": "center",  "label": "Center" },
+        { "value": "right",   "label": "Right" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "position_y",
+      "label": "Y position — desktop",
+      "options": [
+        { "value": "inherit", "label": "Default" },
+        { "value": "top",     "label": "Top" },
+        { "value": "middle",  "label": "Middle" },
+        { "value": "bottom",  "label": "Bottom" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "position_x_mobile",
+      "label": "X position — mobile",
+      "options": [
+        { "value": "inherit", "label": "Same as desktop" },
+        { "value": "left",    "label": "Left" },
+        { "value": "center",  "label": "Center" },
+        { "value": "right",   "label": "Right" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "select",
+      "id": "position_y_mobile",
+      "label": "Y position — mobile",
+      "options": [
+        { "value": "inherit", "label": "Same as desktop" },
+        { "value": "top",     "label": "Top" },
+        { "value": "middle",  "label": "Middle" },
+        { "value": "bottom",  "label": "Bottom" }
+      ],
+      "default": "inherit"
+    },
+    {
+      "type": "header",
+      "content": "Visibility",
+      "info": "Show or hide this section on specific devices"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile (< 750px)",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop (≥ 750px)",
+      "default": false
+    }
+{%- enddoc -%}
+
+{# Reference only — no output #}

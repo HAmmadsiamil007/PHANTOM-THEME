@@ -1,0 +1,75 @@
+{%- doc -%}
+  Renders an article card within an article list.
+  Supports a skeleton loading mode for async content.
+
+  Accepts:
+  - article: {object} The article object
+  - loading: {boolean} If true, renders skeleton placeholder instead of real content
+  - section: {object} Section object for settings access (falls back to current section)
+
+  Usage:
+  {% render 'article-card', article: article %}
+  {% render 'article-card', loading: true %}
+{%- enddoc -%}
+
+{%- if loading -%}
+  {# ── Skeleton placeholder ─────────────────────────────── #}
+  <div class="article-card text-center">
+    <div class="article-card-link">
+      <div class="article-card-img-wrapper position-relative mb-4">
+        <div class="skeleton skeleton-image skeleton-image--landscape" style="border-radius: 0;"></div>
+      </div>
+      <h3 class="article-card-title mb-0 fs-xl">
+        <span class="skeleton skeleton-heading" style="width: 75%; margin: 0 auto 0.5em;"></span>
+      </h3>
+      <p class="article-card-meta opacity-70 mt-2 mb-0 small">
+        <span class="skeleton skeleton-text" style="width: 120px; display: inline-block;"></span>
+      </p>
+      <div class="article-card-excerpt rte small mt-3" style="max-width: 90%; margin: 0 auto;">
+        <span class="skeleton skeleton-text" style="display: block;"></span>
+        <span class="skeleton skeleton-text" style="width: 70%; display: block;"></span>
+      </div>
+    </div>
+  </div>
+{%- else -%}
+  {# ── Real article card ────────────────────────────────── #}
+  <div class="article-card {{ section.settings.article_card_text_align }}">
+    <a
+      href="{{ article.url }}"
+      class="article-card-link">
+      <div class="article-card-img-wrapper position-relative mb-4">
+        {% if section.settings.article_card_tags %}
+          <ul
+            class="article-card-tags list-unstyled d-flex m-4"
+            aria-label="{{ 'general.blog.posted_in' | t }}">
+            {% for tag in article.tags %}
+              <span class="article-card-tag badge bg-primary m-1">
+                {{ tag }}
+              </span>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if article.image %}
+          {% render 'image-url', img: article.image, orientation: section.settings.article_card_img_orientation, class: section.settings.article_card_img_border %}
+        {% else %}
+          <div class="placeholder-image {{ section.settings.article_card_img_border }}" style="aspect-ratio: 4/3; background: var(--bs-gray-200);">
+            {{ 'image' | placeholder_svg_tag: 'w-100 h-100' }}
+          </div>
+        {% endif %}
+      </div>
+      <h3 class="article-card-title mb-0 {{ section.settings.article_card_title_size }}">
+        {{ article.title }}
+      </h3>
+      {% if section.settings.article_card_meta %}
+        <p class="article-card-meta opacity-70 mt-2 mb-0 small">
+            {{ article.author }} @ {{ article.created_at | time_tag: '%b %d, %Y' }}
+        </p>
+      {% endif %}
+      {% if section.settings.article_card_excerpt and article.excerpt != blank %}
+        <div class="article-card-excerpt rte small mt-3">
+          {{ article.excerpt }}
+        </div>
+      {% endif %}
+    </a>
+  </div>
+{%- endif -%}

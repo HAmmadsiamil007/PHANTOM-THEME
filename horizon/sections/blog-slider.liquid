@@ -1,6 +1,9 @@
 {% capture empty_state %}
   {% for num in (1..6) %}
-    <div class="swiper-slide p-3 p-desktop-4">
+    
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<div class="swiper-slide p-3 p-desktop-4">
       <div class="article-card text-center">
         {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
         {{ 'collection-' | append: current | placeholder_svg_tag: 'img-thumbnail mb-4' }}
@@ -43,22 +46,29 @@
     style="max-width: {{ section.settings.container_max_width | append: 'px' }};">
     {% render 'section-header' %}
     <div class="swiper mx-n3 mx-desktop-n4 mt-n3 mt-desktop-n4">
-      <div class="swiper-wrapper">
-        {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %} 
-            <div class="swiper-slide p-3 p-desktop-4">
-              {% render 'article-card' article: block.settings.article  %}
-            </div>
-          {% endfor %}
-        {% elsif section.settings.blog != nil %}
-          {% for article in section.settings.blog.articles %}
-            <div class="swiper-slide p-3 p-desktop-4">
-              {% render 'article-card' article: article  %}
-            </div>
-          {% endfor %}
-        {% else %}
-          {{ empty_state }}
-        {% endif %}
+      <div data-skeleton-wrapper>
+        <div data-skeleton-content>
+          <div class="swiper-wrapper">
+            {% if section.blocks.size > 0 %}
+              {% for block in section.blocks %} 
+                <div class="swiper-slide p-3 p-desktop-4">
+                  {% render 'article-card' article: block.settings.article  %}
+                </div>
+              {% endfor %}
+            {% elsif section.settings.blog != nil %}
+              {% for article in section.settings.blog.articles %}
+                <div class="swiper-slide p-3 p-desktop-4">
+                  {% render 'article-card' article: article  %}
+                </div>
+              {% endfor %}
+            {% else %}
+              {{ empty_state }}
+            {% endif %}
+          </div>
+        </div>
+        <div data-skeleton-placeholder>
+          {% render 'skeleton-ui', type: 'blog-card', count: 4 %}
+        </div>
       </div>
       <div class="swiper-controls">
         <div class="swiper-pagination"></div>
@@ -419,6 +429,63 @@
       "max": 20,
       "step": 1,
       "default": 10
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "blocks": [

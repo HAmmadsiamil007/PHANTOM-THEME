@@ -105,6 +105,8 @@ export class LayeredSlideshowComponent extends Component {
     if (!this.#isMobile) {
       container.addEventListener('pointerdown', (e) => this.#startDrag(e), opts);
       container.addEventListener('click', (e) => this.#preventClickDuringDrag(e), { ...opts, capture: true });
+    } else {
+      this.#setupMobileTouch(opts);
     }
   }
 
@@ -224,6 +226,38 @@ export class LayeredSlideshowComponent extends Component {
     }
   }
 
+  /** @type {PhantomTouch.SwipeDetector|null} */
+  #mobileSwipe = null;
+
+  /**
+   * @param {AddEventListenerOptions & { signal: AbortSignal }} opts
+   */
+  #setupMobileTouch(opts) {
+    if (typeof PhantomTouch === 'undefined') return;
+    const { container, tabs } = this.refs;
+    if (!container || !tabs) return;
+
+    if (this.#mobileSwipe) {
+      this.#mobileSwipe.destroy();
+      this.#mobileSwipe = null;
+    }
+
+    this.#mobileSwipe = new PhantomTouch.SwipeDetector(container, {
+      threshold: 40,
+      preventScroll: false,
+      onSwipeLeft: () => {
+        if (this.#active < tabs.length - 1) {
+          this.#activate(this.#active + 1);
+        }
+      },
+      onSwipeRight: () => {
+        if (this.#active > 0) {
+          this.#activate(this.#active - 1);
+        }
+      },
+    });
+  }
+
   #handleMediaQueryChange = () => {
     const wasMobile = this.#isMobile;
     this.#isMobile = isMobileBreakpoint();
@@ -253,6 +287,10 @@ export class LayeredSlideshowComponent extends Component {
     this.#contentObserver = null;
     this.#containerObserver?.disconnect();
     this.#containerObserver = null;
+    if (this.#mobileSwipe) {
+      this.#mobileSwipe.destroy();
+      this.#mobileSwipe = null;
+    }
     mediaQueryLarge.removeEventListener('change', this.#handleMediaQueryChange);
   }
 

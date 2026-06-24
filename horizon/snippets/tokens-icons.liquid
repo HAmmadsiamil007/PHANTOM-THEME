@@ -1,0 +1,54 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       ICON SYSTEM
+       Sizing, stroke, and layout for SVG icons
+       ═══════════════════════════════════════════════════ */
+
+    /* Icon size scale */
+    --icon-2xs: 0.6rem;      /* 9.6px  */
+    --icon-xs: 0.75rem;      /* 12px   */
+    --icon-sm: 0.85rem;      /* 13.6px */
+    --icon-md: 1rem;         /* 16px   */
+    --icon-lg: 1.25rem;      /* 20px   */
+    --icon-xl: 1.375rem;     /* 22px   */
+    --icon-2xl: 1.5rem;      /* 24px   */
+    --icon-3xl: 2rem;        /* 32px   */
+    --icon-4xl: 2.5rem;      /* 40px   */
+    --icon-5xl: 3rem;        /* 48px   */
+    --icon-6xl: 3.5rem;      /* 56px   */
+
+    /* Icon stroke width (from theme settings) */
+    --icon-stroke-thin: 1px;
+    --icon-stroke-default: 1.5px;
+    --icon-stroke-heavy: 2px;
+    --icon-stroke: {% if settings.icon_stroke == 'thin' %}1px{% elsif settings.icon_stroke == 'heavy' %}2px{% else %}1.5px{% endif %};
+
+    /* Legacy icon tokens (backward compat) */
+    --icon-size-2xs: var(--icon-2xs);
+    --icon-size-xs: var(--icon-xs);
+    --icon-size-sm: var(--icon-sm);
+    --icon-size-md: var(--icon-md);
+    --icon-size-lg: var(--icon-lg);
+    --icon-stroke-width: var(--icon-stroke);
+
+    /* Icon color tokens */
+    --icon-color: currentColor;
+    --icon-color-muted: rgb(var(--color-foreground-rgb) / var(--opacity-muted, 0.6));
+    --icon-color-subdued: rgb(var(--color-foreground-rgb) / var(--opacity-subdued, 0.8));
+    --icon-color-inverse: var(--color-background);
+    --icon-color-brand: var(--color-foreground);
+
+    /* Icon container dimensions */
+    --svg-wrapper-size: var(--icon-sm);
+    --svg-wrapper-size-sm: var(--icon-2xs);
+    --svg-wrapper-size-xs: var(--icon-xs);
+
+    /* Icon spacing */
+    --icon-gap: var(--space-2);
+    --icon-padding: var(--space-1);
+
+    /* Interactive icon (button with icon only) */
+    --icon-button-size: var(--minimum-touch-target, 44px);
+  }
+{% endstyle %}

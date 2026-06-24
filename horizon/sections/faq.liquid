@@ -1,3 +1,5 @@
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
 <div
   id="faq-{{ section.id }}" 
   class="
@@ -10,10 +12,6 @@
     {{ section.settings.border_color }} 
     {{ section.settings.pt | prepend: 'pt-' }} 
     {{ section.settings.pb | prepend: 'pb-' }}
-  "
-  style="
-    --bs-bg-opacity: {{ section.settings.bg_opacity | append: '%' }};
-    --bs-border-opacity: {{ section.settings.border_opacity | append: '%' }};
   ">
   <div 
     class="container phantom-animate"
@@ -23,58 +21,123 @@
         {% render 'section-header' %}
       </div>
       <div class="col-desktop-10">
-        <div 
-          id="faq-accordion-{{ section.id }}" 
-          class="accordion">
-          {% for block in section.blocks %}
-            <div
-              class="accordion-item phantom-accordion-item"
-              data-index="{{ forloop.index0 }}"
-              {{ block.shopify_attributes }}>
-              <h3 
-                id="faq-accordion-{{ section.id }}-heading-{{ forloop.index }}" 
-                class="accordion-header">
-                <button
-                  class="accordion-button phantom-accordion-trigger {% unless section.settings.open_first_item == true and forloop.first %}collapsed{% endunless %}" 
-                  type="button" 
-                  data-bs-toggle="collapse" 
-                  data-bs-target="#faq-accordion-{{ section.id }}-collapse-{{ forloop.index }}" 
-                  aria-expanded="{% if section.settings.open_first_item == true and forloop.first %}true{% else %}false{% endif %}" 
-                  aria-controls="faq-accordion-{{ section.id }}-collapse-{{ forloop.index }}">
-                  {{ block.settings.title | escape }}
-                </button>
-              </h3>
-              <div 
-                id="faq-accordion-{{ section.id }}-collapse-{{ forloop.index }}" 
-                class="accordion-collapse collapse {% if section.settings.open_first_item == true and forloop.first %}show{% endif %}" 
-                aria-labelledby="faq-accordion-{{ section.id }}-heading-{{ forloop.index }}" 
-                data-bs-parent="#faq-accordion-{{ section.id }}">
-                <div class="accordion-body rte">
-                  {{ block.settings.description }}
+        <div data-skeleton-wrapper>
+          <div data-skeleton-content>
+            <div 
+              id="faq-accordion-{{ section.id }}" 
+              class="accordion"
+              data-accordion>
+              {% for block in section.blocks %}
+                <div
+                  class="accordion-item phantom-accordion-item"
+                  data-index="{{ forloop.index0 }}"
+                  {{ block.shopify_attributes }}>
+                  {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+                  <h3 
+                    id="faq-accordion-{{ section.id }}-heading-{{ forloop.index }}" 
+                    class="accordion-header">
+                    <button
+                      class="accordion-button phantom-accordion-trigger {% unless section.settings.open_first_item == true and forloop.first %}collapsed{% endunless %}" 
+                      type="button" 
+                      data-faq-trigger
+                      aria-expanded="{% if section.settings.open_first_item == true and forloop.first %}true{% else %}false{% endif %}" 
+                      aria-controls="faq-accordion-{{ section.id }}-collapse-{{ forloop.index }}">
+                      {{ block.settings.title | escape }}
+                    </button>
+                  </h3>
+                  <div 
+                    id="faq-accordion-{{ section.id }}-collapse-{{ forloop.index }}" 
+                    class="accordion-collapse {% if section.settings.open_first_item == true and forloop.first %}show{% endif %}" 
+                    aria-labelledby="faq-accordion-{{ section.id }}-heading-{{ forloop.index }}">
+                    <div class="accordion-body rte">
+                      {{ block.settings.description }}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              {% endfor %}
             </div>
-          {% endfor %}
+          </div>
+          <div data-skeleton-placeholder>
+            {% for i in (1..4) %}
+              <div class="accordion-item" style="border: 1px solid rgba(0,0,0,0.06); padding: 20px;">
+                <span class="skeleton skeleton-heading" style="width: 60%; height: 1.2em; margin-bottom: 0;"></span>
+              </div>
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-{% if request.design_mode %}
-  <script>
-    document.addEventListener('shopify:block:select', (event) => {
-      const faq = event.target.closest('#faq-{{ section.id }}')
-    
-      if (faq) {
-        const index = Number(event.target.dataset.index) + 1
-        const collapseEl = faq.querySelector(`#faq-accordion-{{ section.id }}-collapse-${index}`)
-        const bsCollapse = bootstrap.Collapse.getOrCreateInstance(collapseEl)
-        bsCollapse.show()
+<script>
+  (function() {
+    'use strict';
+
+    function initFaqAccordion(container) {
+      var accordion = container.querySelector('[data-accordion]');
+      if (!accordion) return;
+
+      var triggers = accordion.querySelectorAll('[data-faq-trigger]');
+
+      function closeAll() {
+        triggers.forEach(function(btn) {
+          var targetId = btn.getAttribute('aria-controls');
+          var target = document.getElementById(targetId);
+          if (target) {
+            target.classList.remove('show');
+            btn.classList.add('collapsed');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        });
       }
-    })
-  </script>
-{% endif %}
+
+      triggers.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = this.getAttribute('aria-controls');
+          var target = document.getElementById(targetId);
+          if (!target) return;
+
+          var isOpen = target.classList.contains('show');
+
+          // Accordion behavior: close all others
+          closeAll();
+
+          // Toggle current
+          if (!isOpen) {
+            target.classList.add('show');
+            this.classList.remove('collapsed');
+            this.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        initFaqAccordion(document.getElementById('faq-{{ section.id }}'));
+      });
+    } else {
+      initFaqAccordion(document.getElementById('faq-{{ section.id }}'));
+    }
+
+    {% if request.design_mode %}
+      document.addEventListener('shopify:block:select', function(event) {
+        var sectionEl = document.getElementById('faq-{{ section.id }}');
+        if (!sectionEl) return;
+        var index = Number(event.target.dataset.index);
+        var accordion = sectionEl.querySelector('[data-accordion]');
+        if (!accordion) return;
+        var items = accordion.querySelectorAll('.accordion-item');
+        var targetItem = items[index];
+        if (targetItem) {
+          var btn = targetItem.querySelector('[data-faq-trigger]');
+          if (btn) btn.click();
+        }
+      });
+    {% endif %}
+  })();
+</script>
 
 <script type="application/ld+json">
   {
@@ -270,6 +333,73 @@
       "max": 20,
       "step": 1,
       "default": 10
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_secondary_color",
+      "label": "Secondary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_link_color",
+      "label": "Link color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_section_gap",
+      "label": "Section gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
     }
   ],
   "blocks": [
@@ -286,6 +416,74 @@
           "type": "richtext",
           "id": "description",
           "label": "Description"
+        },
+        {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Visibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
         }
       ]
     }

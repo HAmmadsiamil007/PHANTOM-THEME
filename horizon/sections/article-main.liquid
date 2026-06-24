@@ -4,38 +4,50 @@
     article-main
     {{  section.settings.pt | prepend: 'pt-' }}
     {{  section.settings.pb | prepend: 'pb-' }}
-  ">
+   px-mobile-3">
   {% if section.settings.img_show and article.image %}
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
     <div class="img-wrapper mb-8">
       <div class="container">
         {% render 'image-url', img: article.image, size: 1600, orientation: section.settings.img_orientation, class: section.settings.img_border %}
       </div>
     </div>
   {% endif %}
-  <div class="article-content">
-    <div 
-      class="container" 
-      style="max-width: {{ section.settings.max_width }}px">
-      <h1 class="article-title title mb-4 {{ section.settings.title_font_size }}">
-        {{ article.title }}
-      </h1>
-      {% if section.settings.article_meta %}
-        <p class="article-meta opacity-70 mb-5">
-          {{ article.author }} @ {{ article.created_at | time_tag: '%b %d, %Y' }}
-        </p>
-      {% endif %}
-      <div class="article-content rte mb-6">
-        {{ article.content }}
-      </div>
-      {% if section.settings.show_tags and article.tags.size > 0 %}
-        <div class="article-tags small opacity-70 mb-7">
-          {{ 'general.blog.posted_in' | t }}: 
-          {% for tag in article.tags %}
-          <a href="{{ blog.url }}/tagged/{{ tag | handle }}">
-            {{ tag }}</a>{% unless forloop.last %}, {% endunless %}
-          {% endfor %}
+  <div data-skeleton-wrapper>
+    <div data-skeleton-content>
+      <div class="article-content">
+        <div 
+          class="container" 
+          style="max-width: {{ section.settings.max_width }}px">
+          <h1 class="article-title title mb-4 {{ section.settings.title_font_size }}">
+            {{ article.title }}
+          </h1>
+          {% if section.settings.article_meta %}
+            <p class="article-meta opacity-70 mb-5">
+              {{ article.author }} @ {{ article.created_at | time_tag: '%b %d, %Y' }}
+            </p>
+          {% endif %}
+          <div class="article-content rte mb-6">
+            {{ article.content }}
+          </div>
+          {% if section.settings.show_tags and article.tags.size > 0 %}
+            <div class="article-tags small opacity-70 mb-7">
+              {{ 'general.blog.posted_in' | t }}: 
+              {% for tag in article.tags %}
+              <a href="{{ blog.url }}/tagged/{{ tag | handle }}">
+                {{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+              {% endfor %}
+            </div>
+          {% endif %} 
         </div>
-      {% endif %} 
+      </div>
+    </div>
+    <div data-skeleton-placeholder>
+      <div class="container" style="max-width: {{ section.settings.max_width }}px">
+        {% render 'skeleton-ui', type: 'text-block' %}
+      </div>
     </div>
   </div>
 </article>
@@ -136,6 +148,63 @@
       "max": 20,
       "step": 1,
       "default": 10
+    }
+
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
     }
   ],
   "templates": ["article"],

@@ -1,0 +1,190 @@
+{%- doc -%}
+  Skeleton UI — content loading placeholders with shimmer animation.
+
+  Renders skeleton placeholder markup for a given content type.
+  Wrap the real content alongside this and use data attributes
+  to control visibility:
+
+  <div data-skeleton-wrapper>
+    <div data-skeleton-content>
+      {# Real content here — visible by default #}
+    </div>
+    <div data-skeleton-placeholder>
+      {% render 'skeleton-ui', type: 'product-card', count: 4 %}
+    </div>
+  </div>
+
+  Server-rendered content shows immediately (no flash). The skeleton
+  activates when `skeleton-loading` class is added to the wrapper.    @param {string} type - Skeleton type: 'text' | 'heading' | 'card' | 'product-card' |
+    'collection-card' | 'hero' | 'blog-card' | 'image' | 'cart-item' |
+    'cart-summary' | 'text-block' | 'button'
+  @param {number} [count] - Number of items to render (for grids/lists)
+  @param {number} [columns] - Number of grid columns (default: 4)
+  @param {string} [aspect_ratio] - Image aspect ratio: 'square' | 'portrait' |
+    'landscape' | 'wide' (default depends on type)
+  @param {string} [class] - Additional CSS classes
+{%- enddoc -%}
+
+{%- liquid
+  assign type = type | default: 'text'
+  assign count = count | default: 1
+  assign columns = columns | default: 4
+  assign class = class | default: ''
+  assign aspect_ratio = aspect_ratio | default: ''
+
+  capture skeleton_classes
+    echo 'skeleton'
+    if type == 'text' or type == 'paragraph'
+      echo ' skeleton-text'
+    elsif type == 'heading'
+      echo ' skeleton-heading'
+    elsif type == 'subheading'
+      echo ' skeleton-subheading'
+    elsif type == 'button'
+      echo ' skeleton-button'
+    elsif type == 'badge'
+      echo ' skeleton-badge'
+    elsif type == 'price'
+      echo ' skeleton-price'
+    elsif type == 'avatar'
+      echo ' skeleton-avatar'
+    elsif type == 'icon'
+      echo ' skeleton-icon'
+    elsif type == 'image'
+      echo ' skeleton-image'
+      if aspect_ratio == 'square'
+        echo ' skeleton-image--square'
+      elsif aspect_ratio == 'portrait'
+        echo ' skeleton-image--portrait'
+      elsif aspect_ratio == 'landscape'
+        echo ' skeleton-image--landscape'
+      elsif aspect_ratio == 'wide'
+        echo ' skeleton-image--wide'
+      endif
+    endif
+    if class != blank
+      echo ' ' | append: class
+    endif
+  endcapture
+-%}
+
+{%- case type -%}
+
+  {%- when 'product-card' -%}
+    <div class="skeleton-grid" style="--skeleton-grid-cols: {{ columns }};">
+      {%- for i in (1..count) -%}
+        <div class="skeleton-product-card">
+          <div class="skeleton skeleton-image skeleton-image--portrait"></div>
+          <div class="skeleton-product-info">
+            <span class="skeleton skeleton-text" style="width: 85%;"></span>
+            <span class="skeleton skeleton-text" style="width: 55%;"></span>
+            <span class="skeleton skeleton-price"></span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  {%- when 'collection-card' -%}
+    <div class="skeleton-grid" style="--skeleton-grid-cols: {{ columns }};">
+      {%- for i in (1..count) -%}
+        <div class="skeleton-collection-card">
+          <div class="skeleton-collection-overlay">
+            <span class="skeleton skeleton-heading" style="width: 70%;"></span>
+            <span class="skeleton skeleton-text" style="width: 40%;"></span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>    {%- when 'hero' -%}
+    <div class="skeleton-hero">
+      <div class="skeleton-hero-content">
+        <span class="skeleton skeleton-heading"></span>
+        <span class="skeleton skeleton-text"></span>
+        <span class="skeleton skeleton-text" style="width: 40%;"></span>
+        <span class="skeleton skeleton-button"></span>
+      </div>
+    </div>
+
+  {%- when 'blog-card' -%}
+    <div class="skeleton-grid" style="--skeleton-grid-cols: {{ columns }};">
+      {%- for i in (1..count) -%}
+        <div class="skeleton-blog-card">
+          <div class="skeleton skeleton-image skeleton-image--landscape"></div>
+          <div class="skeleton-blog-meta">
+            <span class="skeleton skeleton-text" style="width: 60px; height: 0.75em;"></span>
+            <span class="skeleton skeleton-text" style="width: 80px; height: 0.75em;"></span>
+          </div>
+          <span class="skeleton skeleton-text skeleton-blog-title"></span>
+          <span class="skeleton skeleton-text skeleton-blog-excerpt"></span>
+          <span class="skeleton skeleton-text skeleton-blog-excerpt" style="width: 70%;"></span>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  {%- when 'cart-item' -%}
+    {%- for i in (1..count) -%}
+      <div class="skeleton-cart-item">
+        <div class="skeleton skeleton-image" style="width: 80px; height: 80px; aspect-ratio: unset;"></div>
+        <div class="skeleton-cart-info">
+          <span class="skeleton skeleton-text" style="width: 65%;"></span>
+          <span class="skeleton skeleton-text" style="width: 35%;"></span>
+          <span class="skeleton skeleton-price"></span>
+        </div>
+      </div>
+    {%- endfor -%}
+
+  {%- when 'cart-summary' -%}
+    <div class="skeleton-cart-summary">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="skeleton skeleton-text" style="width: 40%; height: 1em;"></span>
+        <span class="skeleton skeleton-price" style="width: 60px;"></span>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="skeleton skeleton-text" style="width: 30%; height: 0.9em;"></span>
+        <span class="skeleton skeleton-price" style="width: 50px;"></span>
+      </div>
+      <div style="height: 1px; background: rgba(0,0,0,0.06); margin: 4px 0;"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span class="skeleton skeleton-heading" style="width: 25%; height: 1.2em;"></span>
+        <span class="skeleton skeleton-heading" style="width: 80px; height: 1.4em;"></span>
+      </div>
+      <span class="skeleton skeleton-button" style="width: 100%; height: 50px; margin-top: 8px;"></span>
+    </div>
+  {%- when 'text-block' -%}
+    <div class="skeleton-text-block{{ class }}">
+      <span class="skeleton skeleton-heading"></span>
+      <span class="skeleton skeleton-text"></span>
+      <span class="skeleton skeleton-text"></span>
+      <span class="skeleton skeleton-text" style="width: 70%;"></span>
+    </div>
+
+  {%- when 'grid' -%}
+    <div class="skeleton-grid" style="--skeleton-grid-cols: {{ columns }};">
+      {%- for i in (1..count) -%}
+        <div class="skeleton skeleton-image skeleton-image--{{ aspect_ratio | default: 'square' }}"></div>
+      {%- endfor -%}
+    </div>
+
+  {%- when 'card' -%}
+    <div class="skeleton-grid" style="--skeleton-grid-cols: {{ columns }};">
+      {%- for i in (1..count) -%}
+        <div style="display: flex; flex-direction: column; gap: 12px; border-radius: 12px; overflow: hidden;">
+          <div class="skeleton skeleton-image skeleton-image--{{ aspect_ratio | default: 'landscape' }}"></div>
+          <div style="display: flex; flex-direction: column; gap: 8px; padding: 0 4px;">
+            <span class="skeleton skeleton-heading" style="width: 80%;"></span>
+            <span class="skeleton skeleton-text"></span>
+            <span class="skeleton skeleton-text" style="width: 50%;"></span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+  {%- when 'text' or 'paragraph' -%}
+    {%- for i in (1..count) -%}
+      <span class="{{ skeleton_classes }}"></span>
+    {%- endfor -%}
+
+  {%- else -%}
+    {# Default: render the skeleton_classes element #}
+    <span class="{{ skeleton_classes }}"></span>
+
+{%- endcase -%}
