@@ -103,6 +103,7 @@ Additional global skills referenced by AGENTS.md. These are NOT in the project .
 | **Stitch MCP** | MCP | Google Stitch design platform — init, proxy, screens, upload, site build, snapshot, doctor |
 | **Auto Browser MCP** | MCP | Playwright browser control with human takeover — for browser testing, QA, form fills |
 | **Autobrowse** | MCP | Self-improving browser automation with auto-research loop |
+| **Serena** | MCP | Semantic code retrieval, editing, refactoring. AI-native IDE toolkit with memories, modes, LSP. `serena init`, `serena start-mcp-server` |
 
 ### 2.1 MCP Configuration Locations
 
@@ -110,6 +111,7 @@ Additional global skills referenced by AGENTS.md. These are NOT in the project .
 - Stitch MCP: `stitch-mcp init` | `stitch-mcp proxy` | `stitch-mcp doctor`
 - Auto Browser MCP: `C:\Users\hammad\Downloads\uiux\docker compose up` or `uvx auto-browser-mcp`
 - Autobrowse: `~/.agents/skills/autobrowse/SKILL.md`
+- Serena: `serena init` | `serena start-mcp-server --project-from-cwd` | Config: `~/.serena/serena_config.yml` | `serena help`
 
 ---
 
@@ -122,6 +124,7 @@ Additional global skills referenced by AGENTS.md. These are NOT in the project .
 | `gh` | GitHub CLI | GitHub operations — issues, PRs, Actions, repos |
 | `ucp` | UCP CLI | Find, compare, buy products from online merchants; order tracking, profile management |
 | `bun` | Local | JS/TS runtime used by impeccable build scripts |
+| `serena` | `uv tool install serena-agent` | Semantic code MCP server — retrieval, editing, refactoring, memories, modes |
 
 ---
 
