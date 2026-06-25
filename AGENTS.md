@@ -1,8 +1,9 @@
 ## AI Block Integration
-- 3 AI-generated blocks (split image banner, footer, countdown timer) copied from `open PHANTOM/blocks/` to `horizon/blocks/`
-- Horizon's `_blocks.liquid` accepts `@theme` → blocks auto-discoverable in theme editor
+- 2 AI-generated blocks (split image banner, countdown timer) copied from `open PHANTOM/blocks/` into `sections/`
+- `_blocks.liquid` in `sections/` accepts `@theme` → blocks auto-discoverable in theme editor
 - Blocks are self-contained (no snippet dependencies)
 - NOT available in `section.liquid` (only `_blocks.liquid` wrapper)
+- `phantom-footer.liquid` is a pre-existing PHANTOM section, NOT an AI-generated block
 
 # PHANTOM SHOPIFY THEME AGENT
 
@@ -15,7 +16,9 @@
 5. **Impeccable** — load from `.agents/skills/impeccable/SKILL.md` (always loaded for UI polish, audit, and quality gates)
 6. **Loop Engineering** — load from `.agents/skills/loop-engineering/SKILL.md` (always loaded for quality iteration loops on generated code)
 
-**ALWAYS load these 6 at startup. They are the minimum baseline for every session.**
+7. **Serena** — MCP for semantic code retrieval, editing, refactoring, memories, and modes (`serena start-mcp-server`)
+
+**ALWAYS load these 7 at startup. They are the minimum baseline for every session.**
 
 ## mcp.txt — Read Me First
 

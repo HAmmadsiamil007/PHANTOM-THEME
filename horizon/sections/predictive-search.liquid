@@ -154,18 +154,12 @@
   </div>
 {%- endif -%}
 
-{% schema %}
-{
+{% schema %}{
   "name": "t:names.predictive_search",
-  "settings": [],
-  "blocks": [
-    {
-      "type": "@theme"
-    }
-
+  "settings": [
     {
       "type": "header",
-      "content": "⚡ Design Tokens",
+      "content": "\u26a1 Design Tokens",
       "info": "Override global design tokens for this section only. Leave blank to use global defaults."
     },
     {
@@ -213,12 +207,25 @@
       "id": "token_heading_font",
       "label": "Heading font",
       "options": [
-        { "value": "", "label": "Global default" },
-        { "value": "var(--font-heading--family)", "label": "Heading font" },
-        { "value": "var(--font-body--family)", "label": "Body font" }
+        {
+          "value": "",
+          "label": "Global default"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading font"
+        },
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body font"
+        }
       ],
       "default": ""
     }
+  ],
+  "blocks": [
+    {
+      "type": "@theme"
+    }
   ]
-}
-{% endschema %}
+}{% endschema %}

@@ -101,14 +101,15 @@
   }
 {% endstylesheet %}
 
-{% schema %}
-{
+{% schema %}{
   "name": "t:names.policies_and_links",
   "tag": "div",
   "class": "footer-utilities",
   "max_blocks": 3,
   "enabled_on": {
-    "groups": ["footer"]
+    "groups": [
+      "footer"
+    ]
   },
   "settings": [
     {
@@ -182,22 +183,10 @@
       "step": 1,
       "unit": "px",
       "default": 20
-    }
-  ],
-  "blocks": [
-    {
-      "type": "footer-copyright"
     },
-    {
-      "type": "footer-policy-list"
-    },
-    {
-      "type": "social-links"
-    }
-
     {
       "type": "header",
-      "content": "⚡ Design Tokens",
+      "content": "\u26a1 Design Tokens",
       "info": "Override global design tokens for this section only. Leave blank to use global defaults."
     },
     {
@@ -245,13 +234,22 @@
       "id": "token_heading_font",
       "label": "Heading font",
       "options": [
-        { "value": "", "label": "Global default" },
-        { "value": "var(--font-heading--family)", "label": "Heading font" },
-        { "value": "var(--font-body--family)", "label": "Body font" }
+        {
+          "value": "",
+          "label": "Global default"
+        },
+        {
+          "value": "var(--font-heading--family)",
+          "label": "Heading font"
+        },
+        {
+          "value": "var(--font-body--family)",
+          "label": "Body font"
+        }
       ],
       "default": ""
-    }
-      {
+    },
+    {
       "type": "header",
       "content": "Visibility"
     },
@@ -266,6 +264,17 @@
       "id": "hide_on_desktop",
       "label": "Hide on desktop",
       "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "footer-copyright"
+    },
+    {
+      "type": "footer-policy-list"
+    },
+    {
+      "type": "social-links"
     }
   ],
   "presets": [
@@ -283,8 +292,11 @@
           "type": "social-links"
         }
       },
-      "block_order": ["copyright", "policy_list", "social_icons"]
+      "block_order": [
+        "copyright",
+        "policy_list",
+        "social_icons"
+      ]
     }
   ]
-}
-{% endschema %}
+}{% endschema %}
