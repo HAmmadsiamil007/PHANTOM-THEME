@@ -28,7 +28,7 @@
       {% endif %}
     }
 
-    {% if hide_mobile and not hide_desktop %}
+    {% if hide_mobile and hide_desktop == false %}
       @media (min-width: 750px) {
         #shopify-section-{{ section_id }} {
           display: block !important;
@@ -36,7 +36,7 @@
       }
     {% endif %}
 
-    {% if hide_desktop and not hide_mobile %}
+    {% if hide_desktop and hide_mobile == false %}
       @media (max-width: 749.98px) {
         #shopify-section-{{ section_id }} {
           display: block !important;
