@@ -1,0 +1,89 @@
+<style>
+  .impulse-newsletter-reminder {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    cursor: pointer;
+    background: var(--color-primary, #111);
+    color: var(--color-primary-text, #fff);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    transition: transform 0.2s, opacity 0.2s;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .impulse-newsletter-reminder:hover {
+    transform: scale(1.1);
+  }
+  .impulse-newsletter-reminder.is-shown {
+    display: flex;
+  }
+  .impulse-newsletter-reminder .reminder-close {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    border: 2px solid #fff;
+    font-size: 10px;
+    line-height: 14px;
+    text-align: center;
+    cursor: pointer;
+  }
+</style>
+
+<button
+  class="impulse-newsletter-reminder"
+  id="impulseNewsletterReminder"
+  type="button"
+  aria-label="Open newsletter signup"
+>
+  <span class="reminder-close" id="reminderClose">&times;</span>
+  <svg aria-hidden="true" focusable="false" role="presentation" width="22" height="22" viewBox="0 0 22 22" fill="none">
+    <path d="M11 0C6.58 0 3 3.58 3 8v3l-2 2v1h20v-1l-2-2V8c0-4.42-3.58-8-8-8zm-1 17h2v2h-2v-2zm8-6.12V8c0-3.31-2.69-6-6-6s-6 2.69-6 6v2.88l-1 1V15h14v-3.12l-1-1z" fill="currentColor"/>
+  </svg>
+</button>
+
+<script>
+  (function() {
+    var reminderBtn = document.getElementById('impulseNewsletterReminder');
+    if (!reminderBtn) return;
+    var closeBtn = document.getElementById('reminderClose');
+    var reminderCookie = 'impulse-newsletter-reminder-hidden';
+
+    function showReminder() {
+      reminderBtn.classList.add('is-shown');
+    }
+    function hideReminder() {
+      reminderBtn.classList.remove('is-shown');
+      document.cookie = reminderCookie + '=1; path=/; max-age=' + (60*60*24*30);
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        hideReminder();
+      });
+    }
+    reminderBtn.addEventListener('click', function() {
+      hideReminder();
+      var popup = document.getElementById('impulseNewsletterPopup');
+      if (popup) {
+        popup.classList.add('is-open');
+        document.body.classList.add('impulse-modal-open');
+      }
+    });
+    if (document.cookie.indexOf(reminderCookie) === -1) {
+      var reminderDelay = reminderBtn.getAttribute('data-delay') || 5000;
+      setTimeout(showReminder, parseInt(reminderDelay, 10));
+    }
+  })();
+</script>
