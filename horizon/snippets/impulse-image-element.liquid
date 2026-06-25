@@ -1,0 +1,92 @@
+{%- liquid
+  assign image = image | default: blank
+  assign image_id = image_id | default: image.id | default: blank
+  assign image_width = image_width | default: image.width | default: 0
+  assign image_height = image_height | default: image.height | default: 0
+  assign image_alt = image_alt | default: image.alt | default: blank
+  assign image_src = image_src | default: image.src | default: blank
+  if image == blank and image_src == blank
+    assign placeholder_index = placeholder_index | default: 1
+  endif
+  assign image_class = image_class | default: blank
+  assign image_loading = image_loading | default: 'lazy'
+  assign image_fetchpriority = image_fetchpriority | default: 'auto'
+  assign widths = widths | default: blank
+  assign sizes = sizes | default: blank
+  assign focal_point = focal_point | default: image.presentation.focal_point | default: blank
+
+  assign image_attributes = image_attributes | default: blank
+  assign image_link = image_link | default: blank
+  assign image_link_target = image_link_target | default: blank
+  assign image_link_nofollow = image_link_nofollow | default: blank
+  assign image_div_id = image_div_id | default: blank
+  assign image_div_class = image_div_class | default: blank
+  assign image_div_style = image_div_style | default: blank
+  assign object_fit = object_fit | default: blank
+  assign object_position = object_position | default: blank
+-%}
+
+{%- style -%}
+  .impulse-image-element-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  .impulse-image-element-wrapper img {
+    display: block;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+  .impulse-image-element-wrapper .placeholder-svg {
+    display: block;
+    fill: rgba(120,120,120,0.1);
+    background-color: rgba(120,120,120,0.05);
+  }
+{%- endstyle -%}
+
+{%- if image_link != blank -%}
+  <a
+    href="{{ image_link }}"
+    target="{{ image_link_target }}"
+    {% if image_link_nofollow %}rel="nofollow"{% endif %}
+    class="impulse-image-element-wrapper {{ image_div_class }}"
+    {% if image_div_id != blank %}id="{{ image_div_id }}"{% endif %}
+    {% if image_div_style != blank %}style="{{ image_div_style }}"{% endif %}
+  >
+{%- elsif image_div_class != blank or image_div_id != blank or image_div_style != blank -%}
+  <div
+    class="impulse-image-element-wrapper {{ image_div_class }}"
+    {% if image_div_id != blank %}id="{{ image_div_id }}"{% endif %}
+    {% if image_div_style != blank %}style="{{ image_div_style }}"{% endif %}
+  >
+{%- endif -%}
+
+{%- if image != blank -%}
+  {%- if focal_point != blank -%}
+    {%- assign focal_point_array = focal_point | split: ' ' -%}
+    {%- assign fp_x = focal_point_array[0] | default: 'center' -%}
+    {%- assign fp_y = focal_point_array[1] | default: 'center' -%}
+  {%- endif -%}
+
+  <img
+    srcset="{% if widths != blank %}{% for width in widths %}{{ image | image_url: width: width }} {{ width }}w{% unless forloop.last %},{% endunless %}{% endfor %}{% endif %}"
+    src="{{ image | image_url: width: 600 }}"
+    sizes="{{ sizes | default: '100vw' }}"
+    loading="{{ image_loading }}"
+    fetchpriority="{{ image_fetchpriority }}"
+    width="{{ image_width }}"
+    height="{{ image_height }}"
+    alt="{{ image_alt | escape }}"
+    class="{{ image_class }}"
+    {% if focal_point != blank %}style="object-position: {{ fp_x }} {{ fp_y }};"{% endif %}
+    {{ image_attributes }}
+  >
+{%- elsif image_src == blank -%}
+  {{ placeholder_index | placeholder_svg_tag: 'placeholder-svg' }}
+{%- endif -%}
+
+{%- if image_link != blank -%}
+  </a>
+{%- elsif image_div_class != blank or image_div_id != blank or image_div_style != blank -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,375 @@
+{{ 'sections-newsletter-popup.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .impulse-popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+    animation: impulseFadeIn 0.3s ease;
+  }
+  .impulse-popup-overlay.is-open {
+    display: flex;
+  }
+  .impulse-popup-inner {
+    position: relative;
+    background: var(--color-bg, #fff);
+    color: var(--color-text, #111);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .impulse-popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-bg, #fff);
+    border: 1px solid rgba(0,0,0,0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    color: var(--color-text, #111);
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+  }
+  .impulse-popup-close:hover {
+    background: var(--color-primary, #111);
+    color: var(--color-primary-text, #fff);
+  }
+  .impulse-popup-content {
+    padding: 40px 30px 30px;
+  }
+  .impulse-popup-image {
+    width: 100%;
+    display: block;
+  }
+  .impulse-popup-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .impulse-popup-title {
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .impulse-popup-text {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0 0 20px;
+    opacity: 0.8;
+  }
+  .impulse-popup .input-group {
+    display: flex;
+    gap: 0;
+    margin-top: 12px;
+  }
+  .impulse-popup .input-group-field {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 14px;
+    border: 1px solid rgba(0,0,0,0.15);
+    border-right: none;
+    font-size: 14px;
+    background: var(--color-bg, #fff);
+    color: var(--color-text, #111);
+  }
+  .impulse-popup .input-group-btn .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border: 1px solid var(--color-primary, #111);
+    background: var(--color-primary, #111);
+    color: var(--color-primary-text, #fff);
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+  .impulse-popup .input-group-btn .btn:hover {
+    opacity: 0.85;
+  }
+  .impulse-popup .social-icons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .impulse-popup .form-message--success {
+    color: #2e7d32;
+    font-size: 14px;
+    padding: 8px 0;
+  }
+  .impulse-popup input.error {
+    border-color: #d32f2f;
+  }
+  .impulse-popup .input-group .errors {
+    font-size: 12px;
+    color: #d32f2f;
+    margin-top: 4px;
+  }
+  body.impulse-modal-open {
+    overflow: hidden;
+  }
+  @keyframes impulseFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+</style>
+
+<div
+  class="impulse-popup-overlay"
+  id="impulseNewsletterPopup"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ section.settings.popup_title | default: 'Newsletter' }}"
+  data-delay-seconds="{{ section.settings.delay_seconds | default: 5 }}"
+  data-delay-days="{{ section.settings.delay_days | default: 30 }}"
+>
+  <div class="impulse-popup-inner" role="document">
+    <button
+      type="button"
+      class="impulse-popup-close"
+      id="impulsePopupClose"
+      aria-label="{{ 'general.accessibility.close' | t | default: 'Close' }}"
+    >
+      &times;
+    </button>
+
+    {%- assign has_content = false -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'image' and block.settings.image != blank -%}
+        <div class="impulse-popup-image">
+          {% render 'impulse-image-element',
+            image: block.settings.image,
+            image_class: 'impulse-popup-img',
+            image_loading: 'eager',
+            image_fetchpriority: 'high',
+            widths: '300,400,500',
+            sizes: '(max-width: 500px) 100vw, 500px'
+          %}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- for block in section.blocks -%}
+      {%- if block.type != 'image' -%}
+        {%- assign has_content = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if has_content -%}
+      <div class="impulse-popup-content">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'header' -%}
+              {%- if block.settings.title != blank -%}
+                <h2 class="impulse-popup-title">{{ block.settings.title }}</h2>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <div class="impulse-popup-text">{{ block.settings.text }}</div>
+              {%- endif -%}
+
+            {%- when 'form' -%}
+              {% render 'impulse-newsletter-form',
+                form_id: 'impulse-newsletter-popup-form',
+                section: section
+              %}
+
+            {%- when 'social' -%}
+              <div class="social-icons">
+                {% render 'social-icons' %}
+              </div>
+
+            {%- when 'text' -%}
+              {%- if block.settings.richtext != blank -%}
+                <div class="impulse-popup-text">{{ block.settings.richtext }}</div>
+              {%- endif -%}
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function() {
+    var popup = document.getElementById('impulseNewsletterPopup');
+    if (!popup) return;
+    var closeBtn = document.getElementById('impulsePopupClose');
+    var popupCookie = 'impulse-newsletter-dismissed';
+    var delaySeconds = parseInt(popup.getAttribute('data-delay-seconds'), 10) || 5;
+    var delayDays = parseInt(popup.getAttribute('data-delay-days'), 10) || 30;
+
+    function openPopup() {
+      if (document.cookie.indexOf(popupCookie) !== -1) return;
+      popup.classList.add('is-open');
+      document.body.classList.add('impulse-modal-open');
+    }
+    function closePopup() {
+      popup.classList.remove('is-open');
+      document.body.classList.remove('impulse-modal-open');
+      var maxAge = 60 * 60 * 24 * delayDays;
+      document.cookie = popupCookie + '=1; path=/; max-age=' + maxAge;
+    }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closePopup);
+    }
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) closePopup();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && popup.classList.contains('is-open')) closePopup();
+    });
+    setTimeout(openPopup, delaySeconds * 1000);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Impulse Newsletter Popup",
+  "class": "impulse-newsletter-popup",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Popup Timing"
+    },
+    {
+      "type": "range",
+      "id": "delay_seconds",
+      "label": "Delay before showing (seconds)",
+      "default": 5,
+      "min": 2,
+      "max": 60,
+      "step": 1,
+      "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "delay_days",
+      "label": "Days before showing again",
+      "default": 30,
+      "min": 1,
+      "max": 90,
+      "step": 1,
+      "unit": "d"
+    },
+    {
+      "type": "paragraph",
+      "content": "After a visitor dismisses the popup, they won't see it again for the number of days set above."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "name": "Header",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Stay in the loop"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>"
+        }
+      ]
+    },
+    {
+      "type": "form",
+      "name": "Form",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button text",
+          "default": "Subscribe"
+        },
+        {
+          "type": "text",
+          "id": "placeholder_text",
+          "label": "Placeholder text",
+          "default": "Enter your email"
+        }
+      ]
+    },
+    {
+      "type": "social",
+      "name": "Social",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows your store's social media icons configured in Theme Settings > Social Media."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "richtext",
+          "label": "Text",
+          "default": "<p>No spam, unsubscribe at any time.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Impulse Newsletter Popup",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "header"
+        },
+        {
+          "type": "form"
+        },
+        {
+          "type": "social"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

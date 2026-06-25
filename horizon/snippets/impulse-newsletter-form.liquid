@@ -1,0 +1,33 @@
+{%- liquid
+  assign form_id = form_id | default: 'impulse-newsletter-form'
+  assign btn_text = btn_text | default: section.settings.btn_text | default: 'Subscribe'
+  assign placeholder_text = placeholder_text | default: section.settings.placeholder_text | default: 'Enter your email'
+-%}
+
+{%- form 'customer', id: form_id -%}
+  {{ form.errors | default_errors }}
+  {% if form.posted_successfully? %}
+    <p class="form-message form-message--success" tabindex="-1" data-form-status>
+      {{ 'general.newsletter_form.confirmation' | t }}
+    </p>
+  {% else %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <div class="input-group">
+      <input
+        type="email"
+        name="contact[email]"
+        placeholder="{{ placeholder_text }}"
+        class="input-group-field"
+        aria-label="{{ placeholder_text }}"
+        autocorrect="off"
+        autocapitalize="off"
+        required
+      >
+      <span class="input-group-btn">
+        <button type="submit" class="btn">
+          {{ btn_text }}
+        </button>
+      </span>
+    </div>
+  {% endif %}
+{%- endform -%}
