@@ -1,4 +1,38 @@
-{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+{%- style -%}
+  /* ─── Announcement Bar Premium ─── */
+  .announcement-bar {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle shimmer on active slide */
+  .announcement-bar .carousel-item.active .description {
+    animation: annFadeIn 0.5s ease-out;
+  }
+
+  @keyframes annFadeIn {
+    from { opacity: 0.6; transform: translateY(4px); }
+    to   { opacity: 1;   transform: translateY(0); }
+  }
+
+  /* Carousel controls — refined */
+  .announcement-bar .carousel-control {
+    width: 28px;
+    height: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.35;
+    transition: opacity 0.2s ease;
+    z-index: 2;
+  }
+  .announcement-bar:hover .carousel-control {
+    opacity: 0.8;
+  }
+  .announcement-bar .carousel-control svg {
+    width: 14px;
+    height: 14px;
+  }
+{%- endstyle -%}
 
 <section 
   id="announcement-bar-{{ section.id }}" 
@@ -13,7 +47,7 @@
     {{ section.settings.font_size }} 
     {{ section.settings.font_size_desktop }} 
     {{ section.settings.text_transform }} 
-    {{ section.settings.letter_spacing | prepend: 'ls-' }} 
+    {{ section.settings.letter_spacing | prepend: 'ls-' }}
    px-mobile-3">
   <div class="container">
     <div 

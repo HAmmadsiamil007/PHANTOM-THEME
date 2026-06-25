@@ -1,3 +1,26 @@
+{%- style -%}
+  /* ─── Richtext Premium ─── */
+  #richtext-{{ section.id }} .title {
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  #richtext-{{ section.id }} .description {
+    line-height: 1.7;
+    opacity: 0.7;
+  }
+
+  #richtext-{{ section.id }} .btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  #richtext-{{ section.id }} .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+{%- endstyle -%}
+
 {% render 'section-tokens', settings: section.settings, section_id: section.id %}
 
   <div

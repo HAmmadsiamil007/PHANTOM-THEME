@@ -1,3 +1,56 @@
+{%- style -%}
+  /* ─── Footer Premium ─── */
+  .footer-content {
+    --footer-border: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Refined link hover for all footer links */
+  .footer-content a {
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .footer-content a:hover {
+    opacity: 0.8;
+  }
+
+  /* Menu headings — subtle weight contrast */
+  .footer-content .menu__heading__default {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* Payment icons — subtle opacity + hover */
+  .footer-content .payment-icons-wrap img {
+    transition: opacity 0.2s ease;
+    opacity: 0.6;
+  }
+  .footer-content .payment-icons-wrap:hover img {
+    opacity: 0.9;
+  }
+
+  /* Separator between grid columns on desktop */
+  @media screen and (min-width: 990px) {
+    .footer-content > *:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: calc(var(--footer-gap) / 2);
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--footer-border);
+    }
+    .footer-content > * {
+      position: relative;
+    }
+  }
+
+  /* Mobile: subtle top border between blocks */
+  @media screen and (max-width: 749px) {
+    .footer-content > * + * {
+      padding-top: calc(var(--footer-gap) * 0.5);
+      border-top: 1px solid var(--footer-border);
+    }
+  }
+{%- endstyle -%}
 
 
 {% liquid

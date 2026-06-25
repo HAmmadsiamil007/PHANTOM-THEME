@@ -1,3 +1,52 @@
+{%- style -%}
+  /* ─── Media with Text Premium ─── */
+  #media-with-text--wrapper-{{ section.id }} .media-with-text {
+    transition: background 0.2s ease;
+  }
+
+  #media-with-text--wrapper-{{ section.id }} .subtitle {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+
+  #media-with-text--wrapper-{{ section.id }} .title {
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  #media-with-text--wrapper-{{ section.id }} .description {
+    line-height: 1.7;
+    opacity: 0.7;
+  }
+
+  #media-with-text--wrapper-{{ section.id }} img,
+  #media-with-text--wrapper-{{ section.id }} video,
+  #media-with-text--wrapper-{{ section.id }} iframe {
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  #media-with-text--wrapper-{{ section.id }} .col-desktop-9:first-child:hover img,
+  #media-with-text--wrapper-{{ section.id }} .col-desktop-9:first-child:hover video {
+    transform: scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Buttons */
+  #media-with-text--wrapper-{{ section.id }} .btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  #media-with-text--wrapper-{{ section.id }} .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+{%- endstyle -%}
+
 {% render 'section-tokens', settings: section.settings, section_id: section.id %}
 
 <div

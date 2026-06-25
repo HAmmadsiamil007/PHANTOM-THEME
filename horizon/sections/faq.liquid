@@ -1,3 +1,58 @@
+{%- style -%}
+  /* ─── FAQ Premium ─── */
+  #faq-{{ section.id }} .accordion-item {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    transition: background 0.2s ease;
+  }
+
+  #faq-{{ section.id }} .accordion-item:last-child {
+    border-bottom: none;
+  }
+
+  #faq-{{ section.id }} .accordion-item:hover {
+    background: rgba(0, 0, 0, 0.01);
+  }
+
+  #faq-{{ section.id }} .accordion-button {
+    font-weight: 600;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    padding: 20px 16px;
+    transition: color 0.2s ease, box-shadow 0.2s ease;
+    border-radius: 0;
+  }
+
+  #faq-{{ section.id }} .accordion-button:not(.collapsed) {
+    color: var(--dt-primary-color, #000);
+    font-weight: 700;
+  }
+
+  #faq-{{ section.id }} .accordion-button:focus {
+    box-shadow: none;
+    outline: 2px solid var(--dt-primary-color, #000);
+    outline-offset: -2px;
+  }
+
+  #faq-{{ section.id }} .accordion-button::after {
+    width: 20px;
+    height: 20px;
+    background-size: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  #faq-{{ section.id }} .accordion-body {
+    padding: 0 16px 20px;
+    line-height: 1.7;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.9375rem;
+  }
+
+  #faq-{{ section.id }} .accordion-collapse {
+    transition: height 0.3s ease;
+  }
+{%- endstyle -%}
+
 {% render 'section-tokens', settings: section.settings, section_id: section.id %}
 
 <div
