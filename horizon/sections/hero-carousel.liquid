@@ -1,13 +1,5 @@
-{% render 'section-tokens', settings: section.settings, section_id: section.id %}
-
-{% liquid
-  if section.settings.media_adapt == false
-    assign media_mobile_height = section.settings.media_mobile_height | prepend: 'height: ' | append: 'px;'
-    assign media_desktop_height = section.settings.media_desktop_height | prepend: 'height: ' | append: 'px;'
-  endif
-%}
-
-{% style %}
+{%- style -%}
+  /* ─── Hero Carousel Premium ─── */
   #carousel-{{ section.id }} {
     position: relative;
     overflow: hidden;
@@ -52,7 +44,99 @@
   #carousel-{{ section.id }}.carousel-slide .carousel-item.active {
     transform: translateX(0);
   }
-{% endstyle %}
+
+  /* ─── Caption premium ─── */
+  #hero-carousel-{{ section.id }} .carousel-caption .title {
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+    letter-spacing: -0.01em;
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-caption .subtitle {
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-caption .description {
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* ─── Carousel controls refined ─── */
+  #hero-carousel-{{ section.id }} .carousel-control {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, background 0.3s ease;
+    z-index: 5;
+  }
+
+  #hero-carousel-{{ section.id }}:hover .carousel-control {
+    opacity: 1;
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-control:hover {
+    background: rgba(255, 255, 255, 0.25);
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-control svg {
+    width: 20px;
+    height: 20px;
+    filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+  }
+
+  /* ─── Indicators refined ─── */
+  #hero-carousel-{{ section.id }} .carousel-indicators {
+    bottom: 24px;
+    z-index: 5;
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-indicators button {
+    width: 28px;
+    height: 3px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    opacity: 0.5;
+    transition: opacity 0.3s ease, transform 0.3s ease, width 0.3s ease;
+    margin: 0 4px;
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-indicators button.active {
+    opacity: 1;
+    background: #fff;
+    width: 40px;
+    transform: scaleY(1.3);
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-indicators button span {
+    display: none;
+  }
+
+  /* ─── Buttons hover refinement ─── */
+  #hero-carousel-{{ section.id }} .carousel-caption .btn {
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  }
+
+  #hero-carousel-{{ section.id }} .carousel-caption .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+{%- endstyle -%}
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+{% liquid
+  if section.settings.media_adapt == false
+    assign media_mobile_height = section.settings.media_mobile_height | prepend: 'height: ' | append: 'px;'
+    assign media_desktop_height = section.settings.media_desktop_height | prepend: 'height: ' | append: 'px;'
+  endif
+%}
 
 <div 
   id="hero-carousel-{{ section.id }}" 

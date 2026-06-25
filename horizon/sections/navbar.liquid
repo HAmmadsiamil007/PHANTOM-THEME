@@ -1,3 +1,98 @@
+{%- style -%}
+  /* ─── Navbar Premium ─── */
+
+  /* Mobile navbar refined */
+  #navbar-mobile {
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  #navbar-mobile .nav-link-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+
+  #navbar-mobile .nav-link-icon:hover {
+    background: rgba(0, 0, 0, 0.04);
+    opacity: 0.7;
+  }
+
+  #navbar-mobile .nav-link-icon:active {
+    transform: scale(0.92);
+  }
+
+  /* Scroll progress bar */
+  .scroll-progress-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--dt-primary-color, #000) 0%, var(--dt-accent-color, #6366f1) 100%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    transition: width 0.1s linear;
+    z-index: 10;
+  }
+
+  /* Desktop navbar refined */
+  #navbar-desktop {
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  #navbar-desktop .nav-link {
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  /* Nav link hover underline */
+  #navbar-desktop .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--dt-primary-color, #000);
+    transition: width 0.25s ease;
+    border-radius: 1px;
+  }
+
+  #navbar-desktop .nav-link:hover::after,
+  #navbar-desktop .nav-link.active::after {
+    width: 100%;
+  }
+
+  /* Desktop icon links */
+  .nav-link-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+
+  .nav-link-icon:hover {
+    background: rgba(0, 0, 0, 0.04);
+    opacity: 0.7;
+  }
+
+  /* Cart badge pulse on update */
+  .cart-count-badge[data-count]:not([data-count="0"]) {
+    animation: cart-badge-pop 0.3s ease;
+  }
+
+  @keyframes cart-badge-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+{%- endstyle -%}
+
 {% render 'section-tokens', settings: section.settings, section_id: section.id %}
 
 <!-- Sentinel for scroll-aware navbar auto-hide (mobile) -->

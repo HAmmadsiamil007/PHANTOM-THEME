@@ -1,3 +1,64 @@
+{%- style -%}
+  /* ─── Featured Products Premium ─── */
+  .featured-products .product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .featured-products .product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Swiper navigation refined */
+  .featured-products .swiper-button-prev,
+  .featured-products .swiper-button-next {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .featured-products .swiper-button-prev:hover,
+  .featured-products .swiper-button-next:hover {
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  .featured-products .swiper-button-prev::after,
+  .featured-products .swiper-button-next::after {
+    font-size: 16px;
+  }
+
+  /* Pagination dots refined */
+  .featured-products .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    opacity: 0.25;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .featured-products .swiper-pagination-bullet-active {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  /* Scrollbar subtle */
+  .featured-products .swiper-scrollbar {
+    opacity: 0.3;
+    height: 3px;
+  }
+  .featured-products:hover .swiper-scrollbar {
+    opacity: 0.6;
+  }
+
+  /* Empty state placeholder refinement */
+  .featured-products .product-card-img {
+    border-radius: 12px;
+  }
+  .featured-products .product-card-title {
+    letter-spacing: 0.01em;
+  }
+{%- endstyle -%}
+
 {% liquid
   if section.settings.collection == blank
     assign products = section.settings.products

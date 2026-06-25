@@ -1,3 +1,90 @@
+{%- style -%}
+  /* ─── Blog Slider Premium ─── */
+  .blog-slider .article-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .blog-slider .article-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  }
+
+  .blog-slider .article-card img,
+  .blog-slider .article-card .ratio {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .blog-slider .article-card-title {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+  }
+
+  .blog-slider .article-card:hover .article-card-title {
+    color: var(--dt-primary-color, #000);
+  }
+
+  .blog-slider .article-card .article-card-meta {
+    font-size: 0.8125rem;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  .blog-slider .article-card:hover .article-card-meta {
+    opacity: 0.8;
+  }
+
+  /* Swiper nav refined */
+  .blog-slider .swiper-button-prev,
+  .blog-slider .swiper-button-next {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .blog-slider .swiper-button-prev:hover,
+  .blog-slider .swiper-button-next:hover {
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .blog-slider .swiper-button-prev::after,
+  .blog-slider .swiper-button-next::after {
+    font-size: 16px;
+  }
+
+  /* Pagination dots */
+  .blog-slider .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    opacity: 0.3;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .blog-slider .swiper-pagination-bullet-active {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  /* Scrollbar */
+  .blog-slider .swiper-scrollbar {
+    height: 3px;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+  }
+
+  .blog-slider .swiper-scrollbar:hover {
+    opacity: 0.6;
+  }
+{%- endstyle -%}
+
 {% capture empty_state %}
   {% for num in (1..6) %}
     

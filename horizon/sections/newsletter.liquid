@@ -1,4 +1,102 @@
-{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+{%- style -%}
+  /* ─── Newsletter Premium ─── */
+  .newsletter {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle decorative accent */
+  .newsletter::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: rgb(var(--color-primary-rgb, 0,0,0) / 4%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .newsletter::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -8%;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: rgb(var(--color-primary-rgb, 0,0,0) / 3%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .newsletter > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Form container */
+  .newsletter-form .form-floating {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Input — refined */
+  .newsletter .form-floating .form-control {
+    border-radius: 10px 0 0 10px;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.9375rem;
+    border-width: 1.5px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .newsletter .form-floating .form-control:focus {
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb, 0,0,0) / 10%);
+  }
+
+  /* Button — refined */
+  .newsletter .form-floating .btn {
+    border-radius: 0 10px 10px 0;
+    min-width: 56px;
+    padding: 0.875rem 1.25rem;
+    transition: all 0.25s ease;
+  }
+  .newsletter .form-floating .btn svg {
+    transition: transform 0.25s ease;
+  }
+  @media (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .newsletter .form-floating .btn:hover svg {
+      transform: translateX(2px);
+    }
+  }
+
+  /* Success state */
+  .newsletter .alert-success {
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    padding: 0.875rem 1.25rem;
+  }
+
+  /* Notice — refined */
+  .newsletter .newsletter-notice {
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .newsletter .newsletter-notice a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+  }
+  @media (any-pointer: fine) {
+    .newsletter .newsletter-notice a:hover {
+      opacity: 0.7;
+    }
+  }
+{%- endstyle -%}
 
 <div
   id="newsletter-{{ section.id }}" 
