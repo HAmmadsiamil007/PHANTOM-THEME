@@ -9,13 +9,16 @@ export class RecentlyViewed {
 
   /**
    * Adds a product to the recently viewed products list.
-   * @param {string} productId - The ID of the product to add.
+   * @param {string} productId - The product ID.
+   * @param {string} productHandle - The product handle.
    */
-  static addProduct(productId) {
+  static addProduct(productId, productHandle) {
     let viewedProducts = this.getProducts();
 
-    viewedProducts = viewedProducts.filter((/** @type {string} */ id) => id !== productId);
-    viewedProducts.unshift(productId);
+    viewedProducts = viewedProducts.filter(
+      (/** @type {{id: string, handle: string}} */ p) => p.id !== productId,
+    );
+    viewedProducts.unshift({ id: productId, handle: productHandle });
     viewedProducts = viewedProducts.slice(0, this.#MAX_PRODUCTS);
 
     localStorage.setItem(this.#STORAGE_KEY, JSON.stringify(viewedProducts));
@@ -27,9 +30,17 @@ export class RecentlyViewed {
 
   /**
    * Retrieves the list of recently viewed products from session storage.
-   * @returns {string[]} The list of viewed products.
+   * @returns {{id: string, handle: string}[]}
    */
   static getProducts() {
     return JSON.parse(localStorage.getItem(this.#STORAGE_KEY) || '[]');
+  }
+
+  /**
+   * Returns only the handles of recently viewed products.
+   * @returns {string[]}
+   */
+  static getHandles() {
+    return this.getProducts().map((p) => p.handle);
   }
 }

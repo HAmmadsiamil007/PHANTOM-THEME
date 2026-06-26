@@ -10,6 +10,8 @@
 
 {% render 'section-visibility', settings: section.settings, section_id: section.id %}
 
+{%- render 'breadcrumbs' -%}
+
 <div
   class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %} px-mobile-3"
 ></div>

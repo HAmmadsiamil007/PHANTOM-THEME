@@ -1,0 +1,74 @@
+{%- doc -%}
+  Cart Icon Variants — renders cart, bag, or bag-minimal SVG icons based on section settings.
+  Ported from Impulse to add icon style options to Horizon's header.
+
+  @param {string} [style] - The icon style: 'cart', 'bag', or 'bag-minimal'. Defaults to 'cart'.
+
+  @example
+  {% render 'impulse-cart-icon', style: section.settings.cart_icon %}
+{%- enddoc -%}
+
+{%- liquid
+  assign icon_style = style | default: 'cart'
+-%}
+
+<span class="impulse-cart-icon">
+  {%- case icon_style -%}
+    {%- when 'bag' -%}
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-bag"
+      >
+        <path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/>
+        <path d="M14.74 18h36.51l3.59 36.73h-43.7z"/>
+      </svg>
+    {%- when 'bag-minimal' -%}
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-bag-minimal"
+      >
+        <rect x="11.375" y="17.863" width="41.25" height="36.75" rx="2"/>
+        <path d="M22.25 18c0-7.105 4.35-9 9.75-9s9.75 1.895 9.75 9"/>
+      </svg>
+    {%- else -%}
+      {# Default: cart icon #}
+      <svg
+        aria-hidden="true"
+        focusable="false"
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 64 64"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-cart"
+      >
+        <path d="M14 17.44h46.79l-7.94 25.61H20.96l-9.65-35.1H3"/>
+        <circle cx="27" cy="53" r="2"/>
+        <circle cx="47" cy="53" r="2"/>
+      </svg>
+  {%- endcase -%}
+</span>

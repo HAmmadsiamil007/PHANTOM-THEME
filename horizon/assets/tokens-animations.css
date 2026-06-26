@@ -1,0 +1,21 @@
+:root {
+  --animation-duration-instant: 0ms;
+  --animation-duration-fast: 150ms;
+  --animation-duration-normal: 250ms;
+  --animation-duration-slow: 400ms;
+  --animation-duration-slower: 700ms;
+  --animation-duration-slowest: 1000ms;
+  --animation-easing-linear: cubic-bezier(0, 0, 1, 1);
+  --animation-easing-ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --animation-easing-ease-in: cubic-bezier(0.42, 0, 1, 1);
+  --animation-easing-ease-out: cubic-bezier(0, 0, 0.58, 1);
+  --animation-easing-ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+  --animation-easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --animation-easing-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+  --animation-scale-hover: 1.02;
+  --animation-scale-active: 0.98;
+  --animation-scale-enter: 0.95;
+  --animation-rotate-enter: -2deg;
+}

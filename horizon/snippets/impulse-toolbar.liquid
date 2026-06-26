@@ -1,0 +1,141 @@
+{%- doc -%}
+  Header Toolbar — top utility bar ported from Impulse to Horizon.
+  Renders secondary nav links, social icons, and locale/currency selectors.
+
+  @param {object} section - The section object (header section).
+  @param {object} toolbar_menu - The linklist object for the toolbar menu.
+  @param {boolean} [overlay_header] - Whether the header is in overlay mode.
+
+  @example
+  {% render 'impulse-toolbar', section: section, toolbar_menu: linklists[section.settings.toolbar_menu], overlay_header: false %}
+{%- enddoc -%}
+
+{% liquid
+  assign show_locale = false
+  if section.settings.show_language and localization.available_languages.size > 1
+    assign show_locale = true
+  endif
+
+  assign show_currency = false
+  if section.settings.show_country and localization.available_countries.size > 1
+    assign show_currency = true
+  endif
+
+  assign show_social = section.settings.toolbar_social
+  assign show_toolbar_menu = false
+  if toolbar_menu != blank and toolbar_menu.links.size > 0
+    assign show_toolbar_menu = true
+  endif
+%}
+
+{% if show_locale or show_currency or show_social or show_toolbar_menu %}
+  <div class="toolbar">
+    <div class="page-width toolbar__content">
+      {% if show_toolbar_menu %}
+        <div class="toolbar__item toolbar__item--menu">
+          <ul class="toolbar__menu list-unstyled">
+            {%- for link in toolbar_menu.links -%}
+              <li class="toolbar__menu-item">
+                <a href="{{ link.url }}" class="toolbar__menu-link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if show_social %}
+        <div class="toolbar__item toolbar__item--social">
+          {% render 'social-icons', show_title: false, icon_size: 16 %}
+        </div>
+      {% endif %}
+
+      <div class="toolbar__item toolbar__item--localization">
+        {% if show_locale or show_currency %}
+          {% render 'localization-form',
+            show_country: show_currency,
+            show_language: show_locale,
+            localization_style: 'dropdown',
+            form_id: section.id | append: '-toolbar'
+          %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .toolbar {
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8125rem;
+    color: var(--color-foreground);
+  }
+
+  .toolbar__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 36px;
+    padding-block: 2px;
+  }
+
+  .toolbar__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .toolbar__item--menu {
+    flex: 1 1 auto;
+  }
+
+  .toolbar__menu {
+    display: flex;
+    gap: var(--gap-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toolbar__menu-link {
+    text-decoration: none;
+    color: var(--color-foreground-muted);
+    transition: color var(--animation-speed) var(--animation-easing);
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  .toolbar__item--social {
+    padding-inline: var(--padding-lg);
+  }
+
+  .toolbar__item--social .social-icons {
+    gap: var(--gap-sm);
+  }
+
+  .toolbar__item--social .social-icons a {
+    display: flex;
+    align-items: center;
+    color: var(--color-foreground-muted);
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  .toolbar__item--localization {
+    flex-shrink: 0;
+  }
+
+  .toolbar__item--localization .dropdown-localization__button {
+    font-size: 0.8125rem;
+    padding-block: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .toolbar {
+      display: none;
+    }
+  }
+{% endstylesheet %}

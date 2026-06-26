@@ -5,6 +5,7 @@
     {{ section.settings.pt | prepend: 'pt-' }} 
     {{ section.settings.pb | prepend: 'pb-' }}
   ">
+  {%- render 'breadcrumbs' -%}
   <header class="section-header text-center mb-9">
     
 {% render 'section-tokens', settings: section.settings, section_id: section.id %}

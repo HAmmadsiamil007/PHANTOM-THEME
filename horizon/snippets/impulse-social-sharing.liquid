@@ -1,0 +1,66 @@
+{%- liquid
+  assign share_url = shop.url | append: share_permalink
+  assign share_title = share_title | default: page_title
+  assign share_image = share_image | default: page_image
+-%}
+
+{%- style -%}
+  .impulse-social-sharing {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .impulse-social-sharing__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 0.85em;
+    line-height: 1;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+    border-radius: 4px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .impulse-social-sharing__link:hover {
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+    border-color: rgb(var(--color-foreground-rgb) / 0.3);
+  }
+
+  .impulse-social-sharing__link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .impulse-social-sharing__title {
+    font-size: 0.85em;
+  }
+{%- endstyle -%}
+
+<div class="impulse-social-sharing">
+  <a target="_blank" rel="noopener" href="//www.facebook.com/sharer.php?u={{ share_url }}" class="impulse-social-sharing__link" title="Share on Facebook">
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M24 12.07C24 5.41 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.1 10.13 24v-8.44H7.08v-3.49h3.04V9.41c0-3.02 1.8-4.7 4.54-4.7 1.31 0 2.68.24 2.68.24v2.97h-1.5c-1.5 0-1.96.93-1.96 1.89v2.26h3.32l-.53 3.5h-2.8V24C19.62 23.1 24 18.1 24 12.07"/>
+    </svg>
+    <span class="impulse-social-sharing__title">Share</span>
+  </a>
+
+  <a target="_blank" rel="noopener" href="//twitter.com/share?text={{ share_title | url_param_escape }}&url={{ share_url }}" class="impulse-social-sharing__link" title="Share on X">
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 255 239" fill="currentColor">
+      <path d="M0.621715062,0 L99.074372,131.822652 L0,239 L22.2976578,239 L109.037101,145.164644 L179.120186,239 L255,239 L151.007964,99.7625789 L243.225634,0 L220.927976,0 L141.045235,86.4205874 L76.5015288,0 L0.621715062,0 Z M33,17 L67.897684,17 L222,223 L187.102316,223 L33,17 Z"/>
+    </svg>
+    <span class="impulse-social-sharing__title">Share</span>
+  </a>
+
+  <a target="_blank" rel="noopener" href="//pinterest.com/pin/create/button/?url={{ share_url }}&media={% if share_image %}{{ share_image | img_url: '1024x1024' }}{% endif %}&description={{ share_title | url_param_escape }}" class="impulse-social-sharing__link" title="Pin on Pinterest">
+    <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0a12 12 0 0 0-4.82 23c-.03-.85 0-1.85.21-2.76l1.55-6.54s-.39-.77-.39-1.9c0-1.78 1.03-3.1 2.32-3.1 1.09 0 1.62.81 1.62 1.8 0 1.09-.7 2.73-1.06 4.25-.3 1.27.63 2.31 1.89 2.31 2.27 0 3.8-2.92 3.8-6.38 0-2.63-1.77-4.6-4.99-4.6a5.68 5.68 0 0 0-5.9 5.75c0 1.05.3 1.78.78 2.35.23.27.26.37.18.67l-.25.97c-.08.3-.32.4-.6.3-1.67-.69-2.46-2.52-2.46-4.59 0-3.4 2.88-7.5 8.58-7.5 4.58 0 7.6 3.32 7.6 6.88 0 4.7-2.62 8.22-6.48 8.22-1.3 0-2.51-.7-2.93-1.5l-.84 3.3c-.26.93-.76 1.86-1.21 2.58A11.99 11.99 0 0 0 24 12 12 12 0 0 0 12 0z"/>
+    </svg>
+    <span class="impulse-social-sharing__title">Pin</span>
+  </a>
+</div>

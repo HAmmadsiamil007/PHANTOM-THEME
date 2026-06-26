@@ -1,0 +1,86 @@
+{
+  "sections": {
+    "slideshow": {
+      "type": "slideshow",
+      "blocks": {
+        "slideshow-0": {
+          "type": "_slide",
+          "settings": {}
+        },
+        "slideshow-1": {
+          "type": "_slide",
+          "settings": {}
+        }
+      },
+      "block_order": ["slideshow-0", "slideshow-1"],
+      "settings": {
+        "section_height": "550px"
+      }
+    },
+    "text-and-image": {
+      "type": "impulse-text-and-image",
+      "settings": {}
+    },
+    "text-and-image2": {
+      "type": "impulse-text-and-image",
+      "settings": {
+        "layout": "left"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonials-0": {
+          "type": "item",
+          "settings": {}
+        },
+        "testimonials-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "testimonials-2": {
+          "type": "item",
+          "settings": {}
+        }
+      },
+      "block_order": ["testimonials-0", "testimonials-1", "testimonials-2"],
+      "settings": {}
+    },
+    "main": {
+      "type": "product-information",
+      "settings": {}
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq-0": {
+          "type": "item",
+          "settings": {}
+        },
+        "faq-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "faq-2": {
+          "type": "item",
+          "settings": {}
+        }
+      },
+      "block_order": ["faq-0", "faq-1", "faq-2"],
+      "settings": {}
+    },
+    "hero-video": {
+      "type": "impulse-hero-video",
+      "settings": {}
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {}
+    },
+    "recently-viewed": {
+      "type": "impulse-recently-viewed",
+      "settings": {}
+    }
+  },
+  "order": ["slideshow", "text-and-image", "text-and-image2", "testimonials", "main", "faq", "hero-video", "product-recommendations", "recently-viewed"]
+}

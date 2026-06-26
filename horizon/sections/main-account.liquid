@@ -1,0 +1,386 @@
+{%- paginate customer.orders by 20 -%}
+
+{%- style -%}
+  .main-account-section {
+    width: 100%;
+  }
+  .main-account-section .main-account__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .main-account-section .main-account__header h1 {
+    margin: 0;
+  }
+  .main-account-section .main-account__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media screen and (min-width: 750px) {
+    .main-account-section .main-account__grid {
+      flex-direction: row;
+    }
+    .main-account-section .main-account__orders {
+      flex: 2;
+    }
+    .main-account-section .main-account__details {
+      flex: 1;
+    }
+  }
+  .main-account-section .main-account__orders h2,
+  .main-account-section .main-account__details h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  .main-account-section .main-account__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .main-account-section .main-account__table thead {
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+  }
+  .main-account-section .main-account__table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .main-account-section .main-account__table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    vertical-align: middle;
+  }
+  .main-account-section .main-account__table tbody tr:hover {
+    background: rgb(var(--color-foreground-rgb) / 0.02);
+  }
+  .main-account-section .main-account__empty {
+    padding: 24px 0;
+    opacity: 0.7;
+  }
+  .main-account-section .main-account__details-card {
+    background: rgb(var(--color-foreground-rgb) / 0.03);
+    border-radius: var(--style-border-radius-popover, 8px);
+    padding: 24px;
+  }
+  .main-account-section .main-account__details-card p:first-child {
+    font-weight: 600;
+    margin-top: 0;
+  }
+  .main-account-section .main-account__details-card address {
+    font-style: normal;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .main-account-section .main-account__details-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9375rem;
+  }
+  @media screen and (max-width: 749px) {
+    .main-account-section .main-account__table thead {
+      display: none;
+    }
+    .main-account-section .main-account__table tbody tr {
+      display: block;
+      padding: 16px 0;
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    }
+    .main-account-section .main-account__table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      border-bottom: none;
+    }
+    .main-account-section .main-account__table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+    }
+  }
+{%- endstyle -%}
+
+{% if section.settings.background_color != blank %}
+  {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+{% endif %}
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+{% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %} px-mobile-3"
+></div>
+<div
+  class="
+    section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}
+    {% if section.settings.section_height != "" %} {{ section.settings.section_height | prepend: "section--height-" }}{% endif %}
+  "
+>
+  <div>
+    <div
+      class="
+        spacing-style
+        layout-panel-flex
+        layout-panel-flex--column
+        section-content-wrapper
+        mobile-column
+        main-account-section
+      "
+      style="
+        {% render 'layout-panel-style', settings: section.settings %}
+        {% render 'spacing-style', settings: section.settings %}
+      "
+    >
+      <div class="main-account__header">
+        <h1 class="h3">{{ 'customer.account.title' | t }}</h1>
+        <a href="{{ routes.account_logout_url }}" class="button button-secondary">
+          {{ 'actions.log_out' | t }}
+        </a>
+      </div>
+
+      <div class="main-account__grid">
+        <div class="main-account__orders">
+          <h2 class="h4">{{ 'customer.orders.title' | t }}</h2>
+
+          {%- if customer.orders.size > 0 -%}
+            <table class="main-account__table">
+              <thead>
+                <tr>
+                  <th>{{ 'customer.orders.order_number' | t }}</th>
+                  <th>{{ 'customer.orders.date' | t }}</th>
+                  <th>{{ 'customer.orders.payment_status' | t }}</th>
+                  <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                  <th>{{ 'customer.orders.total' | t }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for order in customer.orders -%}
+                  <tr>
+                    <td data-label="{{ 'customer.orders.order_number' | t }}">
+                      <a href="{{ order.customer_url }}">{{ order.name }}</a>
+                    </td>
+                    <td data-label="{{ 'customer.orders.date' | t }}">
+                      {{ order.created_at | time_tag: format: 'date' }}
+                    </td>
+                    <td data-label="{{ 'customer.orders.payment_status' | t }}">
+                      {{ order.financial_status_label }}
+                    </td>
+                    <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">
+                      {{ order.fulfillment_status_label }}
+                    </td>
+                    <td data-label="{{ 'customer.orders.total' | t }}">
+                      {{ order.total_price | money }}
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+
+            {%- if paginate.pages > 1 -%}
+              {%- render 'pagination-controls', paginate: paginate -%}
+            {%- endif -%}
+          {%- else -%}
+            <div class="main-account__empty">
+              {{ 'customer.orders.none' | t }}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div class="main-account__details">
+          <h3 class="h4">{{ 'customer.account.details' | t }}</h3>
+          <div class="main-account__details-card">
+            <p>{{ customer.name }}</p>
+            {{ customer.default_address | format_address }}
+            <a href="{{ routes.account_addresses_url }}" class="main-account__details-link">
+              {{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Account",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "",
+          "label": "Auto"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "full-screen",
+          "label": "Full screen"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "Default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

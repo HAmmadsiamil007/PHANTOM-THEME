@@ -1,0 +1,358 @@
+{%- doc -%}
+  Desktop Navigation — Horizon-native port of Impulse's header-desktop-nav.
+  Renders the main navigation with dropdown support, megamenu for 2+ level menus,
+  and optional hover-to-open behavior.
+
+  @param {object} main_menu - The linklist object for the main navigation.
+  @param {number} [limit] - Max number of links to render.
+  @param {number} [offset] - Link index to start from (for split nav).
+  @param {string} [dropdown_alignment] - Alignment of dropdowns ('left' or 'center').
+  @param {boolean} [hover_menu] - Whether submenus open on hover.
+  @param {object} [section] - The section object for settings access (e.g. mega_menu_images).
+
+  @example
+  {% render 'impulse-header-desktop-nav', main_menu: linklists[section.settings.main_menu_link_list], section: section %}
+{%- enddoc -%}
+
+{%- liquid
+  unless limit
+    assign limit = main_menu.links.size
+  endunless
+  unless offset
+    assign offset = 0
+  endunless
+
+  assign mega_menu_images = true
+  if section.settings.mega_menu_images == false
+    assign mega_menu_images = false
+  endif
+-%}
+
+<ul class="impulse-desktop-nav list-unstyled">
+  {%- for link in main_menu.links limit: limit offset: offset -%}
+    {%- liquid
+      assign has_dropdown = false
+      assign is_megamenu = false
+      if link.links != blank
+        assign has_dropdown = true
+        if link.levels > 1
+          assign is_megamenu = true
+        endif
+      endif
+    -%}
+
+    <li class="impulse-desktop-nav__item{% if has_dropdown %} impulse-desktop-nav__item--has-dropdown{% endif %}{% if is_megamenu %} impulse-desktop-nav__item--megamenu{% endif %}">
+      {% if is_megamenu or has_dropdown %}
+        <details
+          data-hover="{{ hover_menu | default: true }}"
+          id="DesktopNav--{{ forloop.index }}"
+          class="impulse-desktop-nav__details"
+        >
+          <summary
+            data-link="{{ link.url }}"
+            aria-expanded="false"
+            aria-controls="DesktopNav--{{ forloop.index }}"
+            class="impulse-desktop-nav__link impulse-desktop-nav__link--has-dropdown"
+          >
+            <span class="wrap-text">{{ link.title }}</span>
+            <span class="svg-wrapper icon-caret">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </summary>
+      {% else %}
+        <a
+          href="{{ link.url }}"
+          class="impulse-desktop-nav__link"
+        >
+          <span class="wrap-text">{{ link.title }}</span>
+        </a>
+      {% endif %}
+
+        {%- if is_megamenu -%}
+          {%- assign previous_column_type = '' -%}
+
+          <div class="impulse-desktop-nav__dropdown impulse-desktop-nav__dropdown--megamenu">
+            <div class="page-width">
+              <div class="impulse-desktop-nav__megamenu-grid{% if dropdown_alignment == 'center' %} impulse-desktop-nav__megamenu-grid--center{% endif %}">
+                {%- for childlink in link.links -%}
+                  {%- liquid
+                    assign create_new_column = false
+                    if childlink.levels > 0 and forloop.index != 1
+                      assign create_new_column = true
+                    endif
+                    if childlink.levels == 0 and previous_column_type == 'full'
+                      assign create_new_column = true
+                    endif
+                  -%}
+
+                  {%- if create_new_column -%}
+                    </div><div class="impulse-desktop-nav__megamenu-column">
+                  {%- endif -%}
+
+                  {%- if childlink.levels > 0 and childlink.url contains '/collections/' and mega_menu_images -%}
+                    {%- assign collection_handle = childlink.object.handle -%}
+                    {%- if collections[collection_handle].image != blank -%}
+                      <a href="{{ childlink.url }}" class="impulse-desktop-nav__collection-image-link">
+                        <div class="impulse-desktop-nav__collection-image">
+                          {% render 'image', image: collections[collection_handle].image, height: 200, class: 'impulse-desktop-nav__collection-image-img', alt_text_fallback: collections[collection_handle].title %}
+                        </div>
+                      </a>
+                    {%- endif -%}
+                  {%- endif -%}
+
+                  <div class="impulse-desktop-nav__column-heading">
+                    <a href="{{ childlink.url }}" class="impulse-desktop-nav__dropdown-link impulse-desktop-nav__dropdown-link--top-level">
+                      {{ childlink.title }}
+                    </a>
+                  </div>
+
+                  {%- liquid
+                    if childlink.levels > 0
+                      assign previous_column_type = 'full'
+                    else
+                      assign previous_column_type = 'single'
+                    endif
+                  -%}
+
+                  {%- for grandchildlink in childlink.links -%}
+                    <div class="impulse-desktop-nav__child-item">
+                      <a href="{{ grandchildlink.url }}" class="impulse-desktop-nav__dropdown-link">
+                        {{ grandchildlink.title }}
+                      </a>
+                    </div>
+                  {%- endfor -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+
+        {%- elsif has_dropdown -%}
+          <ul class="impulse-desktop-nav__dropdown impulse-desktop-nav__dropdown--simple">
+            {%- for childlink in link.links -%}
+              {%- liquid
+                assign has_sub_dropdown = false
+                if childlink.links != blank
+                  assign has_sub_dropdown = true
+                endif
+              -%}
+
+              <li class="impulse-desktop-nav__dropdown-item{% if has_sub_dropdown %} impulse-desktop-nav__dropdown-item--has-children{% endif %}">
+                <a href="{{ childlink.url }}" class="impulse-desktop-nav__dropdown-link impulse-desktop-nav__dropdown-link--second-level{% if has_sub_dropdown %} impulse-desktop-nav__dropdown-link--has-children{% endif %}">
+                  <span class="wrap-text">{{ childlink.title | escape }}</span>
+                  {%- if has_sub_dropdown -%}
+                    <span class="svg-wrapper icon-caret icon-caret--forward">
+                      {{- 'icon-caret.svg' | inline_asset_content -}}
+                    </span>
+                  {%- endif -%}
+                </a>
+                {%- if has_sub_dropdown -%}
+                  <ul class="impulse-desktop-nav__deep-dropdown">
+                    {%- for grandchildlink in childlink.links -%}
+                      <li class="impulse-desktop-nav__deep-dropdown-item">
+                        <a href="{{ grandchildlink.url }}" class="impulse-desktop-nav__dropdown-link">
+                          {{ grandchildlink.title | escape }}
+                        </a>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+      {% if is_megamenu or has_dropdown %}
+        </details>
+      {% endif %}
+    </li>
+  {%- endfor -%}
+</ul>
+
+{% stylesheet %}
+  .impulse-desktop-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .impulse-desktop-nav__item {
+    position: relative;
+  }
+
+  .impulse-desktop-nav__link {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-2xs);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    font-size: var(--font-size-menu);
+    color: var(--color-foreground);
+    transition: opacity var(--animation-speed) var(--animation-easing);
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .impulse-desktop-nav__link .svg-wrapper.icon-caret {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+
+  .impulse-desktop-nav__details {
+    position: static;
+
+    &[open] > summary .icon-caret svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  .impulse-desktop-nav__item--megamenu .impulse-desktop-nav__details {
+    position: static;
+  }
+
+  /* Dropdowns */
+  .impulse-desktop-nav__dropdown {
+    position: absolute;
+    z-index: var(--layer-menu-drawer);
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-popover);
+    border: var(--style-border-popover);
+    border-radius: var(--style-border-radius-popover);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.5rem);
+    transition: opacity var(--animation-speed-slow) var(--ease-out-cubic),
+                visibility var(--animation-speed-slow) var(--ease-out-cubic),
+                transform var(--animation-speed-slow) var(--ease-out-cubic);
+  }
+
+  details[open] > .impulse-desktop-nav__dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Simple dropdown (1 level deep) */
+  .impulse-desktop-nav__dropdown--simple {
+    min-width: 12rem;
+    padding: var(--padding-xs) 0;
+    top: 100%;
+    left: 0;
+  }
+
+  .impulse-desktop-nav__dropdown-item {
+    position: relative;
+
+    &:hover > .impulse-desktop-nav__deep-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  .impulse-desktop-nav__dropdown-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-md);
+    padding: var(--padding-xs) var(--padding-lg);
+    text-decoration: none;
+    color: var(--color-foreground-muted);
+    font-size: 0.9375rem;
+    transition: color var(--animation-speed) var(--animation-easing);
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  .impulse-desktop-nav__dropdown-link--top-level {
+    font-weight: var(--font-body--weight-bold, 700);
+    color: var(--color-foreground);
+  }
+
+  .impulse-desktop-nav__dropdown-link .svg-wrapper.icon-caret {
+    width: 0.5rem;
+    height: 0.5rem;
+    transform: rotate(-90deg);
+  }
+
+  /* Deep dropdown (3rd level) */
+  .impulse-desktop-nav__deep-dropdown {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 12rem;
+    padding: var(--padding-xs) 0;
+    background-color: var(--color-background);
+    box-shadow: var(--shadow-popover);
+    border: var(--style-border-popover);
+    border-radius: var(--style-border-radius-popover);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.25rem);
+    transition: opacity var(--animation-speed) var(--animation-easing),
+                visibility var(--animation-speed) var(--animation-easing),
+                transform var(--animation-speed) var(--animation-easing);
+    list-style: none;
+    margin: 0;
+  }
+
+  /* Megamenu */
+  .impulse-desktop-nav__dropdown--megamenu {
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: var(--padding-lg) 0;
+  }
+
+  .impulse-desktop-nav__megamenu-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--gap-lg);
+  }
+
+  .impulse-desktop-nav__megamenu-grid--center {
+    justify-items: center;
+  }
+
+  .impulse-desktop-nav__megamenu-column {
+    min-width: 0;
+  }
+
+  .impulse-desktop-nav__collection-image-link {
+    display: block;
+    margin-block-end: var(--margin-sm);
+  }
+
+  .impulse-desktop-nav__collection-image {
+    border-radius: var(--style-border-radius);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .impulse-desktop-nav__column-heading {
+    margin-block-end: var(--margin-2xs);
+  }
+
+  .impulse-desktop-nav__child-item {
+    margin-block-end: var(--margin-3xs);
+  }
+
+  /* Mobile hidden */
+  @media screen and (max-width: 749px) {
+    .impulse-desktop-nav {
+      display: none;
+    }
+  }
+{% endstylesheet %}

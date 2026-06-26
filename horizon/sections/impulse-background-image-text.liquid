@@ -1,0 +1,279 @@
+<style>
+  .impulse-background-media-text {
+    position: relative;
+    overflow: hidden;
+  }
+  .impulse-background-media-text .background-media-text__container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+  .impulse-background-media-text .background-media-text__container .placeholder-svg {
+    fill: rgba(120,120,120,0.1);
+    background: rgba(120,120,120,0.05);
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .impulse-background-media-text .image-fit {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .impulse-background-media-text .background-media-text__inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .impulse-background-media-text .background-media-text__aligner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 60px;
+  }
+  .impulse-background-media-text .background-media-text--right .background-media-text__aligner {
+    text-align: right;
+  }
+  .impulse-background-media-text .background-media-text__text {
+    display: inline-block;
+    pointer-events: auto;
+    max-width: 500px;
+    padding: 30px;
+    background: #fff;
+    text-align: left;
+  }
+  .impulse-background-media-text .background-media-text__text--framed {
+    border: 2px solid #000;
+    background: transparent;
+  }
+  .impulse-background-media-text .background-media-text__text p.h5 {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin: 0 0 5px;
+  }
+  .impulse-background-media-text .background-media-text__text p.h3 {
+    font-size: 24px;
+    margin: 0 0 15px;
+  }
+  .impulse-background-media-text .background-media-text__subtext p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 15px;
+  }
+  .impulse-background-media-text .background-media-text__subtext p:last-child {
+    margin-bottom: 0;
+  }
+  .impulse-background-media-text .animation-cropper {
+    overflow: hidden;
+  }
+  .impulse-background-media-text .animation-contents {
+    opacity: 1;
+  }
+  .impulse-background-media-text .btn {
+    display: inline-block;
+    padding: 10px 24px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 0;
+    cursor: pointer;
+  }
+  .impulse-background-media-text .btn:hover {
+    background: #333;
+  }
+  .impulse-background-media-text.background-media-text--450 { min-height: 450px; }
+  .impulse-background-media-text.background-media-text--550 { min-height: 550px; }
+  .impulse-background-media-text.background-media-text--650 { min-height: 650px; }
+  .impulse-background-media-text.background-media-text--750 { min-height: 750px; }
+  .impulse-background-media-text-space {
+    display: block;
+  }
+  .impulse-background-media-text-space.background-media-text--450 { padding-top: 450px; }
+  .impulse-background-media-text-space.background-media-text--550 { padding-top: 550px; }
+  .impulse-background-media-text-space.background-media-text--650 { padding-top: 650px; }
+  .impulse-background-media-text-space.background-media-text--750 { padding-top: 750px; }
+
+  @media only screen and (max-width: 749px) {
+    .impulse-background-media-text .background-media-text__aligner {
+      padding: 20px;
+    }
+    .impulse-background-media-text .background-media-text__text {
+      max-width: 100%;
+    }
+  }
+</style>
+
+<div
+  data-section-id="{{ section.id }}"
+  data-section-type="background-image"
+  class="impulse-background-media-text background-media-text--{{ section.id }} background-media-text--{{ section.settings.height }} loaded"
+  data-aos="background-media-text__animation"
+  {% if section.settings.parallax %}data-parallax="true"{% endif %}>
+
+  <div class="background-media-text__container">
+    {%- if section.settings.parallax -%}
+      <parallax-image class="parallax-container">
+        <div class="parallax-image" data-movement="15%" data-parallax-image data-angle="{{ section.settings.parallax_direction }}">
+    {%- endif -%}
+
+      {%- if section.settings.image != blank -%}
+          {% assign classes = 'image-fit background-media-text__image background-media-text__image--' | append: section.id %}
+          {%- render 'impulse-image-element',
+            image: section.settings.image,
+            image_loading: section.settings.lazyload_images,
+            image_class: classes,
+            widths: '1800, 2400',
+            sizes: '100vw'
+          -%}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+
+    {%- if section.settings.parallax -%}
+        </div>
+      </parallax-image>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.subtitle != blank or section.settings.title != blank or section.settings.text != blank -%}
+    <div class="background-media-text__inner">
+      <div class="background-media-text__aligner background-media-text--{{ section.settings.layout }}">
+        <div class="animation-cropper">
+          <div class="animation-contents">
+            <div class="background-media-text__text{% if section.settings.framed %} background-media-text__text--framed{% endif %}">
+              {%- if section.settings.subtitle -%}
+                <p class="h5">{{ section.settings.subtitle }}</p>
+              {%- endif -%}
+              {%- if section.settings.title != blank -%}
+                <p class="h3">{{ section.settings.title | escape }}</p>
+              {%- endif -%}
+              {%- if section.settings.text != blank -%}
+                <div class="rte background-media-text__subtext">{{ section.settings.text }}</div>
+              {%- endif -%}
+              {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
+                <a href="{{ section.settings.button_link }}" class="btn">
+                  {{ section.settings.button_label }}
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<div class="impulse-background-media-text-space background-media-text--{{ section.settings.height }}"></div>
+
+{% schema %}
+{
+  "name": "Background image text",
+  "class": "index-section--flush",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Just launched"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Step into what\u2019s next"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Fresh arrivals designed with purpose and built to perform. Explore what just landed.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Text position",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Section height",
+      "default": 550,
+      "min": 450,
+      "max": 750,
+      "step": 100,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "framed",
+      "label": "Framed text box",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "parallax",
+      "label": "Enable parallax",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "parallax_direction",
+      "label": "Parallax direction",
+      "default": "top",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "left", "label": "Left" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "lazyload_images",
+      "label": "Lazy load images",
+      "info": "Disables lazy loading for the first large image for faster above-the-fold display.",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Background image text",
+      "category": "Banners"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

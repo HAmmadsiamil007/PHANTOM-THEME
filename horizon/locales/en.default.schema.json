@@ -163,6 +163,7 @@
     "disclosures": "Disclosures",
     "disclosures_metafield_content": "Required safety warnings and regulatory disclosures for this product.",
     "app_required_for_ratings": "An app is required for product ratings. [Learn more](https://help.shopify.com/manual/apps)",
+    "platforms": "Platforms",
     "navigation": "Navigation"
   },
   "html_defaults": {
@@ -257,6 +258,7 @@
     "custom_liquid": "Custom Liquid",
     "404": "404",
     "accelerated_checkout": "Accelerated checkout",
+    "activate_account": "Activate account",
     "accordion": "Accordion",
     "accordion_row": "Accordion row",
     "add_to_cart": "Add to cart",
@@ -359,6 +361,7 @@
     "logo": "Logo",
     "logo_and_favicon": "Logo and favicon",
     "magazine_grid": "Magazine grid",
+    "main_login": "Login",
     // Scrolling text/content component with horizontal animation
     "marquee": "Marquee",
     "marquee_section": "Marquee",
@@ -413,6 +416,9 @@
     "pull_quote": "Pull quote",
     "quantity": "Quantity",
     "quick_order_list": "Quick order list",
+    "recover_password": "Recover password",
+    "register": "Register",
+    "reset_password": "Reset password",
     "read_only": "Read only",
     "row": "Row",
     "search": "Search",
@@ -429,6 +435,7 @@
     "slideshow_controls": "Slideshow controls",
     "social_link": "Social link",
     "social_media_links": "Social media links",
+    "social_sharing": "Share",
     "spacer": "Spacer",
     "spacing": "Spacing",
     // Banner section with two side-by-side content panels
@@ -453,7 +460,8 @@
     "view_all_button": "View all",
     "disclosures": "Disclosures",
     "pills": "Pills",
-    "comparison_slider": "Comparison slider"
+    "comparison_slider": "Comparison slider",
+    "collapsible_tab": "Collapsible tab"
   },
   "options": {
     "above_carousel": "Above carousel",

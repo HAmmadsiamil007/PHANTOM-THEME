@@ -1,0 +1,435 @@
+{%- doc -%}
+  Impulse Header Drawer — enhanced mobile drawer menu with toolbar menu links,
+  social icons, and account login/register links.
+  Complements Horizon's existing header-drawer with Impulse-style features.
+
+  @param {object} main_menu - The main navigation linklist.
+  @param {object} [toolbar_menu] - Optional toolbar/secondary linklist for additional links.
+  @param {object} [section] - The section object.
+
+  @example
+  {% render 'impulse-header-drawer',
+    main_menu: main_menu,
+    toolbar_menu: toolbar_menu,
+    section: section
+  %}
+{%- enddoc -%}
+
+{% liquid
+  assign animation_row = 1
+  assign drawer_position = 'left'
+
+  assign have_toolbar_menu = false
+  if toolbar_menu != blank and toolbar_menu.links.size > 0
+    assign have_toolbar_menu = true
+  endif
+%}
+
+<div id="ImpulseNavDrawer" class="impulse-drawer impulse-drawer--{{ drawer_position }}">
+  <div class="impulse-drawer__contents">
+    <div class="impulse-drawer__header">
+      <div class="impulse-drawer__title"></div>
+      <button
+        type="button"
+        class="impulse-drawer__close"
+        aria-label="{{ 'accessibility.close' | t }}"
+        data-impulse-drawer-close
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </span>
+      </button>
+    </div>
+
+    <div class="impulse-drawer__scrollable">
+      <ul class="impulse-mobile-nav" role="navigation" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
+        {%- for link in main_menu.links -%}
+          {%- assign animation_row = animation_row | plus: 1 -%}
+          {%- assign child_list_handle = link.url | handleize | append: forloop.index -%}
+          {%- assign has_dropdown = false -%}
+          {%- if link.links != blank -%}
+            {%- assign has_dropdown = true -%}
+          {%- endif -%}
+
+          <li class="impulse-mobile-nav__item">
+            {%- if has_dropdown -%}
+              <div class="impulse-mobile-nav__has-sublist">
+                {%- if link.url == '#' -%}
+                  <button
+                    type="button"
+                    aria-controls="ImpulseLinklist-{{ child_list_handle }}"
+                    {% if link.active or link.child_active %} aria-open="true"{% endif %}
+                    class="impulse-mobile-nav__link impulse-mobile-nav__link--button impulse-mobile-nav__link--top-level collapsible-trigger"
+                  >
+                    <span class="wrap-text">{{ link.title }}</span>
+                    <span class="svg-wrapper icon-plus">
+                      {{- 'icon-plus.svg' | inline_asset_content -}}
+                    </span>
+                  </button>
+                {%- else -%}
+                  <a href="{{ link.url }}" class="impulse-mobile-nav__link impulse-mobile-nav__link--top-level" {% if link.active %} data-active="true"{% endif %}>
+                    {{ link.title }}
+                  </a>
+                  <button
+                    type="button"
+                    aria-controls="ImpulseLinklist-{{ child_list_handle }}"
+                    {% if link.active or link.child_active %} aria-open="true"{% endif %}
+                    aria-label="{{ 'accessibility.toggle_submenu' | t }}"
+                    class="impulse-mobile-nav__toggle collapsible-trigger"
+                  >
+                    <span class="svg-wrapper icon-plus">
+                      {{- 'icon-plus.svg' | inline_asset_content -}}
+                    </span>
+                  </button>
+                {%- endif -%}
+              </div>
+            {%- else -%}
+              <a href="{{ link.url }}" class="impulse-mobile-nav__link impulse-mobile-nav__link--top-level" {% if link.active %} data-active="true"{% endif %}>
+                {{ link.title }}
+              </a>
+            {%- endif -%}
+
+            {%- if has_dropdown -%}
+              <div id="ImpulseLinklist-{{ child_list_handle }}" class="impulse-mobile-nav__sublist collapsible-content">
+                <ul class="impulse-mobile-nav__sublist">
+                  {%- for childlink in link.links -%}
+                    {%- assign has_sub_dropdown = false -%}
+                    {%- assign grand_child_list_handle = childlink.url | handleize | append: forloop.index -%}
+                    {%- if childlink.links != blank -%}
+                      {%- assign has_sub_dropdown = true -%}
+                    {%- endif -%}
+
+                    <li class="impulse-mobile-nav__item">
+                      <div class="impulse-mobile-nav__child-item">
+                        {%- if childlink.url == '#' and has_sub_dropdown -%}
+                          <button
+                            type="button"
+                            aria-controls="ImpulseSublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}"
+                            {% if childlink.active or childlink.child_active %} aria-open="true"{% endif %}
+                            class="impulse-mobile-nav__link--button collapsible-trigger"
+                          >
+                            <span class="wrap-text">{{ childlink.title | escape }}</span>
+                            <span class="svg-wrapper icon-plus">
+                              {{- 'icon-plus.svg' | inline_asset_content -}}
+                            </span>
+                          </button>
+                        {%- else -%}
+                          <a href="{{ childlink.url }}" class="impulse-mobile-nav__link" {% if childlink.active %} data-active="true"{% endif %}>
+                            {{ childlink.title | escape }}
+                          </a>
+                          {%- if has_sub_dropdown -%}
+                            <button
+                              type="button"
+                              aria-controls="ImpulseSublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}"
+                              aria-label="{{ 'accessibility.toggle_submenu' | t }}"
+                              class="impulse-mobile-nav__toggle collapsible-trigger"
+                            >
+                              <span class="svg-wrapper icon-plus">
+                                {{- 'icon-plus.svg' | inline_asset_content -}}
+                              </span>
+                            </button>
+                          {%- endif -%}
+                        {%- endif -%}
+                      </div>
+
+                      {%- if has_sub_dropdown -%}
+                        <div id="ImpulseSublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}" class="impulse-mobile-nav__grandchildlist collapsible-content">
+                          <ul class="impulse-mobile-nav__grandchildlist">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li class="impulse-mobile-nav__item">
+                                <a href="{{ grandchildlink.url }}" class="impulse-mobile-nav__link" {% if grandchildlink.active %} data-active="true"{% endif %}>
+                                  {{ grandchildlink.title }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        </div>
+                      {%- endif -%}
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+
+        {%- if shop.customer_accounts_enabled -%}
+          <li class="impulse-mobile-nav__item impulse-mobile-nav__item--account">
+            <div class="impulse-mobile-nav__child-item">
+              {% if customer %}
+                <a href="{{ routes.account_url }}" class="impulse-mobile-nav__link impulse-mobile-nav__link--top-level">
+                  {{ 'content.account_title' | t }}
+                </a>
+              {% else %}
+                <a href="{{ routes.account_login_url }}" class="impulse-mobile-nav__link impulse-mobile-nav__link--top-level">
+                  {{ 'customer.login.title' | t }}
+                </a>
+                <span class="impulse-mobile-nav__separator">/</span>
+                <a href="{{ routes.account_register_url }}" class="impulse-mobile-nav__link impulse-mobile-nav__link--top-level">
+                  {{ 'customer.register.title' | t }}
+                </a>
+              {% endif %}
+            </div>
+          </li>
+        {%- endif -%}
+      </ul>
+
+      {%- if have_toolbar_menu -%}
+        <div class="impulse-drawer__toolbar-menu">
+          <ul class="impulse-drawer__toolbar-list">
+            {%- for link in toolbar_menu.links -%}
+              <li class="impulse-drawer__toolbar-item">
+                <a href="{{ link.url }}" class="impulse-drawer__toolbar-link">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      <div class="impulse-drawer__social">
+        {% render 'social-icons', show_title: false, icon_size: 18 %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .impulse-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 25rem;
+    height: 100dvh;
+    background-color: var(--color-background);
+    z-index: var(--layer-menu-drawer);
+    transform: translateX(-100%);
+    transition: transform var(--drawer-animation-speed, 0.3s) ease;
+    display: flex;
+    flex-direction: column;
+    border-right: var(--style-border-drawer);
+    overflow: hidden;
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+
+  .impulse-drawer--right {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+    border-right: none;
+    border-left: var(--style-border-drawer);
+
+    &.is-open {
+      transform: translateX(0);
+    }
+  }
+
+  .impulse-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: var(--padding-md) var(--padding-lg);
+    border-block-end: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  .impulse-drawer__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-foreground);
+    padding: var(--padding-xs);
+    min-width: 44px;
+    min-height: 44px;
+
+    .svg-wrapper {
+      width: var(--icon-size-xs);
+      height: var(--icon-size-xs);
+    }
+  }
+
+  .impulse-drawer__contents {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .impulse-drawer__scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding-block-end: var(--padding-lg);
+  }
+
+  .impulse-mobile-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .impulse-mobile-nav__item {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .impulse-mobile-nav__item--account {
+    border-block-end: none;
+  }
+
+  .impulse-mobile-nav__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-md) var(--padding-lg);
+    text-decoration: none;
+    color: var(--color-foreground);
+    font-size: 1rem;
+    gap: var(--gap-sm);
+  }
+
+  .impulse-mobile-nav__link--top-level {
+    font-size: 1.125rem;
+    font-weight: var(--font-body--weight-bold, 500);
+  }
+
+  .impulse-mobile-nav__link--button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    color: var(--color-foreground);
+  }
+
+  .impulse-mobile-nav__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--padding-md);
+    display: flex;
+    align-items: center;
+    color: var(--color-foreground);
+  }
+
+  .impulse-mobile-nav__has-sublist {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .impulse-mobile-nav__child-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .impulse-mobile-nav__child-item .impulse-mobile-nav__link {
+    flex: 1;
+  }
+
+  .impulse-mobile-nav__separator {
+    padding-inline: var(--padding-2xs);
+    color: var(--color-foreground-muted);
+  }
+
+  /* Collapsible content */
+  .collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--animation-speed-slow) var(--ease-out-cubic);
+
+    &.is-open {
+      max-height: 100vh;
+    }
+  }
+
+  .impulse-mobile-nav__sublist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: var(--padding-lg);
+  }
+
+  .impulse-mobile-nav__sublist .impulse-mobile-nav__item {
+    border-block-end: none;
+  }
+
+  .impulse-mobile-nav__sublist .impulse-mobile-nav__link {
+    font-size: 0.9375rem;
+    padding-block: var(--padding-sm);
+    color: var(--color-foreground-muted);
+  }
+
+  .impulse-mobile-nav__grandchildlist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-inline-start: var(--padding-xl);
+  }
+
+  .impulse-mobile-nav__grandchildlist .impulse-mobile-nav__link {
+    font-size: 0.875rem;
+    padding-block: var(--padding-xs);
+    color: var(--color-foreground-subdued);
+  }
+
+  .impulse-mobile-nav__link .svg-wrapper {
+    width: var(--icon-size-xs);
+    height: var(--icon-size-xs);
+    flex-shrink: 0;
+  }
+
+  /* Toolbar menu in drawer */
+  .impulse-drawer__toolbar-menu {
+    padding: var(--padding-lg);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .impulse-drawer__toolbar-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-md);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .impulse-drawer__toolbar-link {
+    text-decoration: none;
+    font-size: 0.8125rem;
+    color: var(--color-foreground-muted);
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  /* Social icons in drawer */
+  .impulse-drawer__social {
+    padding: var(--padding-lg);
+    padding-block-start: 0;
+  }
+
+  .impulse-drawer__social .social-icons {
+    justify-content: center;
+    gap: var(--gap-md);
+  }
+
+  .impulse-drawer__social .social-icons a {
+    color: var(--color-foreground-muted);
+
+    &:hover {
+      color: var(--color-foreground);
+    }
+  }
+
+  @media screen and (min-width: 750px) {
+    .impulse-drawer {
+      display: none;
+    }
+  }
+{% endstylesheet %}

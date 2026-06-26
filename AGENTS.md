@@ -1,3 +1,5 @@
+C:\Users\hammad\Downloads\uiux\.agents\skills
+
 ## AI Block Integration
 - 2 AI-generated blocks (split image banner, countdown timer) copied from `open PHANTOM/blocks/` into `sections/`
 - `_blocks.liquid` in `sections/` accepts `@theme` → blocks auto-discoverable in theme editor

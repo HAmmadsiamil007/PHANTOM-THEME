@@ -1,0 +1,87 @@
+{%- doc -%}
+  Split Navigation — Horizon-native port of Impulse's header-split-nav.
+  Splits main menu links evenly across two halves with the logo centered.
+
+  @param {object} main_menu - The linklist object.
+  @param {string} [logo] - Pre-rendered logo HTML (Horizon captures this via content_for block).
+  @param {string} [dropdown_alignment] - Dropdown alignment ('left' or 'center').
+  @param {boolean} [hover_menu] - Whether to open on hover.
+  @param {object} [section] - The section object (passed through to desktop nav).
+
+  @example
+  {% render 'impulse-header-split-nav', main_menu: main_menu, logo: logo, section: section %}
+{%- enddoc -%}
+
+{%- liquid
+  assign link_count = 0
+  for link in main_menu.links
+    assign link_count = link_count | plus: 1
+  endfor
+  assign link_count_half = link_count | divided_by: 2
+
+  if link_count_half < 1
+    assign link_count_half = 1
+  endif
+-%}
+
+<div class="impulse-split-nav" role="navigation" aria-label="{{ 'accessibility.header_navigation_label' | t }}">
+  <div class="impulse-split-nav__left">
+    {% render 'impulse-header-desktop-nav',
+      main_menu: main_menu,
+      limit: link_count_half,
+      dropdown_alignment: dropdown_alignment,
+      hover_menu: hover_menu,
+      section: section
+    %}
+  </div>
+  <div class="impulse-split-nav__logo">
+    {{ logo }}
+  </div>
+  <div class="impulse-split-nav__right">
+    {% render 'impulse-header-desktop-nav',
+      main_menu: main_menu,
+      offset: link_count_half,
+      dropdown_alignment: dropdown_alignment,
+      hover_menu: hover_menu,
+      section: section
+    %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .impulse-split-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .impulse-split-nav__left {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1 1 0;
+  }
+
+  .impulse-split-nav__right {
+    display: flex;
+    justify-content: flex-start;
+    flex: 1 1 0;
+  }
+
+  .impulse-split-nav__logo {
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    padding-inline: var(--padding-lg);
+  }
+
+  .impulse-split-nav .impulse-desktop-nav {
+    flex-wrap: nowrap;
+  }
+
+  @media screen and (max-width: 749px) {
+    .impulse-split-nav {
+      display: none;
+    }
+  }
+{% endstylesheet %}

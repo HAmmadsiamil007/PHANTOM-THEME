@@ -1,0 +1,37 @@
+{%- if content != blank -%}
+  {%- style -%}
+    .impulse-tool-tip-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      border-bottom: 1px dashed rgb(var(--color-foreground-rgb) / 0.3);
+      position: relative;
+    }
+
+    .impulse-tool-tip-trigger__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgb(var(--color-foreground-rgb) / 0.1);
+      font-size: 10px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .impulse-tool-tip-trigger__content {
+      display: none;
+    }
+  {%- endstyle -%}
+
+  <span class="impulse-tool-tip-trigger" data-tool-tip="{{ context }}">
+    <span class="impulse-tool-tip-trigger__title">{{ title }}</span>
+    <span class="impulse-tool-tip-trigger__icon" aria-hidden="true">?</span>
+    <span class="impulse-tool-tip-trigger__content" data-tool-tip-content>
+      {{ content }}
+    </span>
+  </span>
+{%- endif -%}

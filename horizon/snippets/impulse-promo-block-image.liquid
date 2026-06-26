@@ -1,0 +1,31 @@
+{%- liquid
+  assign image = block.settings.image
+  assign link = block.settings.link
+  assign bg_color = block.settings.background_color
+  assign block_id = block.id
+  if loading == false
+    assign image_loading = 'eager'
+  else
+    assign image_loading = 'lazy'
+  endif
+-%}
+
+{%- style -%}
+  #promo-block--{{ block_id }} {
+    background-color: {{ bg_color }};
+  }
+{%- endstyle -%}
+
+<a
+  id="promo-block--{{ block_id }}"
+  href="{{ link | default: '#' }}"
+  class="promo-block"
+>
+  <div class="promo-block__image-wrap">
+    {%- if image != blank -%}
+      {%- render 'impulse-image-element', image: image, image_loading: image_loading -%}
+    {%- else -%}
+      <div class="placeholder-svg" style="padding-top:100%;background:#e8e8e8;"></div>
+    {%- endif -%}
+  </div>
+</a>

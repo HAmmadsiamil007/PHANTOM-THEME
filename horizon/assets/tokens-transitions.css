@@ -1,0 +1,12 @@
+:root {
+  --transition-fast: var(--animation-duration-fast) var(--animation-easing-ease-out);
+  --transition-normal: var(--animation-duration-normal) var(--animation-easing-ease-out);
+  --transition-slow: var(--animation-duration-slow) var(--animation-easing-smooth);
+  --transition-bounce: var(--animation-duration-normal) var(--animation-easing-bounce);
+  --transition-spring: var(--animation-duration-normal) var(--animation-easing-spring);
+  --transition-color: color var(--animation-duration-fast) var(--animation-easing-ease-out);
+  --transition-opacity: opacity var(--animation-duration-fast) var(--animation-easing-ease-out);
+  --transition-transform: transform var(--animation-duration-normal) var(--animation-easing-ease-out);
+  --transition-shadow: box-shadow var(--animation-duration-normal) var(--animation-easing-ease-out);
+  --transition-all: all var(--animation-duration-normal) var(--animation-easing-ease-out);
+}

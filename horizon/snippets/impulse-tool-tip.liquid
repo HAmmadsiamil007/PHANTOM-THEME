@@ -1,0 +1,146 @@
+{%- style -%}
+  .impulse-tool-tip {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    max-width: 320px;
+    padding: 16px;
+    font-size: 0.85em;
+    line-height: 1.5;
+    color: #fff;
+    background: #1f2937;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+
+  .impulse-tool-tip.is-visible {
+    display: block;
+    animation: impulse-tool-tip-fade-in 0.2s ease;
+  }
+
+  @keyframes impulse-tool-tip-fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .impulse-tool-tip__close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+  }
+
+  .impulse-tool-tip__close:hover {
+    color: #fff;
+  }
+
+  .impulse-tool-tip__close svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .impulse-tool-tip__content p {
+    margin: 0 0 8px;
+  }
+
+  .impulse-tool-tip__content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .impulse-tool-tip__title {
+    font-weight: 600;
+    margin-bottom: 8px;
+    padding-right: 20px;
+  }
+
+  @media (max-width: 749.98px) {
+    .impulse-tool-tip {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 100%;
+      border-radius: 12px 12px 0 0;
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  class="impulse-tool-tip"
+  data-tool-tip="{{ context }}"
+  role="tooltip"
+  aria-hidden="true"
+>
+  <button class="impulse-tool-tip__close" data-tool-tip-close aria-label="Close">
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/>
+    </svg>
+  </button>
+  <div class="impulse-tool-tip__title" data-tool-tip-title>{{ page_title }}</div>
+  <div class="impulse-tool-tip__content" data-tool-tip-content></div>
+</div>
+
+{%- javascript -%}
+  (function() {
+    var tooltips = document.querySelectorAll('[data-tool-tip]');
+    var activeTip = null;
+
+    tooltips.forEach(function(el) {
+      if (el.classList.contains('impulse-tool-tip')) return;
+
+      el.addEventListener('mouseenter', function(e) {
+        var context = this.getAttribute('data-tool-tip');
+        var contentEl = this.querySelector('[data-tool-tip-content]');
+        var tip = document.querySelector('[data-tool-tip="' + context + '"]');
+
+        if (tip && contentEl) {
+          var content = contentEl.innerHTML;
+          tip.querySelector('[data-tool-tip-content]').innerHTML = content;
+          tip.classList.add('is-visible');
+          activeTip = tip;
+
+          var rect = this.getBoundingClientRect();
+          var tipRect = tip.getBoundingClientRect();
+          var top = rect.bottom + 8;
+          var left = rect.left + (rect.width / 2) - (tipRect.width / 2);
+
+          if (left < 8) left = 8;
+          if (left + tipRect.width > window.innerWidth - 8) {
+            left = window.innerWidth - tipRect.width - 8;
+          }
+          if (top + tipRect.height > window.innerHeight - 8) {
+            top = rect.top - tipRect.height - 8;
+          }
+
+          tip.style.top = top + 'px';
+          tip.style.left = left + 'px';
+        }
+      });
+
+      el.addEventListener('mouseleave', function() {
+        if (activeTip) {
+          activeTip.classList.remove('is-visible');
+          activeTip = null;
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-tool-tip-close]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var tip = this.closest('.impulse-tool-tip');
+        if (tip) {
+          tip.classList.remove('is-visible');
+          activeTip = null;
+        }
+      });
+    });
+  })();
+{%- endjavascript -%}

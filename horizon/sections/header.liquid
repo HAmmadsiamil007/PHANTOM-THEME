@@ -18,6 +18,11 @@
     render 'slideshow-styles'
   endif
 
+  # Nav layout preset
+  assign nav_layout = section.settings.layout_preset | default: 'logo-center-menu-left'
+  assign hover_menu = section.settings.hover_menu | default: true
+  assign cart_icon_style = section.settings.cart_icon | default: 'cart'
+
   if section.settings.enable_transparent_header_home and template.name == 'index'
     assign transparent = 'always'
     assign transparent_text_color_setting = section.settings.text_color_transparent_home
@@ -88,16 +93,39 @@
     content_for 'block', type: '_header-menu', id: 'header-menu'
   endcapture
 
+  # Override menu for split nav layout
+  if nav_layout == 'logo-center-split'
+    capture menu
+      render 'impulse-header-split-nav', main_menu: linklists[section.settings.main_linklist], logo: logo, dropdown_alignment: 'center', hover_menu: hover_menu, section: section
+    endcapture
+    # Remove logo from header row order to avoid double-render (split nav embeds logo)
+    assign order = order | remove: 'logo,' | remove: ',logo' | strip
+  endif
+
+  # Override menu for desktop nav (non-split impulse layouts)
+  if nav_layout != 'logo-center-menu-left' and nav_layout != 'logo-center-split'
+    capture menu
+      render 'impulse-header-desktop-nav', main_menu: linklists[section.settings.main_linklist], hover_menu: hover_menu, section: section
+    endcapture
+  endif
+
   capture drawer_menu
     content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'mobile'
   endcapture
+
+  # Override drawer for impulse layouts (enhanced drawer with toolbar + social)
+  if nav_layout != 'logo-center-menu-left'
+    capture drawer_menu
+      render 'impulse-header-drawer', main_menu: linklists[section.settings.main_linklist], toolbar_menu: linklists[section.settings.toolbar_menu], section: section
+    endcapture
+  endif
 
   capture navigation_bar
     content_for 'block', type: '_header-menu', id: 'header-menu', variant: 'navigation_bar', transparent: transparent
   endcapture
 
   capture actions
-    render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section
+    render 'header-actions', customer_account_menu: section.settings.customer_account_menu, display_style: section.settings.actions_display_style, section: section, cart_icon: cart_icon_style
   endcapture
 
   if shop.customer_accounts_enabled
@@ -328,6 +356,20 @@
   }
 </script>
 
+{%- if nav_layout != 'logo-center-menu-left' %}
+  <div
+    class="header-section"
+    data-nav-layout="{{ nav_layout }}"
+  >
+{%- endif -%}
+
+{%- if section.settings.toolbar_menu != blank or section.settings.toolbar_social -%}
+  {% render 'impulse-toolbar',
+    section: section,
+    toolbar_menu: linklists[section.settings.toolbar_menu]
+  %}
+{%- endif -%}
+
 <header-component
   id="header-component"
   class="{{ class }}"
@@ -347,6 +389,7 @@
   {% if background_transparent_color_value %}
     data-transparent-background="{{ background_transparent_color_value }}"
   {% endif %}
+  data-menu-nav-layout="{{ nav_layout }}"
   style="
     --color-background-top-row: rgba({{ section.settings.background_color_top.rgba | default: settings.page_background_color.rgba }});
     --color-background-bottom-row: rgba({{ section.settings.background_color_bottom.rgba | default: settings.page_background_color.rgba }});
@@ -1269,6 +1312,69 @@
     },
     {
       "type": "header",
+      "content": "Nav Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_preset",
+      "label": "Desktop nav layout",
+      "options": [
+        {
+          "value": "logo-center-menu-left",
+          "label": "Logo center, menu left"
+        },
+        {
+          "value": "logo-left-menu-left",
+          "label": "Logo left, menu left"
+        },
+        {
+          "value": "logo-center-menu-center",
+          "label": "Logo center, menu center"
+        },
+        {
+          "value": "logo-center-split",
+          "label": "Logo center, menu split"
+        }
+      ],
+      "default": "logo-center-menu-left"
+    },
+    {
+      "type": "checkbox",
+      "id": "hover_menu",
+      "label": "Open dropdowns on hover",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "mega_menu_images",
+      "label": "Show collection images in megamenu",
+      "default": true
+    },
+    {
+      "type": "link_list",
+      "id": "main_linklist",
+      "label": "Main navigation menu",
+      "info": "Used by Split Nav and Desktop Nav layouts",
+      "default": "main-menu"
+    },
+    {
+      "type": "header",
+      "content": "Toolbar"
+    },
+    {
+      "type": "link_list",
+      "id": "toolbar_menu",
+      "label": "Secondary menu",
+      "info": "Links shown in the top toolbar bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "toolbar_social",
+      "label": "Show social icons",
+      "default": false
+    },
+    {
+      "type": "header",
       "content": "t:content.search"
     },
     {
@@ -1680,6 +1786,26 @@
       "label": "t:settings.text",
       "placeholder": "t:settings.default",
       "visible_if": "{{ section.settings.bubble_style == 'custom' }}"
+    },
+    {
+      "type": "select",
+      "id": "cart_icon",
+      "label": "Cart icon style",
+      "options": [
+        {
+          "value": "cart",
+          "label": "Cart"
+        },
+        {
+          "value": "bag",
+          "label": "Bag"
+        },
+        {
+          "value": "bag-minimal",
+          "label": "Bag minimal"
+        }
+      ],
+      "default": "cart"
     },
     {
       "type": "header",

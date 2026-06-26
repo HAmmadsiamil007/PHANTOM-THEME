@@ -7,10 +7,15 @@
   @param {block} [block] - The block object, used for Shopify editor attributes.
   @param {string} [display_style] - Controls display mode for header actions: 'icon' or 'text'.
   @param {string} [customer_account_menu] - The menu handle passed to the shopify-account component.
+  @param {string} [cart_icon] - Cart icon style: 'cart', 'bag', or 'bag-minimal'. Defaults to 'cart'.
 
   @example
   {% render 'header-actions', section: section %}
 {% enddoc %}
+
+{%- liquid
+  assign cart_icon_style = cart_icon | default: 'cart'
+-%}
 
 <script
   type="module"
@@ -18,7 +23,7 @@
   fetchpriority="low"
 ></script>
 
-{% capture cart_icon %}
+{% capture cart_icon_markup %}
   <cart-icon
     class="header-actions__cart-icon{% if display_style == 'text' %} header-actions__cart-icon--text{% endif %}{% unless cart == empty %} header-actions__cart-icon--has-cart{% endunless %}"
     data-testid="cart-icon"
@@ -31,7 +36,11 @@
       class="svg-wrapper {% if display_style != 'icon' %}desktop:hidden{% endif %}"
       aria-hidden="true"
     >
-      {{ 'icon-cart.svg' | inline_asset_content }}
+      {%- if cart_icon_style != 'cart' -%}
+        {% render 'impulse-cart-icon', style: cart_icon_style %}
+      {%- else -%}
+        {{ 'icon-cart.svg' | inline_asset_content }}
+      {%- endif -%}
     </span>
 
     {% render 'cart-bubble', limit: 100 %}
@@ -124,7 +133,7 @@
       aria-describedby="cart-bubble-text"
       data-testid="cart-drawer-trigger"
     >
-      {{ cart_icon }}
+      {{ cart_icon_markup }}
     </button>
   {% else %}
     <a
@@ -133,7 +142,7 @@
       aria-label="{{ 'accessibility.cart' | t }}"
       aria-describedby="cart-bubble-text"
     >
-      {{ cart_icon }}
+      {{ cart_icon_markup }}
     </a>
   {% endif %}
 

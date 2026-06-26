@@ -1,0 +1,340 @@
+<div
+  class="impulse-age-verification"
+  id="impulseAgeVerification-{{ section.id }}"
+  data-test-mode="{{ section.settings.enable_test_mode }}"
+  data-cookie-days="{{ section.settings.cookie_days | default: 30 }}"
+  role="dialog"
+  aria-modal="true"
+  aria-label="{{ section.settings.heading | default: 'Confirm your age' | escape }}"
+>
+  {% if section.settings.image != blank %}
+    <div class="impulse-age-verification__bg-image">
+      {% render 'image-url',
+        img: section.settings.image,
+        size: 2400,
+        orientation: 'adapt',
+        loading: 'eager',
+        class: 'impulse-age-verification__bg-img'
+      %}
+      {% if section.settings.blur_image %}
+        {% style %}
+          #impulseAgeVerification-{{ section.id }} .impulse-age-verification__bg-img {
+            filter: blur(4px);
+            transform: scale(1.03);
+          }
+        {% endstyle %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="impulse-age-verification__inner" data-nosnippet>
+    <div class="impulse-age-verification__content-box">
+      {%
+        liquid
+        assign heading = section.settings.heading | default: 'Confirm your age'
+        assign text = section.settings.text | default: '<p>Are you 18 or older?</p>'
+        assign decline_label = section.settings.decline_button_label | default: 'No'
+        assign approve_label = section.settings.approve_button_label | default: 'Yes'
+        assign decline_heading = section.settings.decline_heading | default: 'You must be 18+ to shop'
+        assign decline_text = section.settings.decline_text | default: '<p>This store is only available to customers 18 years or older.</p>'
+        assign return_label = section.settings.return_button_label | default: 'Go back'
+      %}
+
+      {%
+        render 'section-tokens',
+        section: section,
+        section_id: section.id,
+        classes: 'impulse-age-verification__tokens'
+      %}
+
+      <div class="impulse-age-verification__screen impulse-age-verification__screen--active" data-age-screen="approve">
+        {% if heading != blank %}
+          <h2 class="impulse-age-verification__heading">{{ heading }}</h2>
+        {% endif %}
+        {% if text != blank %}
+          <div class="impulse-age-verification__text rte">{{ text }}</div>
+        {% endif %}
+        <div class="impulse-age-verification__buttons">
+          {% if decline_label != blank %}
+            <button class="button button--secondary impulse-age-verification__btn" data-age-decline>
+              {{ decline_label }}
+            </button>
+          {% endif %}
+          {% if approve_label != blank %}
+            <button class="button impulse-age-verification__btn" data-age-approve>
+              {{ approve_label }}
+            </button>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="impulse-age-verification__screen impulse-age-verification__screen--inactive" data-age-screen="decline">
+        {% if decline_heading != blank %}
+          <h2 class="impulse-age-verification__heading">{{ decline_heading }}</h2>
+        {% endif %}
+        {% if decline_text != blank %}
+          <div class="impulse-age-verification__text rte">{{ decline_text }}</div>
+        {% endif %}
+        {% if return_label != blank %}
+          <button class="button button--secondary impulse-age-verification__btn" data-age-return>
+            {{ return_label }}
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% style %}
+  #impulseAgeVerification-{{ section.id }} {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+  }
+  #impulseAgeVerification-{{ section.id }}.is-open {
+    display: flex;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__bg-image {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__bg-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__inner {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    margin: 24px;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__content-box {
+    position: relative;
+    background: var(--color-bg, #fff);
+    color: var(--color-text, #111);
+    padding: 48px 36px 40px;
+    border-radius: 8px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    overflow: hidden;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__tokens {
+    position: absolute;
+    inset: 0;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__heading {
+    font-size: 28px;
+    line-height: 1.2;
+    margin: 0 0 12px;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__text {
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0 0 24px;
+    opacity: 0.8;
+    position: relative;
+    z-index: 1;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__text.rte p {
+    margin: 0;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__btn.button {
+    min-width: 120px;
+  }
+  #impulseAgeVerification-{{ section.id }} .impulse-age-verification__screen--inactive {
+    display: none;
+  }
+  body.impulse-age-modal-open {
+    overflow: hidden;
+  }
+{% endstyle %}
+
+<script>
+  (function () {
+    var el = document.getElementById('impulseAgeVerification-{{ section.id }}');
+    if (!el) return;
+
+    var testMode = el.getAttribute('data-test-mode') === 'true';
+    var cookieDays = parseInt(el.getAttribute('data-cookie-days'), 10) || 30;
+    var cookieKey = 'impulse-age-verified';
+
+    var approveBtn = el.querySelector('[data-age-approve]');
+    var declineBtn = el.querySelector('[data-age-decline]');
+    var returnBtn = el.querySelector('[data-age-return]');
+    var approveScreen = el.querySelector('[data-age-screen="approve"]');
+    var declineScreen = el.querySelector('[data-age-screen="decline"]');
+
+    function getCookie(name) {
+      var match = document.cookie.match('(?:^|;)\\s*' + name + '=([^;]*)');
+      return match ? decodeURIComponent(match[1]) : null;
+    }
+
+    function setCookie(name, value, days) {
+      var maxAge = days * 24 * 60 * 60;
+      document.cookie = name + '=' + encodeURIComponent(value) + '; path=/; max-age=' + maxAge + '; SameSite=Lax';
+    }
+
+    function show() {
+      el.classList.add('is-open');
+      document.body.classList.add('impulse-age-modal-open');
+    }
+
+    function hide() {
+      el.classList.remove('is-open');
+      document.body.classList.remove('impulse-age-modal-open');
+    }
+
+    function approve() {
+      setCookie(cookieKey, '1', cookieDays);
+      hide();
+    }
+
+    function decline() {
+      if (approveScreen) approveScreen.classList.remove('impulse-age-verification__screen--active');
+      if (approveScreen) approveScreen.classList.add('impulse-age-verification__screen--inactive');
+      if (declineScreen) declineScreen.classList.remove('impulse-age-verification__screen--inactive');
+      if (declineScreen) declineScreen.classList.add('impulse-age-verification__screen--active');
+    }
+
+    function goBack() {
+      if (declineScreen) declineScreen.classList.remove('impulse-age-verification__screen--active');
+      if (declineScreen) declineScreen.classList.add('impulse-age-verification__screen--inactive');
+      if (approveScreen) approveScreen.classList.remove('impulse-age-verification__screen--inactive');
+      if (approveScreen) approveScreen.classList.add('impulse-age-verification__screen--active');
+    }
+
+    if (approveBtn) approveBtn.addEventListener('click', approve);
+    if (declineBtn) declineBtn.addEventListener('click', decline);
+    if (returnBtn) returnBtn.addEventListener('click', goBack);
+
+    if (testMode || !getCookie(cookieKey)) {
+      show();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Impulse Age Verification",
+  "class": "impulse-age-verification-popup",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_test_mode",
+      "label": "Enable test mode",
+      "info": "Keep the popup visible on every page load for testing and styling.",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Background image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image",
+      "info": "Optional background image behind the popup card. Recommended size: 1920 x 1080 px."
+    },
+    {
+      "type": "checkbox",
+      "id": "blur_image",
+      "label": "Blur background image",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Age verification question"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Confirm your age"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Are you 18 or older?</p>"
+    },
+    {
+      "type": "text",
+      "id": "decline_button_label",
+      "label": "Decline button label",
+      "default": "No"
+    },
+    {
+      "type": "text",
+      "id": "approve_button_label",
+      "label": "Approve button label",
+      "default": "Yes"
+    },
+    {
+      "type": "header",
+      "content": "Declined message"
+    },
+    {
+      "type": "paragraph",
+      "content": "When a visitor clicks the decline button, the popup switches to a declined message with an option to go back."
+    },
+    {
+      "type": "text",
+      "id": "decline_heading",
+      "label": "Decline heading",
+      "default": "You must be 18+ to shop"
+    },
+    {
+      "type": "richtext",
+      "id": "decline_text",
+      "label": "Decline text",
+      "default": "<p>This store is only available to customers 18 years or older.</p>"
+    },
+    {
+      "type": "text",
+      "id": "return_button_label",
+      "label": "Return button label",
+      "default": "Go back"
+    },
+    {
+      "type": "header",
+      "content": "Cookie settings"
+    },
+    {
+      "type": "range",
+"id": "cookie_days",
+      "label": "Cookie days",
+      "default": 29,
+      "min": 1,
+      "max": 365,
+      "step": 7,
+      "unit": "d"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Impulse Age Verification"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header"]
+  }
+}
+{% endschema %}

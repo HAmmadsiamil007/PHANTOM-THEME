@@ -1,0 +1,104 @@
+{%- liquid
+  assign output_tab = true
+  assign force_open = force_open | default: false
+  if title == blank and content == blank
+    assign output_tab = false
+  endif
+-%}
+
+{%- if output_tab -%}
+  {%- style -%}
+    .impulse-tab__trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 0.95em;
+      font-weight: 600;
+      text-align: left;
+      background: none;
+      border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .impulse-tab__trigger:hover {
+      background: rgb(var(--color-foreground-rgb) / 0.03);
+    }
+
+    .impulse-tab__trigger.is-open {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .impulse-tab__icon {
+      width: 12px;
+      height: 12px;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .impulse-tab__trigger.is-open .impulse-tab__icon {
+      transform: rotate(180deg);
+    }
+
+    .impulse-tab__content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      border: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+    }
+
+    .impulse-tab__content.is-open {
+      max-height: 500px;
+      padding: 16px;
+    }
+
+    .impulse-tab__content-inner {
+      font-size: 0.9em;
+      line-height: 1.6;
+      opacity: 0.85;
+    }
+
+    .impulse-tab__content-inner p {
+      margin: 0 0 8px;
+    }
+
+    .impulse-tab__content-inner p:last-child {
+      margin-bottom: 0;
+    }
+  {%- endstyle -%}
+
+  <div class="impulse-tab-wrapper" style="margin-bottom: 8px;">
+    <button type="button" class="impulse-tab__trigger{% if force_open %} is-open{% endif %}" aria-expanded="{% if force_open %}true{% else %}false{% endif %}">
+      {{ title }}
+      <svg class="impulse-tab__icon" viewBox="0 0 28 16" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m1.57 1.59 12.76 12.77L27.1 1.59"/>
+      </svg>
+    </button>
+    <div class="impulse-tab__content{% if force_open %} is-open{% endif %}">
+      <div class="impulse-tab__content-inner rte">
+        {{ content }}
+      </div>
+    </div>
+  </div>
+
+{%- endif -%}
+
+{%- javascript -%}
+  (function() {
+    var triggers = document.querySelectorAll('.impulse-tab__trigger');
+    triggers.forEach(function(trigger) {
+      trigger.addEventListener('click', function() {
+        var content = this.nextElementSibling;
+        var isOpen = this.classList.toggle('is-open');
+        content.classList.toggle('is-open');
+        this.setAttribute('aria-expanded', isOpen);
+      });
+    });
+  })();
+{%- endjavascript -%}
