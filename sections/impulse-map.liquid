@@ -1,0 +1,368 @@
+{%- liquid
+  assign display_map = false
+  assign onboarding = false
+  assign bg_image = section.settings.background_image
+  assign section_id = section.id
+
+  if section.settings.api_key == blank and bg_image == blank
+    assign onboarding = true
+  endif
+  if section.settings.api_key != blank and section.settings.map_address
+    assign display_map = true
+  endif
+-%}
+
+{% render 'section-tokens', settings: section.settings, section_id: section_id %}
+{% render 'section-visibility', settings: section.settings, section_id: section_id %}
+
+{%- style -%}
+  #impulse-map--{{ section_id }} {
+    position: relative;
+    overflow: hidden;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__container {
+    position: relative;
+    height: {{ section.settings.map_height }}px;
+    background: #f4f4f4;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__placeholder svg {
+    width: 100%;
+    height: 100%;
+    max-height: 480px;
+    object-fit: cover;
+  }
+
+  /* Image fallback */
+  #impulse-map--{{ section_id }} .map-section__bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Overlay card */
+  #impulse-map--{{ section_id }} .map-section__overlay-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__overlay {
+    pointer-events: auto;
+    background: var(--color-body, #fff);
+    padding: 32px;
+    max-width: 360px;
+    margin-left: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    border-radius: 4px;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__overlay h3 {
+    margin: 0 0 12px;
+    font-size: 1.25em;
+    font-weight: 700;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__overlay .rte-setting {
+    margin-bottom: 16px;
+    font-size: 0.9em;
+    line-height: 1.6;
+    opacity: 0.85;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__overlay .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--color-primary, #000);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85em;
+    font-weight: 600;
+    border-radius: 2px;
+    transition: opacity 0.2s ease;
+  }
+
+  #impulse-map--{{ section_id }} .map-section__overlay .btn:hover {
+    opacity: 0.85;
+  }
+
+  /* Clickable link covering the whole section */
+  #impulse-map--{{ section_id }} .map-section__link {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+  }
+
+  @media screen and (max-width: 768px) {
+    #impulse-map--{{ section_id }} .map-section__overlay-wrapper {
+      position: relative;
+      top: auto;
+      left: auto;
+      height: auto;
+    }
+
+    #impulse-map--{{ section_id }} .map-section__overlay {
+      max-width: 100%;
+      margin: 0;
+      box-shadow: none;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    #impulse-map--{{ section_id }} .map-section__container {
+      height: {{ section.settings.map_height_mobile }}px;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="impulse-map--{{ section_id }}"
+  class="impulse-map"
+  data-section-type="map"
+  data-section-id="{{ section_id }}"
+>
+  {%- if section.settings.map_title != blank or section.settings.address != blank -%}
+    <div class="map-section__overlay-wrapper">
+      <div class="map-section__overlay">
+        {%- if section.settings.map_title != blank -%}
+          <h3>{{ section.settings.map_title }}</h3>
+        {%- endif -%}
+        {%- if section.settings.address != blank -%}
+          <div class="rte-setting">{{ section.settings.address }}</div>
+          {%- if section.settings.show_button and section.settings.map_address != blank -%}
+            <a
+              href="https://maps.google.com?daddr={{ section.settings.map_address | escape }}"
+              class="btn"
+              target="_blank"
+              rel="noopener"
+              aria-label="{{ section.settings.map_title | default: section.settings.map_address }}"
+            >
+              Get directions
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.map_address != blank -%}
+    <a
+      class="map-section__link"
+      href="https://www.google.com/maps/place/{{ section.settings.map_address | escape }}"
+      target="_blank"
+      rel="noopener"
+      aria-label="{{ section.settings.map_address | escape }}"
+    ></a>
+  {%- endif -%}
+
+  {%- if onboarding -%}
+    <div class="map-section__placeholder">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+  {%- endif -%}
+
+  <div
+    class="map-section__container"
+    id="MapContainer-{{ section_id }}"
+    data-address="{{ section.settings.map_address | escape }}"
+    data-api-key="{{ section.settings.api_key }}"
+  >
+    {%- if bg_image != blank -%}
+      {%- unless display_map -%}
+        {%- render 'image-url',
+          img: bg_image,
+          size: 1800,
+          loading: 'lazy',
+          class: 'map-section__bg-image'
+        -%}
+      {%- endunless -%}
+    {%- endif -%}
+  </div>
+</div>
+
+<script src="{{ 'impulse-map.js' | asset_url }}" type="module" defer></script>
+
+{% schema %}
+{
+  "name": "Map",
+  "settings": [
+    {
+      "type": "text",
+      "id": "map_title",
+      "label": "Heading",
+      "default": "Our retail store"
+    },
+    {
+      "type": "richtext",
+      "id": "address",
+      "label": "Address and hours",
+      "default": "<p>301 Front St W<br>Toronto, Canada</p><p><b>Tues - Sat</b><br>8:30am - 10:30pm<br><br><b>Sun - Mon</b><br> 10:00am - 6:00pm</p>"
+    },
+    {
+      "type": "text",
+      "id": "map_address",
+      "label": "Map address",
+      "info": "Used for the Google Maps embed and directions link.",
+      "default": "301 Front St W, Toronto, ON M5V 2T6"
+    },
+    {
+      "type": "text",
+      "id": "api_key",
+      "label": "Google Maps API key",
+      "info": "Required to display an interactive map. Get your key at console.cloud.google.com."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show \"Get directions\" button",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image",
+      "info": "Shown when no API key is set."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "map_height",
+      "label": "Map height — desktop",
+      "default": 480,
+      "min": 200,
+      "max": 800,
+      "step": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "map_height_mobile",
+      "label": "Map height — mobile",
+      "default": 290,
+      "min": 150,
+      "max": 590,
+      "step": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Map",
+      "category": "Store information"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

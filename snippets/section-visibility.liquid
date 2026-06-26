@@ -1,0 +1,47 @@
+{%- doc -%}
+  SECTION VISIBILITY
+  ───────────────────
+  Generates CSS for section-level visibility toggles (hide on mobile / desktop).
+  Targets the auto-generated Shopify wrapper `#shopify-section-{{ section.id }}`.
+
+  Usage:
+    {% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+  @param {object}  settings     - Section settings with hide_on_mobile, hide_on_desktop
+  @param {string}  section_id   - Section ID for CSS scoping
+{%- enddoc -%}
+
+{%- liquid
+  assign hide_mobile = settings.hide_on_mobile | default: false
+  assign hide_desktop = settings.hide_on_desktop | default: false
+-%}
+
+{%- if hide_mobile or hide_desktop -%}
+  {%- style -%}
+    #shopify-section-{{ section_id }} {
+      {% if hide_mobile and hide_desktop %}
+        display: none !important;
+      {% elsif hide_mobile %}
+        display: none !important;
+      {% elsif hide_desktop %}
+        display: none !important;
+      {% endif %}
+    }
+
+    {% if hide_mobile and hide_desktop == false %}
+      @media (min-width: 750px) {
+        #shopify-section-{{ section_id }} {
+          display: block !important;
+        }
+      }
+    {% endif %}
+
+    {% if hide_desktop and hide_mobile == false %}
+      @media (max-width: 749.98px) {
+        #shopify-section-{{ section_id }} {
+          display: block !important;
+        }
+      }
+    {% endif %}
+  {%- endstyle -%}
+{%- endif -%}

@@ -1,0 +1,9 @@
+:root {
+  --bp-xs: 0px;
+  --bp-sm: 360px;
+  --bp-md: 768px;
+  --bp-lg: 990px;
+  --bp-xl: 1200px;
+  --bp-2xl: 1400px;
+  --bp-3xl: 1600px;
+}

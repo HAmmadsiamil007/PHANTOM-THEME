@@ -1,0 +1,292 @@
+<style>
+  .impulse-custom-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    margin: 0 -15px;
+  }
+  .impulse-custom-content .custom__item {
+    flex: 0 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: stretch;
+  }
+  .impulse-custom-content .custom__item-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .impulse-custom-content .custom__item-inner--image {
+    gap: 0;
+  }
+  .impulse-custom-content .custom__item-inner--liquid {
+    gap: 0;
+  }
+  .impulse-custom-content .custom__item-inner--placeholder-image {
+    min-height: 200px;
+  }
+  .impulse-custom-content .one-whole { width: 100%; }
+  .impulse-custom-content .one-half { width: 50%; }
+  .impulse-custom-content .one-third { width: 33.33333%; }
+  .impulse-custom-content .one-quarter { width: 25%; }
+  .impulse-custom-content .two-thirds { width: 66.66667%; }
+  .impulse-custom-content .three-quarters { width: 75%; }
+  .impulse-custom-content .align--top-middle { align-self: flex-start; }
+  .impulse-custom-content .align--center { align-self: center; }
+  .impulse-custom-content .align--bottom-middle { align-self: flex-end; }
+  .impulse-custom-content .image-wrap {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+  .impulse-custom-content .image-wrap img,
+  .impulse-custom-content .image-wrap svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .impulse-custom-content .image-wrap .placeholder-svg {
+    fill: rgba(120,120,120,0.1);
+    background: rgba(120,120,120,0.05);
+    display: block;
+  }
+  .impulse-custom-content .rte {
+    word-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .impulse-custom-content .rte h2 { font-size: 22px; margin: 0 0 10px; }
+  .impulse-custom-content .rte p { margin: 0 0 10px; }
+  .impulse-custom-content .rte p:last-child { margin-bottom: 0; }
+  .impulse-custom-content .aos-animate {
+    opacity: 1;
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 749px) {
+    .impulse-custom-content .small--one-whole { width: 100%; }
+  }
+</style>
+
+{%- if section.settings.space_around -%}
+  <div class="index-section">
+{%- endif -%}
+{%- unless section.settings.full_width -%}
+  <div class="page-width">
+{%- endunless -%}
+  <div class="impulse-custom-content">
+  {%- for block in section.blocks -%}
+    {%- liquid
+      case block.settings.width
+        when '25%'
+          assign block_width = 'small--one-whole one-quarter'
+        when '33%'
+          assign block_width = 'small--one-whole one-third'
+        when '50%'
+          assign block_width = 'small--one-whole one-half'
+        when '66%'
+          assign block_width = 'small--one-whole two-thirds'
+        when '75%'
+          assign block_width = 'small--one-whole three-quarters'
+        when '100%'
+          assign block_width = 'one-whole'
+      endcase
+    -%}
+    <div class="custom__item {{ block_width }}{% if block.settings.alignment %} align--{{ block.settings.alignment }}{% endif %}" {{ block.shopify_attributes }}>
+      <div class="custom__item-inner custom__item-inner--{{ block.type }}{% if block.settings.image == blank and block.type == 'image' %} custom__item-inner--placeholder-image{% endif %}">
+        {%- case block.type -%}
+          {%- when 'liquid' -%}
+            {%- if block.settings.code != blank -%}
+              <div class="rte">
+                {{ block.settings.code }}
+              </div>
+            {%- else -%}
+              <div class="rte">
+                No content yet.
+              </div>
+            {%- endif -%}
+          {%- when 'image' -%}
+            <div class="aos-animate">
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}">
+              {%- endif -%}
+              {%- if block.settings.image != blank -%}
+                <div class="image-wrap" style="height: 0; padding-bottom: {{ 100 | divided_by: block.settings.image.aspect_ratio }}%;">
+                  {%- liquid
+                    assign blockWidth = block.settings.width | remove: '%' | times: 1
+                    if forloop.index == 1 and blockWidth >= 50
+                      assign loading = section.settings.lazyload_images
+                    else
+                      assign loading = true
+                    endif
+                  -%}
+                  {%- render 'impulse-image-element',
+                    image: block.settings.image,
+                    image_loading: loading,
+                    widths: '360, 540, 720, 900, 1080, 1600',
+                    sizes: '100vw'
+                  -%}
+                </div>
+                {%- else -%}
+                  <div class="image-wrap">
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+              {%- endif -%}
+              {%- if block.settings.link != blank -%}
+                </a>
+              {%- endif -%}
+            </div>
+        {%- endcase -%}
+      </div>
+    </div>
+  {%- endfor -%}
+  {%- if section.blocks.size == 0 -%}
+    <div class="page-width">
+      <div class="grid">
+        <div class="grid__item">
+          <div class="rte">
+            No content yet.
+          </div>
+        </div>
+      </div>
+   </div>
+  {%- endif -%}
+  </div>
+{%- unless section.settings.full_width -%}
+  </div>
+{%- endunless -%}
+{%- if section.settings.space_around -%}
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Advanced content",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "space_around",
+      "label": "Add spacing above and below",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "lazyload_images",
+      "label": "Lazy load images",
+      "info": "Disables lazy loading for the first large image for faster above-the-fold display.",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "liquid",
+      "name": "Custom HTML",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "code",
+          "label": "HTML / Liquid code",
+          "default": "<h2>Custom content</h2><p>Add HTML, Liquid, or custom scripts to create advanced layouts and extend your storefront experience.</p>",
+          "info": "Supports full Liquid and HTML. Use with care."
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Column width",
+          "default": "100%",
+          "options": [
+            { "value": "25%", "label": "25%" },
+            { "value": "33%", "label": "33%" },
+            { "value": "50%", "label": "50%" },
+            { "value": "66%", "label": "66%" },
+            { "value": "75%", "label": "75%" },
+            { "value": "100%", "label": "100%" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Vertical alignment",
+          "default": "center",
+          "info": "Aligns the block vertically within the row.",
+          "options": [
+            { "value": "top-middle", "label": "Top" },
+            { "value": "center", "label": "Middle" },
+            { "value": "bottom-middle", "label": "Bottom" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "width",
+          "label": "Column width",
+          "default": "100%",
+          "options": [
+            { "value": "25%", "label": "25%" },
+            { "value": "33%", "label": "33%" },
+            { "value": "50%", "label": "50%" },
+            { "value": "66%", "label": "66%" },
+            { "value": "75%", "label": "75%" },
+            { "value": "100%", "label": "100%" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Vertical alignment",
+          "default": "center",
+          "info": "Aligns the block vertically within the row.",
+          "options": [
+            { "value": "top-middle", "label": "Top" },
+            { "value": "center", "label": "Middle" },
+            { "value": "bottom-middle", "label": "Bottom" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Advanced content",
+      "category": "Custom content",
+      "blocks": [
+        {
+          "type": "image",
+          "settings": { "width": "50%" }
+        },
+        {
+          "type": "liquid",
+          "settings": { "width": "50%" }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["custom.popups"]
+  }
+}
+{% endschema %}

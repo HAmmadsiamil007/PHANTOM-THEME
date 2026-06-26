@@ -1,0 +1,639 @@
+{%- style -%}
+  .main-order-section {
+    width: 100%;
+  }
+  .main-order-section .main-order__breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-size: 0.875rem;
+    opacity: 0.7;
+  }
+  .main-order-section .main-order__breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .main-order-section .main-order__breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  .main-order-section .main-order__header {
+    margin-bottom: 32px;
+  }
+  .main-order-section .main-order__header h1 {
+    margin: 0 0 8px;
+  }
+  .main-order-section .main-order__header p {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 0.9375rem;
+  }
+  .main-order-section .main-order__cancelled {
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+    border-left: 4px solid var(--color-foreground);
+    border-radius: var(--style-border-radius-popover, 8px);
+    padding: 20px 24px;
+    margin-bottom: 32px;
+  }
+  .main-order-section .main-order__cancelled h3 {
+    margin: 0 0 8px;
+  }
+  .main-order-section .main-order__cancelled p {
+    margin: 0;
+    opacity: 0.8;
+  }
+  .main-order-section .main-order__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  @media screen and (min-width: 750px) {
+    .main-order-section .main-order__grid {
+      flex-direction: row;
+    }
+    .main-order-section .main-order__items {
+      flex: 2;
+    }
+    .main-order-section .main-order__summary {
+      flex: 1;
+    }
+  }
+  .main-order-section .main-order__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+  .main-order-section .main-order__table thead {
+    background: rgb(var(--color-foreground-rgb) / 0.05);
+  }
+  .main-order-section .main-order__table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .main-order-section .main-order__table th.text-right {
+    text-align: right;
+  }
+  .main-order-section .main-order__table td {
+    padding: 16px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    vertical-align: top;
+  }
+  .main-order-section .main-order__table td.text-right {
+    text-align: right;
+  }
+  .main-order-section .main-order__table tbody tr:hover {
+    background: rgb(var(--color-foreground-rgb) / 0.02);
+  }
+  .main-order-section .main-order__table tfoot td {
+    font-size: 0.875rem;
+    padding: 10px 16px;
+    border-bottom: none;
+  }
+  .main-order-section .main-order__table tfoot tr:last-child td {
+    font-weight: 700;
+    font-size: 1rem;
+    padding-top: 16px;
+    border-top: 2px solid rgb(var(--color-foreground-rgb) / 0.15);
+  }
+  .main-order-section .main-order__product-title {
+    font-weight: 600;
+  }
+  .main-order-section .main-order__product-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .main-order-section .main-order__product-title a:hover {
+    text-decoration: underline;
+  }
+  .main-order-section .main-order__product-meta {
+    font-size: 0.8125rem;
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+  .main-order-section .main-order__product-discount {
+    color: var(--color-foreground);
+    font-size: 0.8125rem;
+    margin-top: 4px;
+  }
+  .main-order-section .main-order__fulfillment {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: rgb(var(--color-foreground-rgb) / 0.04);
+    border-radius: 6px;
+    font-size: 0.8125rem;
+  }
+  .main-order-section .main-order__fulfillment a {
+    color: inherit;
+  }
+  .main-order-section .main-order__price-strikethrough {
+    text-decoration: line-through;
+    opacity: 0.5;
+    margin-right: 4px;
+  }
+  .main-order-section .main-order__address-card {
+    background: rgb(var(--color-foreground-rgb) / 0.03);
+    border-radius: var(--style-border-radius-popover, 8px);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .main-order-section .main-order__address-card h3 {
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+  }
+  .main-order-section .main-order__address-card p {
+    margin: 0;
+    line-height: 1.7;
+    font-style: normal;
+  }
+  .main-order-section .main-order__address-card .main-order__status-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+  .main-order-section .main-order__address-card .main-order__status-value {
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  @media screen and (max-width: 749px) {
+    .main-order-section .main-order__table thead {
+      display: none;
+    }
+    .main-order-section .main-order__table tbody tr {
+      display: block;
+      padding: 16px 0;
+      border-bottom: 1px solid rgb(var(--color-foreground-rgb) / 0.1);
+    }
+    .main-order-section .main-order__table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 6px 0;
+      border-bottom: none;
+    }
+    .main-order-section .main-order__table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+      flex-shrink: 0;
+      margin-right: 12px;
+    }
+    .main-order-section .main-order__table td.text-right {
+      text-align: left;
+    }
+    .main-order-section .main-order__table tfoot tr {
+      display: block;
+      padding: 0;
+      border-bottom: none;
+    }
+    .main-order-section .main-order__table tfoot td {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+    }
+    .main-order-section .main-order__table tfoot td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.6;
+    }
+    .main-order-section .main-order__hide-mobile {
+      display: none;
+    }
+  }
+{%- endstyle -%}
+
+{% if section.settings.background_color != blank %}
+  {% render 'contrast-override', background_color: section.settings.background_color, section_id: section.id %}
+{% endif %}
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+{% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %} px-mobile-3"
+></div>
+<div
+  class="
+    section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}
+    {% if section.settings.section_height != "" %} {{ section.settings.section_height | prepend: "section--height-" }}{% endif %}
+  "
+>
+  <div>
+    <div
+      class="
+        spacing-style
+        layout-panel-flex
+        layout-panel-flex--column
+        section-content-wrapper
+        mobile-column
+        main-order-section
+      "
+      style="
+        {% render 'layout-panel-style', settings: section.settings %}
+        {% render 'spacing-style', settings: section.settings %}
+      "
+    >
+      <nav class="main-order__breadcrumb">
+        <a href="{{ routes.account_url }}">{{ 'customer.account.title' | t }}</a>
+        <span aria-hidden="true">/</span>
+        <a href="{{ routes.account_url }}">{{ 'customer.orders.title' | t }}</a>
+        <span aria-hidden="true">/</span>
+        <span>{{ 'customer.order.title' | t: name: order.name }}</span>
+      </nav>
+
+      <div class="main-order__header">
+        <h1 class="h3">{{ 'customer.order.title' | t: name: order.name }}</h1>
+        {%- assign order_date = order.created_at | time_tag: format: 'date_at_time' -%}
+        <p>{{ 'customer.order.date_html' | t: date: order_date }}</p>
+      </div>
+
+      {%- if order.cancelled -%}
+        <div class="main-order__cancelled">
+          {%- assign cancelled_at = order.cancelled_at | time_tag: format: 'date_at_time' -%}
+          <h3 class="h5">{{ 'customer.order.cancelled_html' | t: date: cancelled_at }}</h3>
+          <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }}</p>
+        </div>
+      {%- endif -%}
+
+      <div class="main-order__grid">
+        <div class="main-order__items">
+          <table class="main-order__table">
+            <thead>
+              <tr>
+                <th>{{ 'customer.order.product' | t }}</th>
+                <th class="main-order__hide-mobile">{{ 'customer.order.sku' | t }}</th>
+                <th>{{ 'customer.order.price' | t }}</th>
+                <th class="text-right">{{ 'customer.order.quantity' | t }}</th>
+                <th class="text-right main-order__hide-mobile">{{ 'customer.order.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for line_item in order.line_items -%}
+                <tr>
+                  <td data-label="{{ 'customer.order.product' | t }}">
+                    <div class="main-order__product-title">
+                      {{ line_item.title | link_to: line_item.product.url }}
+                    </div>
+
+                    {%- unless line_item.selling_plan_allocation == nil -%}
+                      <div class="main-order__product-meta">
+                        {{ line_item.selling_plan_allocation.selling_plan.name }}
+                      </div>
+                    {%- endunless -%}
+
+                    {%- assign property_size = line_item.properties | size -%}
+                    {%- if property_size > 0 -%}
+                      <div class="main-order__product-meta">
+                        {%- for property in line_item.properties -%}
+                          {%- assign property_first_char = property.first | slice: 0 -%}
+                          {%- if property.last != blank and property_first_char != '_' -%}
+                            {{ property.first }}:
+                            {%- if property.last contains '/uploads/' -%}
+                              <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+                            {%- else -%}
+                              {{ property.last }}
+                            {%- endif -%}
+                            {%- unless forloop.last %}<br>{% endunless -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      </div>
+                    {%- endif -%}
+
+                    {%- if line_item.line_level_discount_allocations != blank -%}
+                      {%- for discount_allocation in line_item.line_level_discount_allocations -%}
+                        <div class="main-order__product-discount">
+                          {{ discount_allocation.discount_application.title }} (-{{ discount_allocation.amount | money }})
+                        </div>
+                      {%- endfor -%}
+                    {%- endif -%}
+
+                    {%- if line_item.fulfillment -%}
+                      <div class="main-order__fulfillment">
+                        {%- assign fulfilled_at = line_item.fulfillment.created_at | time_tag: format: 'date' -%}
+                        {{ 'customer.order.fulfilled_at_html' | t: date: fulfilled_at }}
+                        {%- if line_item.fulfillment.tracking_number -%}
+                          <br>
+                          <a href="{{ line_item.fulfillment.tracking_url }}">
+                            {{ line_item.fulfillment.tracking_company }} #{{ line_item.fulfillment.tracking_number }}
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  </td>
+                  <td data-label="{{ 'customer.order.sku' | t }}" class="main-order__hide-mobile">
+                    {{ line_item.sku }}
+                  </td>
+                  <td data-label="{{ 'customer.order.price' | t }}">
+                    {%- if line_item.original_price != line_item.final_price -%}
+                      <span class="main-order__price-strikethrough">{{ line_item.original_price | money }}</span>
+                      <span>{{ line_item.final_price | money }}</span>
+                    {%- else -%}
+                      {{ line_item.original_price | money }}
+                    {%- endif -%}
+
+                    {%- if line_item.unit_price_measurement -%}
+                      {%- capture unit_price_base_unit -%}
+                        {%- if line_item.unit_price_measurement.reference_value != 1 -%}
+                          {{ line_item.unit_price_measurement.reference_value }}
+                        {%- endif -%}
+                        {{ line_item.unit_price_measurement.reference_unit }}
+                      {%- endcapture -%}
+                      <div class="main-order__product-meta">
+                        {{ line_item.unit_price | money }}/{{ unit_price_base_unit }}
+                      </div>
+                    {%- endif -%}
+                  </td>
+                  <td data-label="{{ 'customer.order.quantity' | t }}" class="text-right">
+                    {{ line_item.quantity }}
+                  </td>
+                  <td data-label="{{ 'customer.order.total' | t }}" class="text-right main-order__hide-mobile">
+                    {%- if line_item.original_line_price != line_item.final_line_price -%}
+                      <span class="main-order__price-strikethrough">{{ line_item.original_line_price | money }}</span>
+                      <span>{{ line_item.final_line_price | money }}</span>
+                    {%- else -%}
+                      {{ line_item.original_line_price | money }}
+                    {%- endif -%}
+                  </td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="main-order__hide-mobile" data-label="{{ 'customer.order.subtotal' | t }}">
+                  {{ 'customer.order.subtotal' | t }}
+                </td>
+                <td colspan="2" data-label="{{ 'customer.order.subtotal' | t }}" class="text-right">
+                  {{ order.line_items_subtotal_price | money }}
+                </td>
+              </tr>
+
+              {%- if order.cart_level_discount_applications != blank -%}
+                {%- for discount_application in order.cart_level_discount_applications -%}
+                  <tr>
+                    <td colspan="3" class="main-order__hide-mobile" data-label="{{ 'customer.order.discount' | t }}">
+                      {{ 'customer.order.discount' | t }} — {{ discount_application.title }}
+                    </td>
+                    <td colspan="2" data-label="{{ 'customer.order.discount' | t }}" class="text-right">
+                      -{{ discount_application.total_allocated_amount | money }}
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              {%- endif -%}
+
+              {%- for shipping_method in order.shipping_methods -%}
+                <tr>
+                  <td colspan="3" class="main-order__hide-mobile" data-label="{{ 'customer.order.shipping' | t }}">
+                    {{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})
+                  </td>
+                  <td colspan="2" data-label="{{ 'customer.order.shipping' | t }}" class="text-right">
+                    {{ shipping_method.price | money }}
+                  </td>
+                </tr>
+              {%- endfor -%}
+
+              {%- for tax_line in order.tax_lines -%}
+                <tr>
+                  <td colspan="3" class="main-order__hide-mobile" data-label="{{ 'customer.order.tax' | t }}">
+                    {{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)
+                  </td>
+                  <td colspan="2" data-label="{{ 'customer.order.tax' | t }}" class="text-right">
+                    {{ tax_line.price | money }}
+                  </td>
+                </tr>
+              {%- endfor -%}
+
+              <tr>
+                <td colspan="3" class="main-order__hide-mobile" data-label="{{ 'customer.order.total' | t }}">
+                  {{ 'customer.order.total' | t }}
+                </td>
+                <td colspan="2" data-label="{{ 'customer.order.total' | t }}" class="text-right">
+                  {{ order.total_price | money }} {{ order.currency }}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="main-order__summary">
+          <div class="main-order__address-card">
+            <h3 class="h5">{{ 'customer.order.billing_address' | t }}</h3>
+            <div class="main-order__status-label">{{ 'customer.order.payment_status' | t }}</div>
+            <div class="main-order__status-value">{{ order.financial_status_label }}</div>
+            <p>
+              {{ order.billing_address.name }}<br>
+              {% if order.billing_address.company != blank %}{{ order.billing_address.company }}<br>{% endif %}
+              {{ order.billing_address.street }}<br>
+              {{ order.billing_address.city }}<br>
+              {% if order.billing_address.province != blank %}{{ order.billing_address.province }}<br>{% endif %}
+              {{ order.billing_address.zip | upcase }}<br>
+              {{ order.billing_address.country }}<br>
+              {% if order.billing_address.phone != blank %}{{ order.billing_address.phone }}{% endif %}
+            </p>
+          </div>
+
+          {%- if order.shipping_address != blank -%}
+            <div class="main-order__address-card">
+              <h3 class="h5">{{ 'customer.order.shipping_address' | t }}</h3>
+              <div class="main-order__status-label">{{ 'customer.order.fulfillment_status' | t }}</div>
+              <div class="main-order__status-value">{{ order.fulfillment_status_label }}</div>
+              <p>
+                {{ order.shipping_address.name }}<br>
+                {% if order.shipping_address.company != blank %}{{ order.shipping_address.company }}<br>{% endif %}
+                {{ order.shipping_address.street }}<br>
+                {{ order.shipping_address.city }}<br>
+                {% if order.shipping_address.province != blank %}{{ order.shipping_address.province }}<br>{% endif %}
+                {{ order.shipping_address.zip | upcase }}<br>
+                {{ order.shipping_address.country }}<br>
+                {% if order.shipping_address.phone != blank %}{{ order.shipping_address.phone }}{% endif %}
+              </p>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Order",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "Page"
+        },
+        {
+          "value": "full-width",
+          "label": "Full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Height",
+      "options": [
+        {
+          "value": "",
+          "label": "Auto"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "full-screen",
+          "label": "Full screen"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "placeholder": "Default"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

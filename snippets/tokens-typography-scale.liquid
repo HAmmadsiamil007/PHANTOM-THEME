@@ -1,0 +1,5 @@
+{%- capture font_sizes -%}
+  {%- for i in (1..6) -%}
+    --font-size-h{{ i }}: {{ settings.heading_scale | default: 100 }}%;
+  {%- endfor -%}
+{%- endcapture -%}

@@ -1,0 +1,86 @@
+{%- if collection -%}
+  {% render 'section-tokens', settings: section.settings, section_id: section.id %}
+  {% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+  {%- style -%}
+    #impulse-collection-return--{{ section.id }} {
+      padding-block: var(--padding-section);
+      text-align: center;
+    }
+
+    #impulse-collection-return--{{ section.id }} .impulse-collection-return__link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--gap-sm);
+      padding: 0.625rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-foreground);
+      text-decoration: none;
+      border: 1px solid rgb(var(--color-foreground-rgb) / 0.15);
+      border-radius: var(--style-border-radius);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    #impulse-collection-return--{{ section.id }} .impulse-collection-return__link:hover {
+      background: rgb(var(--color-foreground-rgb) / 0.05);
+      border-color: rgb(var(--color-foreground-rgb) / 0.3);
+    }
+
+    #impulse-collection-return--{{ section.id }} .impulse-collection-return__icon {
+      width: 1rem;
+      height: 0.5rem;
+      flex-shrink: 0;
+    }
+  {%- endstyle -%}
+
+  <div id="impulse-collection-return--{{ section.id }}" class="section section--{{ section.settings.section_width }}">
+    <div class="page-width">
+      <a href="{% if collection.handle == 'frontpage' %}/{% else %}{{ collection.url }}{% endif %}" class="impulse-collection-return__link">
+        <svg class="impulse-collection-return__icon" viewBox="0 0 50 15" fill="currentColor" aria-hidden="true" focusable="false">
+          <path d="M50 5.38v4.25H15V15L0 7.5 15 0v5.38Z"/>
+        </svg>
+        Back to {{ collection.title }}
+      </a>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection Return",
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Return"
+    }
+  ]
+}
+{% endschema %}

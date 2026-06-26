@@ -1,0 +1,241 @@
+{%- liquid
+  assign show_section = true
+  if template == 'index' and section.settings.hide_homepage
+    assign show_section = false
+  endif
+-%}
+
+{%- if show_section and section.blocks.size > 0 -%}
+  
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+{% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+  {%- liquid
+    assign grid_item_width = 'one-half'
+    if section.blocks.size == 3
+      assign grid_item_width = 'one-third'
+    endif
+  -%}
+
+  {%- style -%}
+    #impulse-footer-promotions--{{ section.id }} {
+      padding-block-start: var(--padding-section);
+      padding-block-end: var(--padding-section);
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__grid {
+      display: grid;
+      grid-template-columns: repeat({{ section.blocks.size | at_most: 3 }}, 1fr);
+      gap: var(--gap-lg);
+    }
+
+    @media screen and (max-width: 749px) {
+      #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__item {
+      text-align: center;
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__image-link {
+      display: block;
+      margin-block-end: var(--margin-md);
+      text-decoration: none;
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__image-wrap {
+      border-radius: var(--style-border-radius);
+      overflow: hidden;
+      aspect-ratio: {{ section.blocks.first.settings.image.aspect_ratio | default: 1.5 }};
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__title {
+      margin-block: var(--margin-xs) var(--margin-2xs);
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__text {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: rgb(var(--color-foreground-rgb) / 0.75);
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__button {
+      display: inline-block;
+      margin-block-start: var(--margin-sm);
+      padding: 0.5rem 1.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-foreground);
+      text-decoration: none;
+      border: 1px solid rgb(var(--color-foreground-rgb) / 0.2);
+      border-radius: var(--style-border-radius);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    #impulse-footer-promotions--{{ section.id }} .impulse-footer-promotions__button:hover {
+      background: rgb(var(--color-foreground-rgb) / 0.05);
+      border-color: rgb(var(--color-foreground-rgb) / 0.4);
+    }
+  {%- endstyle -%}
+
+  <div
+    id="impulse-footer-promotions--{{ section.id }}"
+    class="section section--{{ section.settings.section_width }} color-{{ section.settings.background_color }}"
+  >
+    <div class="page-width">
+      <div class="impulse-footer-promotions__grid">
+        {%- for block in section.blocks -%}
+          <div class="impulse-footer-promotions__item" {{ block.shopify_attributes }}>
+            {%- if block.settings.enable_image -%}
+              <a href="{{ block.settings.button_link }}" class="impulse-footer-promotions__image-link" aria-label="{{ block.settings.title }}">
+                {%- if block.settings.image != blank -%}
+                  <div class="impulse-footer-promotions__image-wrap">
+                    {% render 'image', image: block.settings.image, width: 600, class: 'impulse-footer-promotions__image', alt_text_fallback: block.settings.title %}
+                  </div>
+                {%- else -%}
+                  <div class="impulse-footer-promotions__image-wrap" style="background: rgb(var(--color-foreground-rgb) / 0.05); min-height: 200px; display: flex; align-items: center; justify-content: center;">
+                    <span style="opacity: 0.4;">{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}</span>
+                  </div>
+                {%- endif -%}
+              </a>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="impulse-footer-promotions__title h4">{{ block.settings.title }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.text != blank -%}
+              <div class="impulse-footer-promotions__text">{{ block.settings.text }}</div>
+            {%- endif -%}
+
+            {%- if block.settings.button_label != blank -%}
+              <a href="{{ block.settings.button_link }}" class="impulse-footer-promotions__button">
+                {{ block.settings.button_label }}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Footer Promotions",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "hide_homepage",
+      "label": "Hide on homepage",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Width",
+      "options": [
+        { "value": "page-width", "label": "Page" },
+        { "value": "full-width", "label": "Full" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "background_color",
+      "label": "Color scheme",
+      "options": [
+        { "value": "background-1", "label": "Default" },
+        { "value": "background-2", "label": "Alt" },
+        { "value": "inverse", "label": "Inverse" }
+      ],
+      "default": "background-1"
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "promotion",
+      "name": "Promotion",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_image",
+          "label": "Show image",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Free Returns"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Shop with confidence knowing you have 30 days to return your order.</p>"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer Promotions",
+      "blocks": [
+        { "type": "promotion" },
+        { "type": "promotion" },
+        { "type": "promotion" }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "custom.popups"]
+  }
+}
+{% endschema %}

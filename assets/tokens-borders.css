@@ -1,0 +1,15 @@
+:root {
+  --border-width-none: 0px;
+  --border-width-xs: 0.5px;
+  --border-width-sm: 1px;
+  --border-width-md: 2px;
+  --border-width-lg: 3px;
+  --border-width-xl: 4px;
+  --border-style-solid: solid;
+  --border-style-dashed: dashed;
+  --border-style-dotted: dotted;
+  --border-color-default: var(--color-border, #e5e7eb);
+  --border-color-light: rgba(0,0,0,0.08);
+  --border-color-dark: rgba(0,0,0,0.2);
+  --border-full: var(--border-width-sm) solid var(--border-color-default);
+}

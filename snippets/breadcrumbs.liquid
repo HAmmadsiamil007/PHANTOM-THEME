@@ -1,0 +1,104 @@
+{%- style -%}
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--gap-2xs);
+    padding: var(--padding-sm) 0;
+    font-size: var(--font-paragraph-small--size);
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+  }
+  .breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+    transition: opacity var(--duration-default) ease;
+  }
+  .breadcrumbs a:hover {
+    text-decoration: underline;
+    opacity: 1;
+    color: var(--color-foreground);
+  }
+  .breadcrumbs__divider {
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-20));
+    user-select: none;
+  }
+  .breadcrumbs__current {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-foreground);
+  }
+{%- endstyle -%}
+
+{%- unless template.name == 'index' or template.name == 'cart' -%}
+  <nav class="breadcrumbs page-width" role="navigation" aria-label="{{ 'general.breadcrumbs.title' | t | default: 'Breadcrumbs' }}">
+    <a href="{{ routes.root_url }}">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</a>
+
+    {%- if template.name == 'product' -%}
+      {%- if collection -%}
+        <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+        {%- if collection.handle -%}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+        {%- endif -%}
+      {%- endif -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ product.title }}</span>
+
+    {%- elsif template.name == 'collection' -%}
+      {%- if collection.handle -%}
+        <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+        {%- if current_tags -%}
+          <a href="{{ collection.url }}">{{ collection.title }}</a>
+          <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+          {%- for tag in current_tags -%}
+            {%- if tag contains '_' -%}
+              {%- assign tag_starts_with = tag | slice: 0 -%}
+              {%- if tag_starts_with == '_' -%}{%- continue -%}{%- endif -%}
+            {%- endif -%}
+            <span>{{ tag | capitalize }}</span>
+            {%- unless forloop.last -%}<span class="breadcrumbs__divider">+</span>{%- endunless -%}
+          {%- endfor -%}
+        {%- else -%}
+          <span class="breadcrumbs__current" aria-current="page">{{ collection.title }}</span>
+        {%- endif -%}
+      {%- endif -%}
+
+    {%- elsif template.name == 'blog' -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      {%- if current_tags -%}
+        <a href="{{ blog.url }}">{{ blog.title }}</a>
+        <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+        <span>{{ current_tags | join: ' + ' }}</span>
+      {%- else -%}
+        <span class="breadcrumbs__current" aria-current="page">{{ blog.title }}</span>
+      {%- endif -%}
+
+    {%- elsif template.name == 'article' -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ article.title }}</span>
+
+    {%- elsif template.name == 'page' -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ page.title }}</span>
+
+    {%- elsif template.name == 'search' -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ 'general.search.title' | t | default: 'Search' }}</span>
+
+    {%- elsif template.name == 'list-collections' -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ 'general.breadcrumbs.collections' | t | default: 'Collections' }}</span>
+
+    {%- elsif template contains 'customers/' -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <a href="{{ routes.account_url }}">{{ 'customer.account.title' | t | default: 'Account' }}</a>
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ page_title | default: template.name | remove: 'customers/' | capitalize }}</span>
+
+    {%- else -%}
+      <span class="breadcrumbs__divider" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">{{ page_title | default: template.name | capitalize }}</span>
+
+    {%- endif -%}
+  </nav>
+{%- endunless -%}

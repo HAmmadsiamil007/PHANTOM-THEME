@@ -1,0 +1,513 @@
+{%- style -%}
+  .main-login-section {
+    position: relative;
+  }
+  .main-login-section .form-floating .form-control {
+    border-radius: 10px;
+    padding: 0.875rem 1.125rem;
+    font-size: 0.9375rem;
+    border-width: 1.5px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .main-login-section .form-floating .form-control:focus {
+    box-shadow: 0 0 0 3px rgb(var(--color-primary-rgb, 0,0,0) / 10%);
+  }
+  .main-login-section .btn[type="submit"] {
+    border-radius: 10px;
+    padding: 0.875rem 2rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    transition: all 0.25s ease;
+  }
+  @media (any-pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .main-login-section .btn[type="submit"]:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgb(var(--color-primary-rgb, 0,0,0) / 20%);
+    }
+  }
+  .main-login-section .alert-success {
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    padding: 1rem 1.25rem;
+    border-width: 1.5px;
+  }
+  .main-login-section .login-card {
+    width: 100%;
+    max-width: 440px;
+  }
+{%- endstyle -%}
+
+{{ 'customer-auth.js' | asset_url | script_tag }}
+
+{% liquid
+  if section.settings.background_color != blank
+    render 'contrast-override', background_color: section.settings.background_color, section_id: section.id
+  endif
+%}
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+{% render 'section-visibility', settings: section.settings, section_id: section.id %}
+
+<div
+  class="section-background{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %} px-mobile-3"
+></div>
+<div
+  class="
+    section section--{{ section.settings.section_width }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %}
+    {% if section.settings.section_height != "" %} {{ section.settings.section_height | prepend: "section--height-" }}{% endif %}
+  "
+>
+  <div>
+    <div
+      class="
+        spacing-style
+        layout-panel-flex
+        layout-panel-flex--column
+        section-content-wrapper
+        mobile-column
+        main-login-section
+      "
+      style="
+        {% render 'layout-panel-style', settings: section.settings %}
+        {% render 'spacing-style', settings: section.settings %}
+      "
+    >
+      <div class="login-card">
+        {% liquid
+          assign is_login = false
+          assign is_register = false
+          assign is_reset = false
+          assign is_activate = false
+          if request.page_type == 'customers/login'
+            assign is_login = true
+          elsif request.page_type == 'customers/register'
+            assign is_register = true
+          elsif request.page_type == 'customers/reset_password'
+            assign is_reset = true
+          elsif request.page_type == 'customers/activate_account'
+            assign is_activate = true
+          endif
+        %}
+
+        {% if is_login %}
+          <div data-login-form>
+          {% form 'customer_login' %}
+            <h2 class="h4 mb-4">{{ 'customer.login.title' | t }}</h2>
+
+            {% if form.errors %}
+              <div class="alert alert-danger mb-4" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <div class="form-floating mb-4">
+              <input
+                id="login-email"
+                class="form-control"
+                type="email"
+                name="customer[email]"
+                value=""
+                placeholder="{{ 'customer.login.email' | t }}"
+                spellcheck="false"
+                autocapitalize="off"
+                autofocus
+                required
+              >
+              <label for="login-email">{{ 'customer.login.email' | t }}</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                id="login-password"
+                class="form-control"
+                type="password"
+                name="customer[password]"
+                value=""
+                placeholder="{{ 'customer.login.password' | t }}"
+                required
+              >
+              <label for="login-password">{{ 'customer.login.password' | t }}</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg w-100 btn-primary mb-3">
+              {{ 'customer.login.sign_in' | t }}
+            </button>
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <a href="#recover" class="small" data-recover-toggle>
+                {{ 'customer.login.forgot_password' | t }}
+              </a>
+              <a href="{{ routes.account_register_url }}" class="small">
+                {{ 'customer.login.create_account' | t }}
+              </a>
+            </div>
+          {% endform %}
+          </div>
+
+          <div data-recover-form class="d-none">
+          {% form 'recover_customer_password' %}
+            <h2 class="h4 mb-4">{{ 'customer.recover_password.title' | t }}</h2>
+            <p class="text-muted mb-4">{{ 'customer.recover_password.subtitle' | t }}</p>
+
+            {% if form.posted_successfully? %}
+              <p class="alert alert-success mb-4" role="alert">
+                {{ 'customer.recover_password.success' | t }}
+              </p>
+            {% endif %}
+
+            {% if form.errors %}
+              <div class="alert alert-danger mb-4" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <div class="form-floating mb-4">
+              <input
+                id="recover-email"
+                class="form-control"
+                type="email"
+                name="email"
+                value=""
+                placeholder="{{ 'customer.recover_password.email' | t }}"
+                spellcheck="false"
+                autocapitalize="off"
+                required
+              >
+              <label for="recover-email">{{ 'customer.recover_password.email' | t }}</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg w-100 btn-primary mb-3">
+              {{ 'customer.recover_password.submit' | t }}
+            </button>
+
+            <button type="button" class="btn btn-link small" data-cancel-recover>
+              {{ 'customer.recover_password.cancel' | t }}
+            </button>
+          {% endform %}
+          </div>
+        {% endif %}
+
+        {% if is_register %}
+          {% form 'create_customer' %}
+            <h2 class="h4 mb-4">{{ 'customer.register.title' | t }}</h2>
+
+            {% if form.errors %}
+              <div class="alert alert-danger mb-4" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <div class="form-floating mb-4">
+              <input
+                id="register-name"
+                class="form-control"
+                type="text"
+                name="customer[first_name]"
+                value=""
+                placeholder="{{ 'customer.register.name' | t }}"
+                autocomplete="given-name"
+                required
+              >
+              <label for="register-name">{{ 'customer.register.name' | t }}</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                id="register-email"
+                class="form-control"
+                type="email"
+                name="customer[email]"
+                value=""
+                placeholder="{{ 'customer.register.email' | t }}"
+                spellcheck="false"
+                autocapitalize="off"
+                required
+              >
+              <label for="register-email">{{ 'customer.register.email' | t }}</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                id="register-password"
+                class="form-control"
+                type="password"
+                name="customer[password]"
+                value=""
+                placeholder="{{ 'customer.register.password' | t }}"
+                required
+              >
+              <label for="register-password">{{ 'customer.register.password' | t }}</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg w-100 btn-primary mb-3">
+              {{ 'customer.register.submit' | t }}
+            </button>
+
+            <a href="{{ routes.account_login_url }}" class="small">
+              {{ 'customer.register.login_link' | t }}
+            </a>
+          {% endform %}
+        {% endif %}
+
+        {% if is_reset %}
+          {% form 'reset_customer_password' %}
+            <h2 class="h4 mb-4">{{ 'customer.reset_password.title' | t }}</h2>
+
+            {% if form.errors %}
+              <div class="alert alert-danger mb-4" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <input type="hidden" name="customer[reset_password_id]" value="{{ form.reset_password_id }}">
+
+            <div class="form-floating mb-4">
+              <input
+                id="reset-password"
+                class="form-control"
+                type="password"
+                name="customer[password]"
+                value=""
+                placeholder="{{ 'customer.reset_password.password' | t }}"
+                required
+              >
+              <label for="reset-password">{{ 'customer.reset_password.password' | t }}</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                id="reset-password-confirm"
+                class="form-control"
+                type="password"
+                name="customer[password_confirmation]"
+                value=""
+                placeholder="{{ 'customer.reset_password.password_confirm' | t }}"
+                required
+              >
+              <label for="reset-password-confirm">{{ 'customer.reset_password.password_confirm' | t }}</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg w-100 btn-primary">
+              {{ 'customer.reset_password.submit' | t }}
+            </button>
+          {% endform %}
+        {% endif %}
+
+        {% if is_activate %}
+          {% form 'activate_customer_password' %}
+            <h2 class="h4 mb-4">{{ 'customer.activate_account.title' | t }}</h2>
+            <p class="text-muted mb-4">{{ 'customer.activate_account.subtitle' | t }}</p>
+
+            {% if form.errors %}
+              <div class="alert alert-danger mb-4" role="alert">
+                {{ form.errors | default_errors }}
+              </div>
+            {% endif %}
+
+            <div class="form-floating mb-4">
+              <input
+                id="activate-password"
+                class="form-control"
+                type="password"
+                name="customer[password]"
+                value=""
+                placeholder="{{ 'customer.activate_account.password' | t }}"
+                required
+              >
+              <label for="activate-password">{{ 'customer.activate_account.password' | t }}</label>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input
+                id="activate-password-confirm"
+                class="form-control"
+                type="password"
+                name="customer[password_confirmation]"
+                value=""
+                placeholder="{{ 'customer.activate_account.password_confirm' | t }}"
+                required
+              >
+              <label for="activate-password-confirm">{{ 'customer.activate_account.password_confirm' | t }}</label>
+            </div>
+
+            <button type="submit" class="btn btn-lg w-100 btn-primary">
+              {{ 'customer.activate_account.submit' | t }}
+            </button>
+          {% endform %}
+        {% endif %}
+      </div>
+
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:names.main_login",
+  "class": "section-wrapper",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    },
+    {
+      "type": "_divider"
+    }
+  ],
+  "settings": [
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "t:settings.width",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:options.page"
+        },
+        {
+          "value": "full-width",
+          "label": "t:options.full"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "t:settings.height",
+      "options": [
+        {
+          "value": "",
+          "label": "t:options.auto"
+        },
+        {
+          "value": "small",
+          "label": "t:options.small"
+        },
+        {
+          "value": "medium",
+          "label": "t:options.medium"
+        },
+        {
+          "value": "large",
+          "label": "t:options.large"
+        },
+        {
+          "value": "full-screen",
+          "label": "t:options.full_screen"
+        }
+      ],
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "t:settings.background_color",
+      "placeholder": "t:settings.default"
+    },
+    {
+      "type": "header",
+      "content": "t:content.padding"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "t:settings.top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "t:settings.bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font",
+      "options": [
+        { "value": "", "label": "Global default" },
+        { "value": "var(--font-heading--family)", "label": "Heading font" },
+        { "value": "var(--font-body--family)", "label": "Body font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

@@ -1,0 +1,324 @@
+{%- liquid
+  assign section_id = section.id
+  assign product_variant = product.selected_or_first_available_variant
+  assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true
+-%}
+
+{% render 'section-tokens', settings: section.settings, section_id: section_id %}
+{% render 'section-visibility', settings: section.settings, section_id: section_id %}
+
+{%- style -%}
+  #impulse-store-availability--{{ section_id }} .store-availability {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 0;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability .icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    margin-top: 3px;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability .icon-in-stock path {
+    fill: #22c55e;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability .icon-out-of-stock path {
+    fill: #ef4444;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability__info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability__small {
+    margin: 4px 0 0;
+    font-size: 0.85em;
+    opacity: 0.75;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability__small--link a {
+    color: var(--color-link, #0066cc);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  #impulse-store-availability--{{ section_id }} .store-availability__small--link a:hover {
+    text-decoration: none;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 400px;
+    background: #fff;
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+    overflow-y: auto;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer.is-open {
+    transform: translateX(0);
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__title {
+    font-weight: 600;
+    font-size: 1.1em;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__variant {
+    font-size: 0.85em;
+    opacity: 0.7;
+    margin-top: 2px;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    color: #000;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__body {
+    padding: 20px;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__item {
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__item:last-child {
+    border-bottom: none;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__item-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__item-address {
+    font-size: 0.85em;
+    opacity: 0.75;
+    margin-top: 4px;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer__item-address p {
+    margin: 2px 0;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  #impulse-store-availability--{{ section_id }} .impulse-store-drawer-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+{%- endstyle -%}
+
+{%- if pick_up_availabilities.size > 0 -%}
+  {%- assign closest_location = pick_up_availabilities.first -%}
+
+  <div
+    id="impulse-store-availability--{{ section_id }}"
+    class="impulse-store-availability"
+    data-section-type="store-availability"
+    data-section-id="{{ section_id }}"
+  >
+    <div class="store-availability">
+      {%- if closest_location.available -%}
+        <svg aria-hidden="true" focusable="false" class="icon icon-in-stock" viewBox="0 0 12 10">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="m3.293 9.707-3-3a1 1 0 0 1 1.414-1.414l2.236 2.236 6.298-7.18a1 1 0 0 1 1.518 1.3l-7 8a1 1 0 0 1-.72.35 1.017 1.017 0 0 1-.746-.292z"/>
+        </svg>
+      {%- else -%}
+        <svg aria-hidden="true" focusable="false" class="icon icon-out-of-stock" viewBox="0 0 12 13">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="m7.414 6.5 4.293-4.293A1 1 0 1 0 10.293.793L6 5.086 1.707.793A1 1 0 1 0 .293 2.207L4.586 6.5.293 10.793a1 1 0 1 0 1.414 1.414L6 7.914l4.293 4.293a.997.997 0 0 0 1.414 0 1 1 0 0 0 0-1.414z"/>
+        </svg>
+      {%- endif -%}
+
+      <div class="store-availability__info">
+        {%- if closest_location.available -%}
+          <div>
+            Pickup available at {{ closest_location.location.name }}
+          </div>
+          <p class="store-availability__small">
+            {{ closest_location.pick_up_time }}
+          </p>
+          <p class="store-availability__small store-availability__small--link">
+            <a href="#" class="js-drawer-open-availability" data-drawer-open="{{ section_id }}">
+              {%- if pick_up_availabilities.size == 1 -%}
+                View store info
+              {%- else -%}
+                Check availability at other stores
+              {%- endif -%}
+            </a>
+          </p>
+        {%- else -%}
+          <p>
+            Pickup currently unavailable at {{ closest_location.location.name }}
+          </p>
+          {%- if pick_up_availabilities.size > 1 -%}
+            <p class="store-availability__small store-availability__small--link">
+              <a href="#" class="js-drawer-open-availability" data-drawer-open="{{ section_id }}">
+                Check availability at other stores
+              </a>
+            </p>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="impulse-store-drawer-overlay" data-drawer-overlay="{{ section_id }}"></div>
+
+    <div class="impulse-store-drawer" data-drawer="{{ section_id }}" role="dialog" aria-modal="true" aria-label="Store availability">
+      <div class="impulse-store-drawer__header">
+        <div>
+          <div class="impulse-store-drawer__title" data-availability-product-title>{{ product.title }}</div>
+          {%- unless product_variant.title == 'Default Title' -%}
+            <div class="impulse-store-drawer__variant">{{ product_variant.title }}</div>
+          {%- endunless -%}
+        </div>
+        <button type="button" class="impulse-store-drawer__close" data-drawer-close="{{ section_id }}" aria-label="Close">
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="impulse-store-drawer__body">
+        {%- for availability in pick_up_availabilities -%}
+          <div class="impulse-store-drawer__item store-availability">
+            {%- if availability.available -%}
+              <svg aria-hidden="true" focusable="false" class="icon icon-in-stock" viewBox="0 0 12 10">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="m3.293 9.707-3-3a1 1 0 0 1 1.414-1.414l2.236 2.236 6.298-7.18a1 1 0 0 1 1.518 1.3l-7 8a1 1 0 0 1-.72.35 1.017 1.017 0 0 1-.746-.292z"/>
+              </svg>
+            {%- else -%}
+              <svg aria-hidden="true" focusable="false" class="icon icon-out-of-stock" viewBox="0 0 12 13">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="m7.414 6.5 4.293-4.293A1 1 0 1 0 10.293.793L6 5.086 1.707.793A1 1 0 1 0 .293 2.207L4.586 6.5.293 10.793a1 1 0 1 0 1.414 1.414L6 7.914l4.293 4.293a.997.997 0 0 0 1.414 0 1 1 0 0 0 0-1.414z"/>
+              </svg>
+            {%- endif -%}
+
+            <div class="store-availability__info">
+              <div class="impulse-store-drawer__item-name">{{ availability.location.name }}</div>
+              <p class="store-availability__small">
+                {%- if availability.available -%}
+                  Pickup available, {{ availability.pick_up_time | downcase }}
+                {%- else -%}
+                  Pickup currently unavailable
+                {%- endif -%}
+              </p>
+              {%- assign address = availability.location.address -%}
+              <div class="impulse-store-drawer__item-address">
+                {{ address | format_address }}
+                {%- if address.phone.size > 0 -%}
+                  <p>{{ address.phone }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+{%- endif -%}
+
+{%- javascript -%}
+  (function() {
+    var section = document.getElementById('impulse-store-availability--{{ section_id }}');
+    if (!section) return;
+
+    var openBtn = section.querySelector('.js-drawer-open-availability');
+    var drawer = section.querySelector('[data-drawer="{{ section_id }}"]');
+    var overlay = section.querySelector('[data-drawer-overlay="{{ section_id }}"]');
+    var closeBtn = section.querySelector('[data-drawer-close="{{ section_id }}"]');
+
+    function openDrawer(e) {
+      e.preventDefault();
+      drawer.classList.add('is-open');
+      overlay.classList.add('is-visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      drawer.classList.remove('is-open');
+      overlay.classList.remove('is-visible');
+      document.body.style.overflow = '';
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (overlay) overlay.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+        closeDrawer();
+      }
+    });
+  })();
+{%- endjavascript -%}
+
+{% schema %}
+{
+  "name": "Store availability",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Store availability",
+      "category": "Product"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

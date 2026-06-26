@@ -1,0 +1,259 @@
+{%- liquid
+  assign section_id = section.id
+  assign video_url = section.settings.video_url
+  assign title = section.settings.title
+  assign full_width = section.settings.full_width
+  assign max_width = section.settings.max_width
+-%}
+
+{% render 'section-tokens', settings: section.settings, section_id: section_id %}
+{% render 'section-visibility', settings: section.settings, section_id: section_id %}
+
+{%- style -%}
+  #impulse-featured-video--{{ section_id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #impulse-featured-video--{{ section_id }} .featured-video__header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  #impulse-featured-video--{{ section_id }} .featured-video__title {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  #impulse-featured-video--{{ section_id }} .featured-video__wrapper {
+    position: relative;
+    width: 100%;
+    max-width: {{ max_width }}px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #000;
+    border-radius: 4px;
+  }
+
+  #impulse-featured-video--{{ section_id }} .featured-video__wrapper iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    display: block;
+    border: 0;
+  }
+
+  #impulse-featured-video--{{ section_id }} .featured-video__placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9em;
+  }
+
+  @media screen and (max-width: 768px) {
+    #impulse-featured-video--{{ section_id }} {
+      padding-top: {{ section.settings.padding_top_mobile | default: section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile | default: section.settings.padding_bottom }}px;
+    }
+
+    #impulse-featured-video--{{ section_id }} .featured-video__title {
+      font-size: 1.25em;
+    }
+  }
+{%- endstyle -%}
+
+<div
+  id="impulse-featured-video--{{ section_id }}"
+  class="impulse-featured-video{% if full_width %} impulse-featured-video--full-width{% endif %}"
+  data-section-type="featured-video"
+  data-section-id="{{ section_id }}"
+>
+  <{% if full_width %}div{% else %}div class="page-width"{% endif %}>
+    {%- if title != blank -%}
+      <div class="featured-video__header">
+        <h2 class="featured-video__title">{{ title }}</h2>
+      </div>
+    {%- endif -%}
+
+    <div class="featured-video__wrapper">
+      {%- if video_url == blank -%}
+        <div class="featured-video__placeholder">
+          Select a video in the theme editor
+        </div>
+      {%- else -%}
+        {%- if video_url.type == "youtube" -%}
+          <iframe
+            src="//www.youtube.com/embed/{{ video_url.id }}?rel=0&showinfo=0&vq=720"
+            allowfullscreen
+            loading="lazy"
+            title="{{ title | default: 'Featured video' }}"
+          ></iframe>
+        {%- endif -%}
+        {%- if video_url.type == "vimeo" -%}
+          <iframe
+            src="//player.vimeo.com/video/{{ video_url.id }}?byline=0&portrait=0&badge=0"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+            title="{{ title | default: 'Featured video' }}"
+          ></iframe>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </{% if full_width %}div{% else %}div{% endif %}>
+</div>
+
+{% schema %}
+{
+  "name": "Featured video",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured video"
+    },
+    {
+      "type": "video_url",
+      "id": "video_url",
+      "label": "Video URL",
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "accept": ["youtube", "vimeo"]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Video max width (px)",
+      "default": 850,
+      "min": 400,
+      "max": 1400,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding — desktop",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Top padding — mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Bottom padding — mobile",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "default": 24,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Visibility"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_mobile",
+      "label": "Hide on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_desktop",
+      "label": "Hide on desktop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured video",
+      "category": "Video"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

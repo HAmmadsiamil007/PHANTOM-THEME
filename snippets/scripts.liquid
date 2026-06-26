@@ -257,6 +257,18 @@
   fetchpriority="low"
 ></script>
 
+{# Skeleton UI — animated loading placeholders #}
+<script
+  src="{{ 'skeleton-ui.js' | asset_url }}"
+  defer
+></script>
+
+{# Mobile touch optimizations #}
+<script
+  src="{{ 'mobile-touch.js' | asset_url }}"
+  defer
+></script>
+
 {% if localization.available_countries.size > 1 or localization.available_languages.size > 1 %}
   <script
     src="{{ 'localization.js' | asset_url }}"
