@@ -1,0 +1,76 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       THEME PRESETS
+       Predefined visual style configurations
+       ═══════════════════════════════════════════════════ */
+
+    /* ── Active theme preset ────────────────────────── */
+    --theme-preset: 'default';
+    --theme-density: 'default';
+    --theme-mode: 'light';
+
+    /* ── Density presets ────────────────────────────── */
+    /* Compact */
+    --density-compact-spacing: var(--spacing-scale-sm);
+    --density-compact-gap: var(--space-2);
+    --density-compact-padding: var(--space-3);
+    --density-compact-font-size: var(--text-sm);
+
+    /* Default */
+    --density-default-spacing: var(--spacing-scale-default);
+    --density-default-gap: var(--space-4);
+    --density-default-padding: var(--space-4);
+    --density-default-font-size: var(--text-base);
+
+    /* Comfortable */
+    --density-comfortable-spacing: 1.3;
+    --density-comfortable-gap: var(--space-6);
+    --density-comfortable-padding: var(--space-6);
+    --density-comfortable-font-size: var(--text-md);
+
+    /* ── Contrast presets ───────────────────────────── */
+    --contrast-default: 1;
+    --contrast-high: 1.15;
+    --contrast-max: 1.3;
+
+    /* ── Border radius presets ──────────────────────── */
+    --preset-radius-sharp: var(--radius-none);
+    --preset-radius-subtle: var(--radius-sm);
+    --preset-radius-rounded: var(--radius-lg);
+    --preset-radius-pill: var(--radius-full);
+
+    /* ── Shadow presets ─────────────────────────────── */
+    --preset-shadow-none: none;
+    --preset-shadow-subtle: var(--shadow-sm);
+    --preset-shadow-medium: var(--shadow-md);
+    --preset-shadow-strong: var(--shadow-xl);
+
+    /* ── Font case presets ──────────────────────────── */
+    --preset-case-default: none;
+    --preset-case-uppercase: uppercase;
+    --preset-case-lowercase: lowercase;
+    --preset-case-capitalize: capitalize;
+
+    /* ── Page width presets ─────────────────────────── */
+    --preset-width-narrow: var(--page-width-narrow);
+    --preset-width-normal: var(--page-width-normal);
+    --preset-width-wide: var(--page-width-wide);
+
+    /* ── Button radius presets ──────────────────────── */
+    --preset-button-sharp: var(--radius-none);
+    --preset-button-slight: var(--radius-sm);
+    --preset-button-rounded: var(--radius-lg);
+    --preset-button-pill: var(--radius-full);
+
+    /* ── Card hover effect presets ──────────────────── */
+    --preset-card-hover-none: none;
+    --preset-card-hover-lift: translateY(calc(-1 * var(--elevation-hover-offset, 4px)));
+    --preset-card-hover-scale: scale(var(--elevation-hover-scale, 1.03));
+    --preset-card-hover-subtle-zoom: scale(var(--elevation-hover-subtle-zoom, 1.015));
+
+    /* ── Shape presets ──────────────────────────────── */
+    --shape--circle: circle(50% at center);
+    --shape--diamond: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+{% endstyle %}

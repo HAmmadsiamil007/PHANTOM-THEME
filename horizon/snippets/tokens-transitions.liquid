@@ -1,0 +1,66 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       TRANSITION TOKENS
+       Pre-composed transition shorthand values
+       ═══════════════════════════════════════════════════ */
+
+    /* Property-specific transitions */
+    --transition-color: color var(--duration-normal) var(--ease-out);
+    --transition-bg: background-color var(--duration-normal) var(--ease-out);
+    --transform-transition: transform var(--duration-normal) var(--ease-out);
+    --transition-opacity: opacity var(--duration-normal) var(--ease-out);
+    --transition-border: border-color var(--duration-normal) var(--ease-out);
+    --transition-shadow: box-shadow var(--duration-normal) var(--ease-out);
+    --transition-filter: filter var(--duration-normal) var(--ease-out);
+    --transition-all: all var(--duration-normal) var(--ease-out);
+
+    /* Combined transitions */
+    --transition-colors: color var(--duration-normal) var(--ease-out),
+                          background-color var(--duration-normal) var(--ease-out),
+                          border-color var(--duration-normal) var(--ease-out),
+                          box-shadow var(--duration-normal) var(--ease-out);
+
+    --transition-elevate: transform var(--duration-normal) var(--ease-out),
+                           box-shadow var(--duration-normal) var(--ease-out);
+
+    --transition-enter: opacity var(--duration-slower) var(--ease-out-quart),
+                         transform var(--duration-slower) var(--ease-out-quart);
+
+    --transition-exit: opacity var(--duration-slow) var(--ease-fade-out),
+                        transform var(--duration-slow) var(--ease-fade-out);
+
+    --transition-expand: max-height var(--duration-slower) var(--ease-out-quart),
+                          opacity var(--duration-normal) var(--ease-out);
+
+    /* Hover transitions (used in hover effects) */
+    --transition-hover: transform var(--duration-slow) var(--ease-hover),
+                         box-shadow var(--duration-slow) var(--ease-hover);
+
+    --transition-hover-lift: transform var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out),
+                              box-shadow var(--hover-transition-duration, 0.25s) var(--hover-transition-timing, ease-out);
+
+    /* Card hover transitions */
+    --transition-card: transform 0.3s var(--ease-out-quart),
+                        box-shadow 0.3s var(--ease-out-quart);
+
+    --transition-card-image: transform 0.5s var(--ease-out-quart);
+
+    /* Surface transition */
+    --transition-surface: background-color var(--surface-transition-duration, 0.3s) var(--surface-transition-timing, var(--ease-out-quad));
+
+    /* View transitions */
+    --view-transition-old-main-content: var(--duration-fast) var(--ease-in-out) both fadeOut;
+    --view-transition-new-main-content: var(--duration-fast) var(--ease-in-out) both fadeIn,
+                                        var(--duration-fast) var(--ease-in-out) both slideInTopViewTransition;
+
+    /* Dialog/Modal transitions */
+    --transition-dialog-enter: opacity var(--duration-slower) var(--ease-out-quart),
+                                transform var(--duration-slower) var(--ease-out-quart);
+    --transition-dialog-exit: opacity var(--duration-fast) var(--ease-in),
+                               transform var(--duration-fast) var(--ease-in);
+
+    /* Backdrop filter transition */
+    --transition-backdrop: backdrop-filter var(--duration-normal) var(--ease-in-out);
+  }
+{% endstyle %}

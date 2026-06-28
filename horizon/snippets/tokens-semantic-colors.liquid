@@ -1,0 +1,77 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════════
+       SEMANTIC COLOR TOKENS
+       Maps functional roles to actual color values.
+       Allows theme switching without changing component code.
+       ═══════════════════════════════════════════════════════ */
+
+    /* ── Brand colors ─────────────────────────────────── */
+    --color-brand: var(--color-foreground);
+    --color-brand-rgb: var(--color-foreground-rgb);
+    --color-brand-subtle: rgb(var(--color-foreground-rgb) / 0.1);
+    --color-brand-light: rgb(var(--color-foreground-rgb) / 0.7);
+
+    /* ── Surface / Background ─────────────────────────── */
+    --surface-primary: var(--color-background);
+    --surface-primary-rgb: var(--color-background-rgb);
+    --surface-secondary: rgb(var(--color-foreground-rgb) / 0.05);
+    --surface-tertiary: rgb(var(--color-foreground-rgb) / 0.02);
+    --surface-inverse: var(--color-foreground);
+    --surface-brand: rgb(var(--color-foreground-rgb) / 0.08);
+
+    /* ── Text / On-surface ────────────────────────────── */
+    --text-primary: var(--color-foreground);
+    --text-primary-rgb: var(--color-foreground-rgb);
+    --text-secondary: rgb(var(--color-foreground-rgb) / 0.7);
+    --text-tertiary: rgb(var(--color-foreground-rgb) / 0.5);
+    --text-disabled: rgb(var(--color-foreground-rgb) / 0.3);
+    --text-inverse: var(--color-background);
+    --text-on-brand: var(--color-background);
+    --text-link: var(--color-foreground);
+    --text-link-hover: rgb(var(--color-foreground-rgb) / 0.7);
+
+    /* ── Borders / Dividers ───────────────────────────── */
+    --border-primary: rgb(var(--color-foreground-rgb) / 0.2);
+    --border-secondary: rgb(var(--color-foreground-rgb) / 0.1);
+    --border-tertiary: rgb(var(--color-foreground-rgb) / 0.05);
+    --border-brand: var(--color-foreground);
+    --border-inverse: rgb(255 255 255 / 0.3);
+    --border-focus: var(--color-foreground);
+
+    /* ── Interactive / States ──────────────────────────── */
+    --interactive-primary: var(--color-primary-button-background);
+    --interactive-primary-text: var(--color-primary-button-text);
+    --interactive-primary-hover: var(--color-primary-button-hover-background);
+    --interactive-primary-hover-text: var(--color-primary-button-hover-text);
+    --interactive-secondary: var(--color-secondary-button-background);
+    --interactive-secondary-text: var(--color-secondary-button-text);
+    --interactive-secondary-hover: var(--color-secondary-button-hover-background);
+    --interactive-secondary-hover-text: var(--color-secondary-button-hover-text);
+
+    /* ── Feedback / Status ────────────────────────────── */
+    --color-success: #198754;
+    --color-success-subtle: rgb(25 135 84 / 0.1);
+    --color-success-border: rgb(25 135 84 / 0.3);
+    --color-warning: #ffc107;
+    --color-warning-subtle: rgb(255 193 7 / 0.1);
+    --color-warning-border: rgb(255 193 7 / 0.3);
+    --color-error: #dc3545;
+    --color-error-subtle: rgb(220 53 69 / 0.1);
+    --color-error-border: rgb(220 53 69 / 0.3);
+    --color-info: #0dcaf0;
+    --color-info-subtle: rgb(13 202 240 / 0.1);
+    --color-info-border: rgb(13 202 240 / 0.3);
+
+    /* ── Stock status ─────────────────────────────────── */
+    --color-instock: #3ED660;
+    --color-lowstock: #EE9441;
+    --color-outofstock: #C8C8C8;
+
+    /* ── Overlay ──────────────────────────────────────── */
+    --overlay-light: rgb(0 0 0 / 0.15);
+    --overlay-medium: rgb(0 0 0 / 0.45);
+    --overlay-heavy: rgb(0 0 0 / 0.65);
+    --overlay-scrim: rgb(0 0 0 / 0.5);
+  }
+{% endstyle %}

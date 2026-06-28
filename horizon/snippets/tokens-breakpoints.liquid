@@ -1,0 +1,56 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       BREAKPOINTS
+       Responsive breakpoint reference tokens
+       (Media queries cannot use CSS vars — these are
+        documentation & JS reference values)
+       ═══════════════════════════════════════════════════ */
+
+    /* Note: CSS custom properties cannot be used in @media queries.
+       These serve as reference and for use in ResizeObserver/JS contexts. */
+    --bp-xs: 375px;    /* Small phone */
+    --bp-sm: 576px;    /* Large phone */
+    --bp-md: 750px;    /* Tablet portrait */
+    --bp-lg: 990px;    /* Tablet landscape / small desktop */
+    --bp-xl: 1200px;   /* Desktop */
+    --bp-2xl: 1400px;  /* Wide desktop */
+    --bp-3xl: 1600px;  /* Ultra-wide */
+
+    /* Boolean breakpoint flags (set via JS in utilities.js) */
+    --is-mobile: 1;
+    --is-tablet: 0;
+    --is-desktop: 0;
+
+    /* Responsive spacing modifier */
+    --spacing-scale: var(--spacing-scale-md);
+
+    /* Responsive page margin */
+    --page-margin: 16px;
+  }
+
+  /* Tablet (750px+) */
+  @media screen and (min-width: 750px) {
+    :root {
+      --page-margin: 40px;
+      --is-mobile: 0;
+      --is-tablet: 1;
+    }
+  }
+
+  /* Desktop (990px+) */
+  @media screen and (min-width: 990px) {
+    :root {
+      --spacing-scale: var(--spacing-scale-default);
+      --is-tablet: 0;
+      --is-desktop: 1;
+    }
+  }
+
+  /* Wide desktop (1400px+) */
+  @media screen and (min-width: 1400px) {
+    :root {
+      --page-margin: 60px;
+    }
+  }
+{% endstyle %}

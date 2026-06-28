@@ -1,0 +1,54 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       Z-INDEX LAYERS
+       Semantic layering system — avoid arbitrary values
+       ═══════════════════════════════════════════════════ */
+
+    /* Base layer (content) */
+    --z-section-background: -2;
+    --z-lowest: -1;
+    --z-base: 0;
+    --z-flat: 1;
+    --z-raised: 2;
+    --z-heightened: 4;
+
+    /* Navigation & headers */
+    --z-sticky: 10;
+    --z-nav: 20;
+    --z-header: 30;
+    --z-header-menu: 40;
+    --z-mobile-nav: 50;
+
+    /* Overlays */
+    --z-overlay: 100;
+    --z-menu-drawer: 150;
+    --z-drawer: 200;
+    --z-sidebar: 250;
+
+    /* Modal system */
+    --z-modal-backdrop: 300;
+    --z-modal: 400;
+    --z-popover: 500;
+    --z-dropdown: 600;
+    --z-tooltip: 700;
+
+    /* Notifications */
+    --z-toast: 800;
+    --z-badge: 900;
+
+    /* Top layer */
+    --z-temporary: 1000;
+    --z-max: 9999;
+
+    /* Animation layer */
+    --z-fly-to-cart: calc(infinity);
+
+    /* Facets */
+    --z-facets-open: 10;
+    --z-facets-header: 15;
+
+    /* Scrollable regions */
+    --z-scroll-container: 1;
+  }
+{% endstyle %}

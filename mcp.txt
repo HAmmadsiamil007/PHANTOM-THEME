@@ -1,0 +1,353 @@
+# MCP Inventory — Phantom Shopify Theme Agent
+
+This file is the **authoritative reference** for all available tools (MCP servers, CLI tools, installed skills) in this project. AGENTS.md directs the agent to read this file at session start.
+
+---
+
+## 1. Project Structure
+
+```
+C:\Users\hammad\Downloads\uiux\
+├── AGENTS.md              # Behavioral prompt (single session-start activation)
+├── mcp.txt                # This file — tool inventory & reference
+├── .agents\skills\        # 44 project-installed skills
+│   ├── anthropic-skills\  # 17 sub-skills (see §3.3)
+│   ├── cavecrew\          # Caveman crew: README.md + SKILL.md
+│   ├── caveman\            # Caveman compression mode (ultra-compact responses)
+│   ├── caveman-commit\     # Caveman for git commits
+│   ├── caveman-compress\   # Caveman file compression
+│   ├── caveman-help\       # Caveman help system
+│   ├── caveman-review\     # Caveman code review
+│   ├── caveman-stats\      # Caveman usage statistics
+│   ├── impeccable\         # UI polish, audit, quality gates (always loaded)
+│   ├── ui-ux-pro-max\      # Premium design system / UI/UX
+│   ├── ui-ux-pro-max-skill\ # (symlink/placeholder — no SKILL.md)
+│   ├── taste-design\       # Semantic design system (from global)
+│   ├── taste-skill\        # Anti-slop frontend design (1206 lines)
+│   ├── frontend-design\    # Frontend component design patterns
+│   ├── banner-design\      # Banner/hero/card design
+│   ├── brand\              # Brand identity and logo design
+│   ├── design\             # Page layout and wireframing
+│   ├── design-system\      # Design system tokens and patterns
+│   ├── design-motion-principles\  # Animation and motion design
+│   ├── slides\             # Presentation/slide deck design
+│   ├── ui-styling\         # CSS styling and theming
+│   ├── GSAP skill\         # GSAP animation — tweens, timelines, ScrollTrigger
+│   ├── Responsive UI skill\ # Mobile-first responsive layout patterns
+│   ├── loop-engineering\    # Quality iteration loops — generate, review, improve, exit
+│   ├── ui-ux-pro-max-skill\ # Premium design system (from global ui-ux-pro-max)
+│   ├── ucp\                # Universal Commerce Protocol skills
+│   ├── shopify-admin\      # Admin GraphQL queries/mutations
+│   ├── shopify-app-store-review\ # App Store pre-submission check
+│   ├── shopify-custom-data\ # Metafields and Metaobjects
+│   ├── shopify-customer\    # Customer Account API
+│   ├── shopify-dev\         # General Shopify developer docs
+│   ├── shopify-functions\   # Shopify Functions (discount, validation, etc.)
+│   ├── shopify-hydrogen\    # Hydrogen storefront framework
+│   ├── shopify-liquid\      # Liquid templating language
+│   ├── shopify-onboarding-dev\ # Developer onboarding
+│   ├── shopify-onboarding-merchant\ # Merchant store setup
+│   ├── shopify-partner\     # Partner API
+│   ├── shopify-payments-apps\ # Payments Apps API
+│   ├── shopify-polaris-admin-extensions\ # Admin UI Extensions
+│   ├── shopify-polaris-app-home\ # Embedded app UI / Polaris
+│   ├── shopify-polaris-checkout-extensions\ # Checkout Extensions
+│   ├── shopify-polaris-customer-account-extensions\ # Customer Account Extensions
+│   ├── shopify-pos-ui\      # POS UI components
+│   ├── shopify-storefront-graphql\ # Storefront GraphQL API
+│   └── shopify-use-shopify-cli\ # Shopify CLI operations
+├── .opencode\             # OpenCode config
+├── .config\opencode\skips # (global skill find-skills)
+├── layouts\               # Shopify theme layouts
+├── sections\              # Shopify theme sections
+├── snippets\              # Shopify theme snippets
+├── templates\             # Shopify theme templates
+├── assets\                # Theme assets (CSS, JS, images)
+└── config\                # Theme settings
+```
+
+### 1.1 User Home Skills (~/.agents/skills/)
+
+Additional global skills referenced by AGENTS.md. These are NOT in the project .agents/skills/ but are globally installed and loadable via the `skill` tool:
+
+| Skill | Path |
+|-------|------|
+| accessibility-compliance-accessibility-audit | ~/.agents/skills/accessibility-compliance-accessibility-audit/SKILL.md |
+| color-expert | ~/.agents/skills/color-expert/SKILL.md |
+| fixing-accessibility | ~/.agents/skills/fixing-accessibility/SKILL.md |
+| gradient | ~/.agents/skills/gradient/SKILL.md |
+| mobile-responsiveness | ~/.agents/skills/mobile-responsiveness/SKILL.md |
+| seo-audit | ~/.agents/skills/seo-audit/SKILL.md |
+| remotion | ~/.agents/skills/remotion/SKILL.md |
+| remotion-best-practices | ~/.agents/skills/remotion-best-practices/SKILL.md |
+| local-legal-seo-audit | ~/.agents/skills/local-legal-seo-audit/SKILL.md |
+| stitch-code-to-design | ~/.agents/skills/stitch-code-to-design/SKILL.md |
+| stitch-design-taste | ~/.agents/skills/stitch-design-taste/SKILL.md |
+| stitch-extract-design-md | ~/.agents/skills/stitch-extract-design-md/SKILL.md |
+| stitch-extract-static-html | ~/.agents/skills/stitch-extract-static-html/SKILL.md |
+| stitch-generate-design | ~/.agents/skills/stitch-generate-design/SKILL.md |
+| stitch-loop | ~/.agents/skills/stitch-loop/SKILL.md |
+| stitch-manage-design-system | ~/.agents/skills/stitch-manage-design-system/SKILL.md |
+| stitch-react-native | ~/.agents/skills/stitch-react-native/SKILL.md |
+| stitch-ui-design | ~/.agents/skills/stitch-ui-design/SKILL.md |
+| stitch-upload-to-stitch | ~/.agents/skills/stitch-upload-to-stitch/SKILL.md |
+
+---
+
+## 2. MCP Servers
+
+| Server | Protocol | Purpose |
+|--------|----------|---------|
+| **Headroom** | MCP | Conversation compression — compress history, memory, large tool outputs |
+| **Context7** | MCP | Library/framework documentation lookup. Always use before implementing unfamiliar APIs |
+| **Stitch MCP** | MCP | Google Stitch design platform — init, proxy, screens, upload, site build, snapshot, doctor |
+| **Auto Browser MCP** | MCP | Playwright browser control with human takeover — for browser testing, QA, form fills |
+| **Autobrowse** | MCP | Self-improving browser automation with auto-research loop |
+| **Serena** | MCP | Semantic code retrieval, editing, refactoring. AI-native IDE toolkit with memories, modes, LSP. `serena init`, `serena start-mcp-server` |
+
+### 2.1 MCP Configuration Locations
+
+- Headroom + Context7: configured via `.opencode\` or global OpenCode MCP config
+- Stitch MCP: `stitch-mcp init` | `stitch-mcp proxy` | `stitch-mcp doctor`
+- Auto Browser MCP: `C:\Users\hammad\Downloads\uiux\docker compose up` or `uvx auto-browser-mcp`
+- Autobrowse: `~/.agents/skills/autobrowse/SKILL.md`
+- Serena: `serena init` | `serena start-mcp-server --project-from-cwd` | Config: `~/.serena/serena_config.yml` | `serena help`
+
+---
+
+## 3. CLI Tools
+
+| Tool | Install | Purpose |
+|------|---------|---------|
+| `skillui` | Global npm | Reverse-engineer any website's design system into a skill pack. `--url <url>` (live), `--dir <path>` (local), `--repo <url>` (clone), `--mode ultra` (cinematic Playwright) |
+| `browse` | Browserbase | Browser automation CLI — supports remote sessions, CAPTCHA solving, residential proxies |
+| `gh` | GitHub CLI | GitHub operations — issues, PRs, Actions, repos |
+| `ucp` | UCP CLI | Find, compare, buy products from online merchants; order tracking, profile management |
+| `bun` | Local | JS/TS runtime used by impeccable build scripts |
+| `serena` | `uv tool install serena-agent` | Semantic code MCP server — retrieval, editing, refactoring, memories, modes |
+
+---
+
+## 4. Installed Skills — Project (.agents/skills/)
+
+### 4.1 Core Systems (always loaded)
+
+| Skill | File | Purpose |
+|-------|------|---------|
+| caveman | .agents/skills/caveman/SKILL.md | Ultra-compressed communication. 5 intensity levels (lite/full/ultra/wenyan-lite/wenyan-full/wenyan-ultra). Auto-clarity on security/irreversible ops |
+| karpathy-guidelines | .agents/skills/caveman/skills/karpathy-guidelines/SKILL.md | Behavioral: think before coding, simplicity first, surgical changes, goal-driven execution |
+| impeccable | .agents/skills/impeccable/SKILL.md (v3.8.0) | UI polish, audit, quality gates, anti-pattern detection. 168+ rules. CLI `npx impeccable *`. Always loaded for UI work |
+| loop-engineering | .agents/skills/loop-engineering/SKILL.md (v1.0.0) | Quality iteration loops — generate-review-improve-exit cycle. 5 escalation levels, 7 scoring rubrics, config system, integration protocol. Always loaded |
+
+### 4.2 Caveman Suite
+
+| Skill | File | Purpose |
+|-------|------|---------|
+| caveman-commit | .agents/skills/caveman-commit/ | Caveman-style git commits |
+| caveman-compress | .agents/skills/caveman-compress/ | Caveman file compression |
+| caveman-help | .agents/skills/caveman-help/ | Caveman help system |
+| caveman-review | .agents/skills/caveman-review/ | Caveman code review |
+| caveman-stats | .agents/skills/caveman-stats/ | Caveman usage statistics |
+
+### 4.3 Anthropic Skills (sub-skills)
+
+Loaded from `.agents/skills/anthropic-skills/skills/`:
+
+| Skill | Purpose |
+|-------|---------|
+| algorithmic-art | Generative algorithmic art creation |
+| brand-guidelines | Brand copy and guidelines |
+| canvas-design | Design philosophy documents |
+| claude-api | Claude/Anthropic API integration |
+| doc-coauthoring | Collaborative document writing |
+| docx | DOCX file creation and editing |
+| frontend-design | Frontend design patterns |
+| internal-comms | Internal communications |
+| mcp-builder | MCP server creation |
+| pdf | PDF file processing |
+| pptx | PPTX file creation |
+| skill-creator | Agent skill creation |
+| slack-gif-creator | Animated GIF creation for Slack |
+| theme-factory | Font/color theme selection |
+| webapp-testing | Local webapp Playwright testing |
+| web-artifacts-builder | Frontend artifact building |
+| xlsx | Excel file creation and editing |
+
+### 4.4 Design & UI Skills
+
+| Skill | Path | Trigger |
+|-------|------|---------|
+| ui-ux-pro-max | .agents/skills/ui-ux-pro-max/SKILL.md | Always load for UI/Design |
+| taste-skill | .agents/skills/taste-skill/SKILL.md | Always load — anti-slop frontend (1206 lines) |
+| frontend-design | .agents/skills/frontend-design/SKILL.md | Always load — general frontend design |
+| banner-design | .agents/skills/banner-design/ | Banners, cards, heroes |
+| brand | .agents/skills/brand/ | Brand identity, logos |
+| design-system | .agents/skills/design-system/ | Design system tokens |
+| design | .agents/skills/design/ | Page layouts, wireframes |
+| slides | .agents/skills/slides/ | Presentations, slide decks |
+| ui-styling | .agents/skills/ui-styling/ | CSS/styling/theming |
+| design-motion-principles | .agents/skills/design-motion-principles/ | Animation/motion (only when animating) |
+
+### 4.5 Shopify Skills
+
+| Skill | Path | API / Focus |
+|-------|------|-------------|
+| shopify-liquid | .agents/skills/shopify-liquid/shopify-liquid/SKILL.md | Liquid templating — theme core |
+| shopify-liquid-themes | .agents/skills/shopify-liquid-themes/ | Theme generation with Liquid |
+| shopify-dev | .agents/skills/shopify-dev/ | General developer docs (fallback) |
+| shopify-storefront-graphql | .agents/skills/shopify-storefront-graphql/ | Storefront GraphQL API |
+| shopify-admin | .agents/skills/shopify-admin/ | Admin GraphQL queries/mutations |
+| shopify-hydrogen | .agents/skills/shopify-hydrogen/ | Hydrogen storefront framework |
+| shopify-custom-data | .agents/skills/shopify-custom-data/ | Metafields, Metaobjects |
+| shopify-customer | .agents/skills/shopify-customer/ | Customer Account API |
+| shopify-functions | .agents/skills/shopify-functions/ | Shopify Functions |
+| shopify-partner | .agents/skills/shopify-partner/ | Partner API |
+| shopify-payments-apps | .agents/skills/shopify-payments-apps/ | Payments Apps API |
+| shopify-polaris-admin-extensions | .agents/skills/shopify-polaris-admin-extensions/ | Admin UI Extensions |
+| shopify-polaris-app-home | .agents/skills/shopify-polaris-app-home/ | Embedded app UI (Polaris) |
+| shopify-polaris-checkout-extensions | .agents/skills/shopify-polaris-checkout-extensions/ | Checkout Extensions |
+| shopify-polaris-customer-account-extensions | .agents/skills/shopify-polaris-customer-account-extensions/ | Customer Account Extensions |
+| shopify-pos-ui | .agents/skills/shopify-pos-ui/ | POS UI components |
+| shopify-onboarding-dev | .agents/skills/shopify-onboarding-dev/ | Developer onboarding |
+| shopify-onboarding-merchant | .agents/skills/shopify-onboarding-merchant/ | Merchant store setup |
+| shopify-use-shopify-cli | .agents/skills/shopify-use-shopify-cli/ | CLI operations (auth, config, execute) |
+| shopify-app-store-review | .agents/skills/shopify-app-store-review/ | Pre-submission app compliance check |
+
+### 4.6 Other Project Skills
+
+| Skill | Path | Purpose |
+|-------|------|---------|
+| ucp | .agents/skills/ucp/ | Universal Commerce Protocol — product search, buy, order tracking, profile setup |
+| cavecrew | .agents/skills/cavecrew/ | Caveman crew — multi-agent orchestration helper |
+| Responsive UI skill | .agents/skills/Responsive UI skill/ | Mobile-first responsive layout patterns |
+| ui-ux-pro-max-skill | .agents/skills/ui-ux-pro-max-skill/ | Premium design system / UI polish (from global ui-ux-pro-max) |
+| GSAP skill | .agents/skills/GSAP skill/ | GSAP animation — tweens, timelines, ScrollTrigger, best practices |
+
+## 5. Use Case Matrix
+
+### 5.1 Shopify Development
+
+| Task | Skills to Load |
+|------|---------------|
+| Theme development (Liquid) | shopify-liquid, shopify-liquid-themes, shopify-dev |
+| Custom storefront | shopify-storefront-graphql, shopify-dev |
+| Admin app development | shopify-admin, shopify-polaris-app-home, shopify-dev |
+| Checkout customization | shopify-polaris-checkout-extensions, shopify-functions |
+| Customer account UI | shopify-polaris-customer-account-extensions, shopify-customer |
+| POS app development | shopify-pos-ui, shopify-dev |
+| Hydrogen storefront | shopify-hydrogen, shopify-storefront-graphql |
+| Custom data modeling | shopify-custom-data |
+| Payment integration | shopify-payments-apps, shopify-dev |
+| Partner API automation | shopify-partner |
+| App Store review prep | shopify-app-store-review |
+| CLI operations (validate, deploy) | shopify-use-shopify-cli |
+| General API queries | shopify-dev (primary), shopify-admin (for admin), shopify-storefront-graphql (for storefront) |
+
+### 5.2 Design & UI
+
+| Task | Skills to Load |
+|------|---------------|
+| Any UI/Design work | Always: ui-ux-pro-max, taste-skill, frontend-design |
+| Banners, cards, heroes | + banner-design |
+| Brand identity, logos | + brand |
+| Design system tokens | + design-system |
+| Page layouts, wireframes | + design |
+| Presentations, slides | + slides |
+| CSS styling, theming | + ui-styling |
+| Color palettes, themes | + color-expert (global) |
+| Animation, motion | + design-motion-principles, GSAP skill |
+| Design generation (Stitch) | Stitch MCP + stitch code-to-design, stitch-generate-design, stitch-manage-design-system, stitch-upload-to-stitch |
+| Reverse engineer a site | skillui (CLI) |
+| UI polish, audit, quality | impeccable (always loaded) |
+| UX copy, empty states, errors | impeccable |
+
+### 5.3 Quality & Compliance
+
+| Task | Skills to Load |
+|------|---------------|
+| Accessibility audit | accessibility-compliance-accessibility-audit (global), fixing-accessibility (global) |
+| Mobile responsiveness | mobile-responsiveness (global) |
+| SEO audit | seo-audit (global) |
+| Metadata/schema improvement | seo-audit (global) |
+| Core Web Vitals | seo-audit (global) |
+| Code quality iteration | loop-engineering (always loaded for generated code) |
+
+### 5.4 Content & Documentation
+
+| Task | Skills to Load |
+|------|---------------|
+| Framework/library docs | Context7 MCP (always) |
+| Shopify docs | Context7 MCP or shopify-dev |
+| Blog posts, articles | anthropic-skills (brand-guidelines, doc-coauthoring) |
+| Presentations | slides, anthropic-skills (pptx) |
+| Video walkthroughs | remotion (global), remotion-best-practices (global) |
+
+### 5.5 Browser Automation & Testing
+
+| Task | Tools/Skills |
+|------|-------------|
+| Live browser QA | Auto Browser MCP (browser sessions) |
+| Self-improving automation | Autobrowse |
+| Web scraping | autobrowse, Autobrowse (for complex sites) |
+| E2E testing | anthropic-skills (webapp-testing) |
+| Visual comparison | Auto Browser MCP (screenshots) |
+
+---
+
+### 4.7 Installed Skills (Post-Setup)
+
+These skills were created/copied during session setup and are now fully installed:
+
+| Skill | Project Dir | Source | Status |
+|-------|-------------|--------|--------|
+| taste-design | `.agents/skills/taste-design/` | Copied from `~/.agents/skills/taste-design/` | ✅ Installed (12 759 chars SKILL.md) |
+| ui-ux-pro-max-skill | `.agents/skills/ui-ux-pro-max-skill/` | Copied from global `ui-ux-pro-max` | ✅ Installed (361-line SKILL.md) |
+| Responsive UI skill | `.agents/skills/Responsive UI skill/` | Copied from global `mobile-responsiveness` | ✅ Installed (5 536 chars SKILL.md) |
+| GSAP skill | `.agents/skills/GSAP skill/` | Created manually | ✅ Installed (1 697 chars SKILL.md) |
+
+---
+
+### 4.8 Loop Engineering Skill
+
+| Skill | Path | Purpose |
+|-------|------|---------|
+| loop-engineering | .agents/skills/loop-engineering/SKILL.md (v1.0.0) | Quality iteration loops for generated code. 5 escalation levels, 7 scoring rubrics, integration protocol, stagnation handling. Always loaded for quality iteration on generated code |
+
+---
+
+## 6. Theme File Structure
+
+```
+layouts/          # theme.liquid, etc.
+sections/         # Reusable sections with schema
+snippets/         # Small reusable Liquid snippets
+templates/        # page.*, product.*, collection.*, etc.
+assets/           # CSS, JS, images, fonts
+config/           # settings_data.json, settings_schema.json
+locales/          # Translation files
+```
+
+---
+
+## 7. Quick Reference
+
+### 7.1 Skill Loading Order
+
+1. Load 6 core systems (karpathy, headroom, caveman, context7, impeccable, loop-engineering)
+2. Read mcp.txt (this file)
+3. Load task-specific skills from use case matrix above
+4. Load Context7 docs for any unfamiliar API/framework
+5. If no installed skill fits → find-skills
+
+### 7.2 Naming Conventions
+
+- Project skills: `.agents/skills/<name>/`
+- Global skills: `~/.agents/skills/<name>/`
+- Anthropic sub-skills: `.agents/skills/anthropic-skills/skills/<name>/`
+- Stitch skills: `~/.agents/skills/stitch-<name>/`
+- Shop: always type `Shopify` (capital S)
+- For MCP servers prefixed with `mcp__`, use `@modelcontextprotocol/server-*` style
+
+---
+
+*End of inventory. AGENTS.md instructs the agent to read this file at session start.*

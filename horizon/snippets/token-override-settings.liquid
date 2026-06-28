@@ -1,0 +1,532 @@
+{%- doc -%}
+  ═══════════════════════════════════════════════════════════════
+  TOKEN OVERRIDE SETTINGS REFERENCE
+  ───────────────────────────────────────────────────────────
+  This file documents ALL available design token override
+  settings that can be added to section/block schemas.
+
+  NOTE: Shopify Liquid schemas are static JSON, so these
+  settings must be manually added to each section's schema.
+  Use this file as a copy-paste reference.
+
+  ═══════════════════════════════════════════════════════════════
+
+  USAGE:
+    1. Add {% render 'section-tokens', settings: section.settings, section_id: section.id %}
+       to the section's wrapper element or inside the section file.
+
+    2. Copy the relevant settings group(s) below into the section's
+       {% schema %} settings array.
+
+  ═══════════════════════════════════════════════════════════════
+  AVAILABLE SETTINGS GROUPS
+  ═══════════════════════════════════════════════════════════════
+
+  ── GROUP 1: Color Overrides ──────────────────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Colors",
+      "info": "Override global color tokens for this section only"
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_secondary_color",
+      "label": "Secondary accent color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_heading_color",
+      "label": "Heading color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_body_color",
+      "label": "Body text color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_link_color",
+      "label": "Link color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent/highlight color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_border_color",
+      "label": "Border color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_surface_color",
+      "label": "Surface/card color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_success_color",
+      "label": "Success color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_error_color",
+      "label": "Error color",
+      "placeholder": "Uses global default"
+    },
+    {
+      "type": "color",
+      "id": "token_warning_color",
+      "label": "Warning color",
+      "placeholder": "Uses global default"
+    }
+
+  ── GROUP 2: Typography Overrides ─────────────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Typography",
+      "info": "Override global typography tokens for this section only"
+    },
+    {
+      "type": "select",
+      "id": "token_heading_font",
+      "label": "Heading font family",
+      "options": [
+        { "value": "", "label": "Use global default" },
+        { "value": "var(--font-heading--family)", "label": "Theme heading font" },
+        { "value": "var(--font-body--family)", "label": "Theme body font" },
+        { "value": "var(--font-accent--family)", "label": "Theme accent font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "token_body_font",
+      "label": "Body font family",
+      "options": [
+        { "value": "", "label": "Use global default" },
+        { "value": "var(--font-body--family)", "label": "Theme body font" },
+        { "value": "var(--font-heading--family)", "label": "Theme heading font" },
+        { "value": "var(--font-accent--family)", "label": "Theme accent font" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "token_base_size",
+      "label": "Base font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use global default"
+    },
+    {
+      "type": "range",
+      "id": "token_heading_scale",
+      "label": "Heading scale multiplier",
+      "min": 100,
+      "max": 200,
+      "step": 10,
+      "default": 0,
+      "unit": "%",
+      "info": "100% = global default. Set to 0 to use global default"
+    },
+    {
+      "type": "range",
+      "id": "token_letter_spacing",
+      "label": "Letter spacing",
+      "min": -2,
+      "max": 10,
+      "step": 1,
+      "default": 0,
+      "unit": "em"
+    }
+
+  ── GROUP 3: Spacing & Layout Overrides ──────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Spacing & Layout",
+      "info": "Override global spacing tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_spacing_scale",
+      "label": "Spacing scale multiplier",
+      "min": 50,
+      "max": 200,
+      "step": 10,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "token_section_gap",
+      "label": "Section gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_content_gap",
+      "label": "Content gap",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 0,
+      "unit": "px"
+    }
+
+  ── GROUP 4: Borders & Radius Overrides ──────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Borders & Radius",
+      "info": "Override global border/radius tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_border_width",
+      "label": "Border width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_border_opacity",
+      "label": "Border opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "token_card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_button_radius",
+      "label": "Button border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "token_input_radius",
+      "label": "Input border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "default": 0,
+      "unit": "px"
+    }
+
+  ── GROUP 5: Animation Overrides ─────────────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Animation",
+      "info": "Override global animation tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_anim_duration",
+      "label": "Animation duration",
+      "min": 0,
+      "max": 3,
+      "step": 0.1,
+      "default": 0,
+      "unit": "s"
+    },
+    {
+      "type": "select",
+      "id": "token_anim_easing",
+      "label": "Animation easing",
+      "options": [
+        { "value": "", "label": "Use global default" },
+        { "value": "ease", "label": "Ease" },
+        { "value": "ease-in", "label": "Ease In" },
+        { "value": "ease-out", "label": "Ease Out" },
+        { "value": "ease-in-out", "label": "Ease In Out" },
+        { "value": "linear", "label": "Linear" }
+      ],
+      "default": ""
+    }
+
+  ── GROUP 6: Container Overrides ──────────────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Container",
+      "info": "Override global container tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_container_width",
+      "label": "Container max width",
+      "min": 600,
+      "max": 2000,
+      "step": 50,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use global default"
+    },
+    {
+      "type": "range",
+      "id": "token_content_max_width",
+      "label": "Content max width",
+      "min": 400,
+      "max": 1600,
+      "step": 50,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use global default"
+    }
+
+  ── GROUP 7: Icon Overrides ───────────────────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Icons",
+      "info": "Override global icon tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_icon_size",
+      "label": "Icon size",
+      "min": 12,
+      "max": 64,
+      "step": 2,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use global default"
+    },
+    {
+      "type": "range",
+      "id": "token_icon_stroke",
+      "label": "Icon stroke width",
+      "min": 1,
+      "max": 4,
+      "step": 0.5,
+      "default": 0,
+      "unit": "px",
+      "info": "Set to 0 to use global default"
+    }
+
+  ── GROUP 8: Shadow & Elevation Overrides ────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Shadows & Elevation",
+      "info": "Override global shadow tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_shadow_size",
+      "label": "Shadow size multiplier",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "token_shadow_opacity",
+      "label": "Shadow opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "%"
+    }
+
+  ── GROUP 9: Opacity Overrides ──────────────────────────
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens — Opacity",
+      "info": "Override global opacity tokens for this section only"
+    },
+    {
+      "type": "range",
+      "id": "token_muted_opacity",
+      "label": "Muted/subtle opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "default": 60,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "token_disabled_opacity",
+      "label": "Disabled opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    }
+
+  ═══════════════════════════════════════════════════════════════
+  DEFAULT SETTINGS TEMPLATE (recommended for all sections)
+  ═══════════════════════════════════════════════════════════════
+  Copy the entire block below into any section schema that
+  should support design token overrides. It includes the most
+  commonly overridden tokens.
+
+  {
+    "type": "header",
+    "content": "Design Tokens",
+    "info": "Override global design system values for this section only. Leave blank to use global defaults."
+  },
+  {
+    "type": "color",
+    "id": "token_primary_color",
+    "label": "Primary accent",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_secondary_color",
+    "label": "Secondary accent",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_text_color",
+    "label": "Text color",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_bg_color",
+    "label": "Background",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_heading_color",
+    "label": "Heading color",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_link_color",
+    "label": "Link color",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_accent_color",
+    "label": "Accent/highlight",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_border_color",
+    "label": "Border color",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "color",
+    "id": "token_surface_color",
+    "label": "Surface/card background",
+    "placeholder": "Global default"
+  },
+  {
+    "type": "select",
+    "id": "token_heading_font",
+    "label": "Heading font",
+    "options": [
+      { "value": "", "label": "Global default" },
+      { "value": "var(--font-heading--family)", "label": "Heading font" },
+      { "value": "var(--font-body--family)", "label": "Body font" },
+      { "value": "var(--font-accent--family)", "label": "Accent font" }
+    ],
+    "default": ""
+  },
+  {
+    "type": "select",
+    "id": "token_body_font",
+    "label": "Body font",
+    "options": [
+      { "value": "", "label": "Global default" },
+      { "value": "var(--font-body--family)", "label": "Body font" },
+      { "value": "var(--font-heading--family)", "label": "Heading font" },
+      { "value": "var(--font-accent--family)", "label": "Accent font" }
+    ],
+    "default": ""
+  },
+  {
+    "type": "range",
+    "id": "token_border_radius",
+    "label": "Border radius",
+    "min": 0,
+    "max": 50,
+    "step": 2,
+    "default": 0,
+    "unit": "px"
+  },
+  {
+    "type": "range",
+    "id": "token_section_gap",
+    "label": "Section gap",
+    "min": 0,
+    "max": 100,
+    "step": 4,
+    "default": 0,
+    "unit": "px"
+  }
+{%- enddoc -%}
+
+{# Reference only — no output (empty string) #}

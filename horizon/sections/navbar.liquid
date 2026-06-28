@@ -1,0 +1,630 @@
+{%- style -%}
+  /* ─── Navbar Premium ─── */
+
+  /* Mobile navbar refined */
+  #navbar-mobile {
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  #navbar-mobile .nav-link-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+
+  #navbar-mobile .nav-link-icon:hover {
+    background: rgba(0, 0, 0, 0.04);
+    opacity: 0.7;
+  }
+
+  #navbar-mobile .nav-link-icon:active {
+    transform: scale(0.92);
+  }
+
+  /* Scroll progress bar */
+  .scroll-progress-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--dt-primary-color, #000) 0%, var(--dt-accent-color, #6366f1) 100%);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    transition: width 0.1s linear;
+    z-index: 10;
+  }
+
+  /* Desktop navbar refined */
+  #navbar-desktop {
+    transition: transform 0.3s ease, background 0.3s ease;
+  }
+
+  #navbar-desktop .nav-link {
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  /* Nav link hover underline */
+  #navbar-desktop .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--dt-primary-color, #000);
+    transition: width 0.25s ease;
+    border-radius: 1px;
+  }
+
+  #navbar-desktop .nav-link:hover::after,
+  #navbar-desktop .nav-link.active::after {
+    width: 100%;
+  }
+
+  /* Desktop icon links */
+  .nav-link-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+
+  .nav-link-icon:hover {
+    background: rgba(0, 0, 0, 0.04);
+    opacity: 0.7;
+  }
+
+  /* Cart badge pulse on update */
+  .cart-count-badge[data-count]:not([data-count="0"]) {
+    animation: cart-badge-pop 0.3s ease;
+  }
+
+  @keyframes cart-badge-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+{%- endstyle -%}
+
+{% render 'section-tokens', settings: section.settings, section_id: section.id %}
+
+<!-- Sentinel for scroll-aware navbar auto-hide (mobile) -->
+<div id="navbar-sentinel" aria-hidden="true"></div>
+
+<navbar-wrapper 
+  id="navbar-wrapper"
+  data-section-tokens="{{ section.id }}"
+  class="
+    {{ section.settings.bg_color }} 
+    {{ section.settings.bg_gradient }}
+    {{ section.settings.text_color }} 
+    {{ section.settings.border_top_width | prepend: 'border-top-' }}
+    {{ section.settings.border_bottom_width | prepend: 'border-bottom-' }}
+    {{ section.settings.border_color }} 
+    {{ section.settings.shadow }}
+  "
+  ">
+  {% for block in section.blocks %}
+    {% if block.type == 'mobile' %}
+      <nav 
+        id="navbar-mobile" 
+        class="navbar d-desktop-none p-0 navbar-mobile-bar"
+        {{ block.shopify_attributes }}>
+        {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+        <div class="scroll-progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        <div 
+          class="container d-block {{ block.settings.pt | prepend: 'pt-' }} {{  block.settings.pb | prepend: 'pb-' }}"
+          style="max-width: {{ block.settings.container_max_width | append: 'px' }};">
+          <div class="row align-items-center">
+            <div class="col-5">
+              <ul class="nav flex-nowrap">
+                <li class="nav-item">
+                  <a 
+                    class="nav-link nav-link-icon"
+                    href="#offcanvas-menu" 
+                    aria-controls="offcanvas-menu"
+                    aria-label="{{ 'general.accessibility.menu' | t }}"
+                    role="button">
+                    {% render 'svg-icons', icon: 'menu' %}
+                  </a>
+                </li>
+                {% if shop.customer_accounts_enabled %}
+                  <li class="nav-item">
+                    <a 
+                      class="nav-link nav-link-icon {% if template.name == 'login' or template.name == 'account' %}active{% endif %}" 
+                      aria-current="{% if template.name == 'login' or template.name == 'account' %}page{% endif %}" 
+                      href="{{ routes.account_url }}"
+                      aria-label="{{ 'general.accessibility.account' | t }}">
+                      {% render 'svg-icons', icon: 'account' %}
+                    </a>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+            <div class="col-8 text-center">
+              {% render 'navbar-logo', block: block %}
+            </div>
+            <div class="col-5">
+              <ul class="nav flex-nowrap justify-content-end">
+                {% if settings.search %}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link nav-link-icon" 
+                      href="#offcanvas-search" 
+                      aria-controls="offcanvas-search" 
+                      aria-label="{{ 'general.accessibility.search' | t }}"
+                      role="button">
+                      {% render 'svg-icons', icon: 'search' %}
+                    </a>
+                  </li>
+                {% endif %}
+                <li class="nav-item">
+                  <a 
+                    class="nav-link nav-link-icon" 
+                    href="#offcanvas-cart" 
+                    aria-controls="offcanvas-cart" 
+                    aria-label="{{ 'general.accessibility.cart' | t }} {{ cart.item_count }}"
+                    role="button">
+                    {% render 'svg-icons', icon: 'cart' %}
+                    {% render 'cart-count-badge' %}
+                  </a>  
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> 
+      </nav>
+    {% else %}
+      <nav 
+        id="navbar-desktop" 
+        class="navbar d-none d-desktop-block p-0"
+        {{ block.shopify_attributes }}>
+        {% render 'block-positioning', settings: block.settings, block_id: block.id %}
+        <div 
+          class="container d-block {{ block.settings.pt | prepend: 'pt-' }} {{  block.settings.pb | prepend: 'pb-' }}"
+          style="max-width: {{ block.settings.container_max_width | append: 'px' }};">
+          <div
+            class="row align-items-center flex-grow-1">
+            <div class="col-4">
+              {% render 'navbar-logo', block: block %}
+            </div>
+            <div class="col-10">
+              {% render 'navbar-desktop-menu', block: block %}
+            </div>
+            <div class="col-4">
+              {% render 'navbar-desktop-icons', block: block %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    {% endif %}
+  {% endfor %}
+</navbar-wrapper>
+ 
+{% for block in section.blocks %}
+  {% if block.type == 'mobile' %}
+    {% render 'offcanvas-menu', block: block %}
+  {% endif %}
+{% endfor %}
+ 
+{% schema %}
+{
+  "name": "Navbar",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "select",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "bg-body",
+      "options": [
+        { "value": "bg-primary", "label": "Primary" },
+        { "value": "bg-secondary", "label": "Secondary" },
+        { "value": "bg-body", "label": "Body" },
+        { "value": "bg-white", "label": "White" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "bg_opacity",
+      "label": "Background opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "bg_gradient",
+      "label": "Background gradient",
+      "options": [
+        { "value": "bg-gradient", "label": "Yes" },
+        { "value": "", "label": "No" }
+      ],
+      "default": ""
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "text-body",
+      "options": [
+        { "value": "text-primary", "label": "Primary" },
+        { "value": "text-secondary", "label": "Secondary" },
+        { "value": "text-body", "label": "Body" },
+        { "value": "text-white", "label": "White" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "border_top_width",
+      "label": "Border top width",
+      "default": 0,
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "border_bottom_width",
+      "label": "Border bottom width",
+      "default": 0,
+      "min": 0,
+      "max": 16,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "border-body",
+      "options": [
+        { "value": "border-primary", "label": "Primary" },
+        { "value": "border-secondary", "label": "Secondary" },
+        { "value": "border-body", "label": "Body" },
+        { "value": "border-white", "label": "White" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "border_opacity",
+      "label": "Border opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "shadow",
+      "label": "Shadow",
+      "options": [
+        { "value": "shadow-sm", "label": "Yes" },
+        { "value": "", "label": "No" }
+      ],
+      "default": "shadow-sm"
+    },
+    {
+      "type": "header",
+      "content": "⚡ Design Tokens",
+      "info": "Override global design tokens for this section only. Leave blank to use global defaults."
+    },
+    {
+      "type": "color",
+      "id": "token_primary_color",
+      "label": "Primary accent",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_text_color",
+      "label": "Text color",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_bg_color",
+      "label": "Background",
+      "placeholder": "Global default"
+    },
+    {
+      "type": "color",
+      "id": "token_accent_color",
+      "label": "Accent color",
+      "placeholder": "Global default"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mobile",
+      "name": "Mobile",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "container_max_width",
+          "label": "Container max-width (px)",
+          "info": "Leave empty to use the global container width"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_transparent",
+          "label": "Logo - transparent bg",
+          "info": "NOTE: This feature is supported only in our Premium Shopify Themes. [Browse premium themes](https://www.kondasoft.com/collections/shopify-themes)"
+        },
+        {
+          "type": "range",
+          "id": "logo_height",
+          "label": "Logo height",
+          "min": 20,
+          "max": 100,
+          "step": 2,
+          "default": 40
+        },
+        {
+          "type": "link_list",
+          "id": "main_menu",
+          "label": "Main menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "link_list",
+          "id": "collections_menu",
+          "label": "Collections Menu",
+          "info": "NOTE: This feature is supported only in our Premium Shopify Themes. [Browse premium themes](https://www.kondasoft.com/collections/shopify-themes)"
+        },
+        {
+          "type": "checkbox",
+          "id": "social_icons",
+          "label": "Show social icons",
+          "default": true
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "pt",
+          "label": "Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "pb",
+          "label": "Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Visibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "desktop",
+      "name": "Desktop",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "container_max_width",
+          "label": "Container max-width (px)",
+          "info": "Leave empty to use the global container width"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Logo"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_transparent",
+          "label": "Logo - transparent bg",
+          "info": "NOTE: This feature is supported only in our Premium Shopify Themes. [Browse premium themes](https://www.kondasoft.com/collections/shopify-themes)"
+        },
+        {
+          "type": "range",
+          "id": "logo_height",
+          "label": "Logo height",
+          "min": 20,
+          "max": 100,
+          "step": 2,
+          "default": 40
+        },
+        {
+          "type": "link_list",
+          "id": "main_menu",
+          "label": "Main menu",
+          "default": "main-menu"
+        },
+        {
+          "type": "header",
+          "content": "Spacing"
+        },
+        {
+          "type": "range",
+          "id": "pt",
+          "label": "Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "pb",
+          "label": "Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "header",
+          "content": "X/Y Positioning"
+        },
+        {
+          "type": "select",
+          "id": "position_x",
+          "label": "X — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y",
+          "label": "Y — desktop",
+          "options": [
+            { "value": "inherit", "label": "Default" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_x_mobile",
+          "label": "X — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "left",    "label": "Left" },
+            { "value": "center",  "label": "Center" },
+            { "value": "right",   "label": "Right" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "select",
+          "id": "position_y_mobile",
+          "label": "Y — mobile",
+          "options": [
+            { "value": "inherit", "label": "Same as desktop" },
+            { "value": "top",     "label": "Top" },
+            { "value": "middle",  "label": "Middle" },
+            { "value": "bottom",  "label": "Bottom" }
+          ],
+          "default": "inherit"
+        },
+        {
+          "type": "header",
+          "content": "Visibility"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_mobile",
+          "label": "Hide on mobile",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_desktop",
+          "label": "Hide on desktop",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Navbar"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,55 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       FONT PAIRING SYSTEM
+       Defines named font combinations for consistent
+       typographic hierarchy across the theme.
+       ═══════════════════════════════════════════════════ */
+
+    /* Font families (populated from theme settings) */
+    --font-primary: var(--font-body--family);
+    --font-secondary: var(--font-subheading--family);
+    --font-heading: var(--font-heading--family);
+    --font-accent: var(--font-accent--family);
+    --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+
+    /* Font weight assignments */
+    --font-primary-weight: var(--font-body--weight);
+    --font-secondary-weight: var(--font-subheading--weight);
+    --font-heading-weight: var(--font-heading--weight);
+    --font-accent-weight: var(--font-accent--weight);
+
+    /* Font style assignments */
+    --font-primary-style: var(--font-body--style);
+    --font-secondary-style: var(--font-subheading--style);
+    --font-heading-style: var(--font-heading--style);
+    --font-accent-style: var(--font-accent--style);
+
+    /* Pairing: body + heading fallback presets */
+    --font-pairing-editorial: var(--font-primary);
+    --font-pairing-modern: var(--font-heading);
+    --font-pairing-display: var(--font-accent);
+
+    /* Contextual font tokens for components */
+    --font-ui: var(--font-primary);
+    --font-label: var(--font-accent);
+    --font-caption: var(--font-primary);
+    --font-button: var(--font-primary);
+    --font-nav: var(--font-accent);
+    --font-price: var(--font-secondary);
+    --font-badge: var(--font-accent);
+    --font-meta: var(--font-primary);
+    --font-quote: var(--font-secondary);
+
+    /* Font size for UI elements */
+    --font-ui-size: var(--text-sm);
+    --font-label-size: var(--text-xs);
+    --font-caption-size: var(--text-2xs);
+    --font-button-size: var(--text-base);
+    --font-nav-size: var(--text-base);
+    --font-price-size: var(--text-md);
+    --font-badge-size: var(--text-2xs);
+    --font-meta-size: var(--text-xs);
+    --font-quote-size: var(--text-lg);
+  }
+{% endstyle %}

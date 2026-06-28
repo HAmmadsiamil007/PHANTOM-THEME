@@ -1,0 +1,109 @@
+<div 
+  id="offcanvas-menu" 
+  class="offcanvas offcanvas-bottom" 
+  tabindex="-1" 
+  aria-label="{{ 'general.accessibility.menu' | t }}"
+  aria-hidden="true">
+  <!-- Drag handle for swipe-to-dismiss affordance (mobile) -->
+  <div class="offcanvas-drag-handle" aria-hidden="true"></div>
+  <div class="offcanvas-body">
+    <div class="offcanvas-header-row d-mobile-flex">
+      <h2 class="offcanvas-title" id="offcanvas-menu-label">
+        {{ 'general.accessibility.menu' | t }}
+      </h2>
+      <button 
+        class="offcanvas-close-btn" 
+        type="button" 
+        data-offcanvas-dismiss
+        aria-label="{{ 'general.accessibility.close' | t }}">
+        {% render 'svg-icons', icon: 'x', size: 18 %}
+      </button>
+    </div>
+
+    {% unless block.settings.main_menu == nil %}
+      <ul class="nav accordion-nav mb-7">
+        {% for link in linklists[block.settings.main_menu].links %}
+          {% if link.links == blank %}
+            <li class="nav-item offcanvas-menu-item">
+              <a 
+                class="nav-link py-3 {% if link.active %}active{% endif %}" 
+                href="{{ link.url }}" 
+                aria-current="{% if link.active %}page{% endif %}">
+                {{ link.title }}
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item collapse-wrapper offcanvas-menu-item">
+              <a 
+                class="nav-link py-3 {% if link.child_active %}active{% endif %}" 
+                href="#offcanvas-menu-collapse-{{ forloop.index }}" 
+                aria-controls="offcanvas-menu-collapse-{{ forloop.index }}"
+                aria-expanded="{% if link.child_active %}true{% else %}false{% endif %}" 
+                data-collapse-toggle
+                role="button">
+                <span>{{ link.title }}</span>
+                {% render 'svg-icons', icon: 'chevron-down', size: 18 %}
+              </a>
+              <div 
+                id="offcanvas-menu-collapse-{{ forloop.index }}" 
+                class="collapse {% if link.child_active %}show{% endif %}">
+                <ul class="nav flex-column">
+                  {% for child_link in link.links %}
+                    <li>
+                      {% if child_link.title == '-' %}
+                        <hr class="my-2">
+                      {% else %}
+                        <a 
+                          class="dropdown-item py-2 {% if child_link.active %}active{% endif %}" 
+                          href="{{ child_link.url }}"
+                          aria-current="{% if child_link.active %}page{% endif %}">
+                          {{ child_link.title }}
+                        </a>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% endunless %}
+
+    {% if block.settings.social_icons %}
+      <div class="text-center mb-5">
+        {% render 'social-icons', show_title: false %}
+      </div>
+    {% endif %}
+
+    {% unless block.settings.secondary_menu == nil %}
+      <ul class="nav nav-secondary justify-content-center gap-mobile-1 mb-4">
+        {% for link in linklists[block.settings.secondary_menu].links %}
+          <li class="nav-item offcanvas-menu-item">
+            <a 
+              class="nav-link py-3 px-4 {% if link.active %}active{% endif %}" 
+              href="{{ link.url }}" 
+              aria-current="{% if link.active %}page{% endif %}">
+              {{ link.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endunless %}
+
+    <ul class="nav justify-content-center mb-4">
+      {% if localization.available_countries.size > 1 %}
+        <li class="nav-item">
+          <a
+            class="nav-link nav-link-icon"
+            href="#modal-localization"
+            aria-controls="modal-localization" 
+            aria-label="{{ 'general.accessibility.localization' | t }} {{ localization.country.name }}"
+            role="button">
+            {{ localization.country | image_url: width: 20, height: 20 | image_tag }}
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+</div> 

@@ -1,0 +1,54 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       BORDER SYSTEM
+       Width, style, and color tokens for borders
+       ═══════════════════════════════════════════════════ */
+
+    /* Border widths */
+    --border-0: 0px;
+    --border-thin: 0.5px;
+    --border-1: 1px;
+    --border-2: 2px;
+    --border-3: 3px;
+    --border-4: 4px;
+    --border-6: 6px;
+    --border-8: 8px;
+
+    /* Border styles */
+    --border-style-solid: solid;
+    --border-style-dashed: dashed;
+    --border-style-dotted: dotted;
+    --border-style-none: none;
+
+    /* Border color tokens (reusing semantic colors) */
+    --border-default: var(--border-primary);
+    --border-subtle: var(--border-secondary);
+    --border-muted: var(--border-tertiary);
+    --border-strong: var(--border-brand);
+    --border-inverse: rgb(255 255 255 / 0.3);
+
+    /* Component-specific border widths (from settings) */
+    --border-width-primary: {{ settings.primary_button_border_width }}px;
+    --border-width-secondary: {{ settings.secondary_button_border_width }}px;
+    --border-width-input: {{ settings.input_border_width }}px;
+    --border-width-popover: {{ settings.popover_border_width }}px;
+    --border-width-swatch: {{ settings.variant_swatch_border_width }}px;
+    --border-width-variant-button: {{ settings.variant_button_border_width }}px;
+
+    /* Component-specific border styles (from settings) */
+    --border-style-swatch: {{ settings.variant_swatch_border_style }};
+    --border-opacity-swatch: {{ settings.variant_swatch_border_opacity }}%;
+
+    /* Pre-composed border shorthand tokens */
+    --border-drawer: 1px solid var(--color-drawer-border, var(--border-default));
+    --border-popover: var(--border-width-popover) var(--border-style-solid) var(--color-popover-border, var(--border-default));
+    --border-card: var(--border-1) var(--border-style-solid) var(--border-subtle);
+    --border-divider: var(--border-1) var(--border-style-solid) var(--border-secondary);
+    --border-input: var(--border-width-input) var(--border-style-solid) var(--color-input-border);
+
+    /* Border collapse (for table-like layouts) */
+    --border-collapse: collapse;
+    --border-separate: separate;
+  }
+{% endstyle %}

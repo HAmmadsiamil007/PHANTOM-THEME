@@ -1,0 +1,82 @@
+{%- doc -%}
+  ═══════════════════════════════════════════════════════════════
+  BLOCK POSITIONING ENGINE
+  ───────────────────────────────────────────────────────────
+  Generates CSS for X (horizontal) and Y (vertical) positioning
+  with separate mobile and desktop values, plus visibility toggles.
+
+  Usage:
+    {% render 'block-positioning',
+      settings: block.settings,
+      block_id: block.id
+    %}
+
+  @param {object}   settings   - Block/section settings with position_* fields
+  @param {string}   block_id   - Unique ID for CSS scoping
+
+  SELECTORS:
+    The CSS targets `#{{ block_id }}`, `[data-block-pos="{{ block_id }}"]`,
+    and `[data-block-id="{{ block_id }}"]` (auto-added by Shopify's
+    `block.shopify_attributes` on every block element).
+  ═══════════════════════════════════════════════════════════════
+{%- enddoc -%}
+
+{%- liquid
+  assign bid = block_id | default: ''
+  assign has_positioning = false
+
+  if bid != '' and settings != blank
+    assign x_desktop = settings.position_x | default: 'inherit'
+    assign y_desktop = settings.position_y | default: 'inherit'
+    assign x_mobile = settings.position_x_mobile | default: 'inherit'
+    assign y_mobile = settings.position_y_mobile | default: 'inherit'
+    assign hide_mobile = settings.hide_on_mobile | default: false
+    assign hide_desktop = settings.hide_on_desktop | default: false
+    assign is_section = settings.is_section | default: false
+
+    if x_desktop != 'inherit' or y_desktop != 'inherit' or x_mobile != 'inherit' or y_mobile != 'inherit' or hide_mobile or hide_desktop
+      assign has_positioning = true
+    endif
+  endif
+-%}
+
+{%- if has_positioning -%}
+  {%- style -%}
+    /* Block positioning: {{ bid }} */
+    [data-block-id="{{ bid }}"],
+    [data-block-pos="{{ bid }}"] {
+      {% if x_desktop == 'left' %}--pos-x-desktop: flex-start;{% endif %}
+      {% if x_desktop == 'center' %}--pos-x-desktop: center;{% endif %}
+      {% if x_desktop == 'right' %}--pos-x-desktop: flex-end;{% endif %}
+      {% if y_desktop == 'top' %}--pos-y-desktop: flex-start;{% endif %}
+      {% if y_desktop == 'middle' %}--pos-y-desktop: center;{% endif %}
+      {% if y_desktop == 'bottom' %}--pos-y-desktop: flex-end;{% endif %}
+      {% if x_mobile == 'left' %}--pos-x-mobile: flex-start;{% endif %}
+      {% if x_mobile == 'center' %}--pos-x-mobile: center;{% endif %}
+      {% if x_mobile == 'right' %}--pos-x-mobile: flex-end;{% endif %}
+      {% if y_mobile == 'top' %}--pos-y-mobile: flex-start;{% endif %}
+      {% if y_mobile == 'middle' %}--pos-y-mobile: center;{% endif %}
+      {% if y_mobile == 'bottom' %}--pos-y-mobile: flex-end;{% endif %}
+      {% if hide_mobile %}--hide-mobile: none;{% endif %}
+      {% if hide_desktop %}--hide-desktop: none;{% endif %}
+    }
+
+    @media (min-width: 750px) {
+      [data-block-id="{{ bid }}"],
+      [data-block-pos="{{ bid }}"] {
+        justify-content: var(--pos-x-desktop, inherit) !important;
+        align-items: var(--pos-y-desktop, inherit) !important;
+        {% if hide_desktop %}display: var(--hide-desktop, flex) !important;{% endif %}
+      }
+    }
+
+    @media (max-width: 749.98px) {
+      [data-block-id="{{ bid }}"],
+      [data-block-pos="{{ bid }}"] {
+        justify-content: var(--pos-x-mobile, var(--pos-x-desktop, inherit)) !important;
+        align-items: var(--pos-y-mobile, var(--pos-y-desktop, inherit)) !important;
+        {% if hide_mobile %}display: var(--hide-mobile, flex) !important;{% endif %}
+      }
+    }
+  {%- endstyle -%}
+{%- endif -%}

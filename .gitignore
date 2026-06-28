@@ -1,5 +1,33 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# OS
 .DS_Store
 Thumbs.db
-config/settings_data.json
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temp
+tmp/
+.tmp/
+
+# AI agent skills (excluded from repo)
+.agents/
+
+# Shopify store-specific settings
+config/settings_data.json
+
+# Environment
 .env

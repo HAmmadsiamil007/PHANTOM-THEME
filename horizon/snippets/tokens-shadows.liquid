@@ -1,0 +1,40 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       SHADOW SYSTEM
+       Layered elevation shadows for depth hierarchy
+       ═══════════════════════════════════════════════════ */
+
+    /* Surface shadows (for cards, panels) */
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.05);
+    --shadow-base: 0 1px 3px rgb(0 0 0 / 0.08), 0 1px 2px rgb(0 0 0 / 0.06);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.06);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.04);
+    --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.2);
+
+    /* Interactive shadows */
+    --shadow-button: 0 2px 3px rgb(0 0 0 / 0.2);
+    --shadow-button-hover: 0 4px 8px -2px rgb(0 0 0 / 0.2);
+    --shadow-card-hover: 0 12px 24px -6px rgb(0 0 0 / 0.12);
+    --shadow-card-hover-lg: 0 16px 40px -8px rgb(0 0 0 / 0.16);
+
+    /* Layered components */
+    --shadow-dropdown: 0 8px 16px -4px rgb(0 0 0 / 0.1);
+    --shadow-popover: 0 4px 20px rgb(var(--color-popover-shadow-rgb, 0 0 0) / 0.15);
+    --shadow-drawer: 0 4px 20px rgb(var(--color-drawer-shadow-rgb, 0 0 0) / 0.15);
+    --shadow-modal: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    --shadow-toast: 0 8px 24px rgb(0 0 0 / 0.12);
+
+    /* Inner shadows */
+    --shadow-inner: inset 0 2px 4px rgb(0 0 0 / 0.05);
+    --shadow-inner-sm: inset 0 1px 2px rgb(0 0 0 / 0.03);
+
+    /* Focus ring */
+    --shadow-focus: 0 0 0 3px rgb(var(--color-foreground-rgb) / 0.15);
+    --shadow-focus-input: 0 0 0 2px rgb(var(--color-foreground-rgb) / 0.12);
+
+    /* Hover shadow color (used in phantom-ui-enhancements) */
+    --hover-shadow-color: rgb(0 0 0 / 0.15);
+  }
+{% endstyle %}

@@ -1,0 +1,50 @@
+{% style %}
+  :root {
+    /* ═══════════════════════════════════════════════════
+       ELEVATION SYSTEM
+       Unified depth scale combining z-index + shadows
+       ═══════════════════════════════════════════════════ */
+
+    /* Elevation levels (0 = baseline) */
+    --elevation-0: 0;
+    --elevation-1: 1;
+    --elevation-2: 2;
+    --elevation-3: 3;
+    --elevation-4: 4;
+    --elevation-5: 5;
+
+    /* Surface cards */
+    --elevation-card: var(--z-flat);
+    --shadow-elevation-card: var(--shadow-base);
+
+    /* Raised (dropdowns, popovers) */
+    --elevation-raised: var(--z-dropdown);
+    --shadow-elevation-raised: var(--shadow-dropdown);
+
+    /* Overlay (modals, drawers) */
+    --elevation-overlay: var(--z-modal);
+    --shadow-elevation-overlay: var(--shadow-modal);
+
+    /* Top (toasts, tooltips) */
+    --elevation-top: var(--z-toast);
+    --shadow-elevation-top: var(--shadow-toast);
+
+    /* Card hover elevation shift */
+    --elevation-hover-offset: 4px;
+    --elevation-hover-scale: 1.03;
+    --elevation-hover-subtle-zoom: 1.015;
+
+    /* Card elevation (static) */
+    --card-elevation: 0;
+    --card-hover-elevation: 4px;
+
+    /* Popover/drawer drop shadows (from settings) */
+    {% if settings.popover_drop_shadow %}
+      --shadow-blur: 20px;
+      --shadow-popover: 0px 4px 20px rgb(var(--color-popover-shadow-rgb) / var(--opacity-15, 0.15));
+    {% endif %}
+    {% if settings.drawer_drop_shadow %}
+      --shadow-drawer: 0px 4px 20px rgb(var(--color-drawer-shadow-rgb) / var(--opacity-15, 0.15));
+    {% endif %}
+  }
+{% endstyle %}
