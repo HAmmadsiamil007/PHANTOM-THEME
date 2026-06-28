@@ -1,0 +1,5 @@
+.DS_Store
+Thumbs.db
+config/settings_data.json
+*.log
+.env

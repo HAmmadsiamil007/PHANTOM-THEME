@@ -1,0 +1,168 @@
+{%- assign show_announcement = false -%}
+{%- assign announcement_block_count = 0 -%}
+{%- for block in section.blocks -%}
+  {%- if block.type == 'announcement' or block.type == '@app' -%}
+    {%- assign show_announcement = true -%}
+    {%- assign announcement_block_count = announcement_block_count | plus: 1 -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% if show_announcement %}
+  {%- liquid
+    assign bg_color = section.settings.bg_color | default: 'inherit'
+    assign text_color = section.settings.text_color | default: 'inherit'
+    assign link_color = section.settings.link_color | default: 'inherit'
+    assign font_size = section.settings.font_size | default: 14
+    assign mobile_font_size = section.settings.mobile_font_size | default: 12
+    assign padding_top = section.settings.padding_top | default: 10
+    assign padding_bottom = section.settings.padding_bottom | default: 10
+    assign font_weight = section.settings.font_weight | default: '400'
+    assign letter_spacing = section.settings.letter_spacing | default: 0
+    assign text_transform = section.settings.text_transform | default: 'none'
+    assign border_width = section.settings.border_width | default: 0
+    assign border_color = section.settings.border_color | default: '#e8e8e8'
+    assign border_style = section.settings.border_style | default: 'solid'
+    assign border_radius = section.settings.border_radius | default: 0
+    assign bg_opacity = section.settings.bg_opacity | default: 100
+    assign z_index = section.settings.z_index | default: 10
+    assign arrow_color = section.settings.arrow_color | default: 'rgba(0,0,0,0.5)'
+  -%}
+
+  {%- capture announcement_style -%}
+    --announcement-bg-color: {{ bg_color }};
+    --announcement-text-color: {{ text_color }};
+    --announcement-link-color: {{ link_color }};
+    --announcement-arrow-color: {{ arrow_color }};
+    --announcement-font-size: {{ font_size }}px;
+    --announcement-mobile-font-size: {{ mobile_font_size }}px;
+    --announcement-padding-top: {{ padding_top }}px;
+    --announcement-padding-bottom: {{ padding_bottom }}px;
+    --announcement-font-weight: {{ font_weight }};
+    --announcement-letter-spacing: {{ letter_spacing }}px;
+    --announcement-text-transform: {{ text_transform }};
+    --announcement-border-width: {{ border_width }}px;
+    --announcement-border-color: {{ border_color }};
+    --announcement-border-style: {{ border_style }};
+    --announcement-border-radius: {{ border_radius }}px;
+    --announcement-bg-opacity: {{ bg_opacity }};
+    --announcement-z-index: {{ z_index }};
+  {%- endcapture -%}
+
+  <div
+    class="announcement-bar"
+    data-section-id="{{ section.id }}"
+    data-section-type="announcement-bar"
+    data-position="{{ section.settings.position }}"
+    data-animation="{{ section.settings.animation_style }}"
+    data-transition-duration="{{ section.settings.transition_duration }}"
+    data-show-on-mobile="{{ section.settings.show_on_mobile }}"
+    data-full-width="{{ section.settings.full_width }}"
+    data-text-align="{{ section.settings.text_align }}"
+    data-show-arrows="{{ section.settings.show_arrows }}"
+    data-arrow-style="{{ section.settings.arrow_style }}"
+    data-show-close="{{ section.settings.show_close }}"
+    data-close-position="{{ section.settings.close_position }}"
+    data-shadow="{{ section.settings.shadow }}"
+    data-height="{{ section.settings.height }}"
+    data-speed="{{ section.settings.auto_play_speed }}"
+    style="{{ announcement_style | escape }}"
+    role="region"
+    aria-label="{{ section.settings.aria_label | default: 'Announcements' }}"
+  >
+    {%- if section.settings.full_width == false -%}
+      <div class="page-width">
+    {%- endif -%}
+
+      <div class="announcement-bar__inner">
+        {%- if section.settings.show_arrows and announcement_block_count > 1 -%}
+          <button type="button"
+            class="announcement-bar__arrow announcement-bar__arrow--prev"
+            data-arrow-prev
+            aria-label="{{ 'sections.slideshow.previous_slide' | t }}"
+          >
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-chevron-left" viewBox="0 0 284.49 498.98"><path d="M249.49 0a35 35 0 0 1 24.75 59.75L84.49 249.49l189.75 189.74a35.002 35.002 0 11-49.5 49.5L10.25 274.24a35 35 0 0 1 0-49.5L224.74 10.25A34.89 34.89 0 0 1 249.49 0z"/></svg>
+          </button>
+        {%- endif -%}
+
+        <div class="slideshow-wrapper">
+          <button type="button" class="visually-hidden slideshow__pause" data-id="{{ section.id }}" aria-live="polite">
+            <span class="slideshow__pause-stop">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-pause" viewBox="0 0 10 13"><path d="M0 0h3v13H0zm7 0h3v13H7z" fill-rule="evenodd"/></svg>
+              <span class="icon__fallback-text">{{ 'sections.slideshow.pause_slideshow' | t }}</span>
+            </span>
+            <span class="slideshow__pause-play">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-play" viewBox="18.24 17.35 24.52 28.3"><path fill="#323232" d="M22.1 19.151v25.5l20.4-13.489-20.4-12.011z"/></svg>
+              <span class="icon__fallback-text">{{ 'sections.slideshow.play_slideshow' | t }}</span>
+            </span>
+          </button>
+
+          <div
+            id="AnnouncementSlider"
+            class="announcement-slider"
+            data-compact="{{ section.settings.announcement_compact }}"
+            data-block-count="{{ announcement_block_count }}">
+            {%- assign slide_index = 0 -%}
+            {%- for block in section.blocks -%}
+              {%- if block.type == '@app' -%}
+                <div
+                  id="AnnouncementSlide-{{ block.id }}"
+                  class="announcement-slider__slide"
+                  data-index="{{ slide_index }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- render block -%}
+                </div>
+                {%- assign slide_index = slide_index | plus: 1 -%}
+              {%- endif -%}
+              {%- if block.type == 'announcement' -%}
+                <div
+                  id="AnnouncementSlide-{{ block.id }}"
+                  class="announcement-slider__slide"
+                  data-index="{{ slide_index }}"
+                  {{ block.shopify_attributes }}
+                >
+                  {%- if block.settings.link != blank -%}
+                    <a class="announcement-link" href="{{ block.settings.link }}">
+                  {%- endif -%}
+                    {%- if block.settings.text != blank -%}
+                      <span class="announcement-text">{{ block.settings.text }}</span>
+                    {%- endif -%}
+                    {%- if block.settings.link_text != blank -%}
+                      <span class="announcement-link-text">{{ block.settings.link_text }}</span>
+                    {%- endif -%}
+                  {%- if block.settings.link != blank -%}
+                    </a>
+                  {%- endif -%}
+                </div>
+                {%- assign slide_index = slide_index | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+        {%- if section.settings.show_arrows and announcement_block_count > 1 -%}
+          <button type="button"
+            class="announcement-bar__arrow announcement-bar__arrow--next"
+            data-arrow-next
+            aria-label="{{ 'sections.slideshow.next_slide' | t }}"
+          >
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-chevron-right" viewBox="0 0 284.49 498.98"><path d="M35 498.98a35 35 0 0 1-24.75-59.75l189.74-189.74L10.25 59.75a35.002 35.002 0 0 1 49.5-49.5l214.49 214.49a35 35 0 0 1 0 49.5L59.75 488.73A34.89 34.89 0 0 1 35 498.98z"/></svg>
+          </button>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_close -%}
+        <button type="button"
+          class="announcement-bar__close"
+          data-announcement-close
+          aria-label="{{ 'general.accessibility.close_modal' | t | default: 'Close' }}"
+        >
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" viewBox="0 0 64 64"><path d="M19 17.61l27.12 27.13m0-27.12L19 44.74" stroke="currentColor" stroke-width="2px"/></svg>
+        </button>
+      {%- endif -%}
+
+    {%- if section.settings.full_width == false -%}
+      </div>
+    {%- endif -%}
+  </div>
+{% endif %}
