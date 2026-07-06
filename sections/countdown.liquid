@@ -33,12 +33,12 @@
       {% if text_color_alpha != 0 %}
         --countdown-text-color: {{ section.settings.text_color }};
       {% else %}
-        --countdown-text-color: var(--colorTextBody);
+        --countdown-text-color: var(--ph-colorTextBody);
       {% endif %}
       {% if background_color_alpha != 0 %}
         --countdown-background-color: {{ section.settings.background_color }};
       {% else %}
-        --countdown-background-color: var(--colorBody);
+        --countdown-background-color: var(--ph-colorBody);
       {% endif %}
       --accent-color: {{ accent_color }}
     "

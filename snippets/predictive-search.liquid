@@ -1,6 +1,6 @@
 {%- liquid
   assign dark_search_bg = false
-  assign lightness = settings.color_header_search | color_brightness
+  assign lightness = settings.ph_color_header_search | color_brightness
 
   if lightness <= 100
     assign dark_search_bg = true

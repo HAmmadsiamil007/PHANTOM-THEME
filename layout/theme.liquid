@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="{{ settings.color_button }}">
+  <meta name="theme-color" content="{{ settings.ph_color_button }}">
   <link rel="canonical" href="{{ canonical_url }}">
   <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
   <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
@@ -85,12 +85,12 @@
     :root {
       /* Root Variables */
       /* ========================= */
-      --root-color-primary: {{ settings.color_body_text }};
-      --color-primary: {{ settings.color_body_text }};
-      --root-color-secondary: {{ settings.color_body_bg }};
-      --color-secondary: {{ settings.color_body_bg }};
-      --color-sale-tag: {{ settings.color_sale_tag }};
-      --color-sale-tag-text: {{ settings.color_sale_tag_text }};
+      --root-color-primary: {{ settings.ph_color_body_text }};
+      --color-primary: {{ settings.ph_color_body_text }};
+      --root-color-secondary: {{ settings.ph_color_body_bg }};
+      --color-secondary: {{ settings.ph_color_body_bg }};
+      --color-sale-tag: {{ settings.ph_color_sale_tag }};
+      --color-sale-tag-text: {{ settings.ph_color_sale_tag_text }};
       --layout-section-padding-block: 3rem;
       --layout-section-padding-inline--md: 40px;
       --layout-section-max-inline-size: 1420px; 
@@ -155,8 +155,8 @@
       --element-button-letter-spacing: .3em;
 
       /* Base Color Variables */
-      --element-button-color-primary: {{ settings.color_button }};
-      --element-button-color-secondary: {{ settings.color_button_text }};
+      --element-button-color-primary: {{ settings.ph_color_button }};
+      --element-button-color-secondary: {{ settings.ph_color_button_text }};
       --element-button-shade-border: 100%;
 
       /* Hover State Variables */
@@ -212,7 +212,7 @@
 
     /* When dynamic checkout is enabled */
     product-form:has(.element-button--shopify-payment-wrapper) {
-      --element-button-color: {{ settings.color_body_text }};
+      --element-button-color: {{ settings.ph_color_body_text }};
 
       .element-button[type="submit"],
       .element-button--shopify-payment-wrapper button {
@@ -257,8 +257,8 @@
 
         position: relative;
         max-width: 94%;
-        border-top: 1px solid {{ settings.color_button }};
-        border-bottom: 1px solid {{ settings.color_button }};
+        border-top: 1px solid {{ settings.ph_color_button }};
+        border-bottom: 1px solid {{ settings.ph_color_button }};
         
         &:before,
         &:after {
@@ -269,7 +269,7 @@
           bottom: -1px;
           width: 20px;
           transform: skewX(-12deg);
-          background-color: {{ settings.color_button }};
+          background-color: {{ settings.ph_color_button }};
         }
         
         &:before {
@@ -286,21 +286,21 @@
         .element-button[type="submit"]:before,
         .element-button[type="submit"]:after {
           background-color: color-mix(in srgb,var(--_color-text) var(--_shade-background),var(--_color-background));
-          border-top: 1px solid {{ settings.color_button }};
-          border-bottom: 1px solid {{ settings.color_button }};
+          border-top: 1px solid {{ settings.ph_color_button }};
+          border-bottom: 1px solid {{ settings.ph_color_button }};
         }
 
         .element-button[type="submit"]:before {
-          border-left: 1px solid {{ settings.color_button }};
+          border-left: 1px solid {{ settings.ph_color_button }};
         }
         
         .element-button[type="submit"]:after {
-          border-right: 1px solid {{ settings.color_button }};
+          border-right: 1px solid {{ settings.ph_color_button }};
         }
       }
 
       .element-button--shopify-payment-wrapper {
-        --_color-background: {{ settings.color_button }};
+        --_color-background: {{ settings.ph_color_button }};
 
         button:hover,
         button:before,
@@ -349,7 +349,7 @@
   </div>
 
   {% style %}
-    .page-container { min-height: 100vh; background-color: var(--colorFooter); }
+    .page-container { min-height: 100vh; background-color: var(--ph-colorFooter); }
   {% endstyle %}
 
   {%- liquid

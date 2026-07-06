@@ -7,9 +7,9 @@
   {%- endif -%}
 {%- endstyle -%}
 
-<div class="{% unless section.settings.full_width %}index-section{% endunless %} color-scheme-{{ section.settings.color_scheme }}">
-  {%- if section.settings.color_scheme != 'none' -%}
-    {%- render 'theme-texture', color_scheme: section.settings.color_scheme -%}
+<div class="{% unless section.settings.full_width %}index-section{% endunless %} color-scheme-{{ section.settings.ph_color_scheme }}">
+  {%- if section.settings.ph_color_scheme != 'none' -%}
+    {%- render 'theme-texture', color_scheme: section.settings.ph_color_scheme -%}
   {%- endif -%}
   <section
     class="

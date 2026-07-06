@@ -75,14 +75,14 @@
         {% endif %}
 
         {%- assign accent_exists = false -%}
-        {%- assign button_alpha = block.settings.color_accent | color_extract: 'alpha' -%}
+        {%- assign button_alpha = block.settings.ph_color_accent | color_extract: 'alpha' -%}
         {% unless button_alpha == 0.0 %}
           {%- assign accent_exists = true -%}
           .flex-grid__item--{{ block.id }} .btn {
-            background: {{ block.settings.color_accent }} !important;
+            background: {{ block.settings.ph_color_accent }} !important;
             border: none !important;
 
-            {%- assign accent_brightness = block.settings.color_accent | color_extract: 'lightness' -%}
+            {%- assign accent_brightness = block.settings.ph_color_accent | color_extract: 'lightness' -%}
 
             {% if accent_brightness > 60 %}
               color: #000 !important;
@@ -92,32 +92,32 @@
           {% if settings.button_style == 'angled' %}
             .flex-grid__item--{{ block.id }} .btn:before,
             .flex-grid__item--{{ block.id }} .btn:after {
-              background: {{ block.settings.color_accent }} !important;
+              background: {{ block.settings.ph_color_accent }} !important;
               border: none !important;
             }
           {% endif %}
         {% endunless %}
 
         {%- assign tint_exists = false -%}
-        {% if block.settings.color_tint and block.settings.color_tint != 'rgba(0,0,0,0)' %}
+        {% if block.settings.ph_color_tint and block.settings.ph_color_tint != 'rgba(0,0,0,0)' %}
           {%- assign tint_exists = true -%}
 
           .flex-grid__item--{{ block.id }} .btn--tint-border {
-            border: 1px solid {{ block.settings.color_tint | color_modify: 'alpha', 0.2 }} !important;
+            border: 1px solid {{ block.settings.ph_color_tint | color_modify: 'alpha', 0.2 }} !important;
           }
 
           {% if settings.button_style == 'angled' %}
             .flex-grid__item--{{ block.id }} .btn--tint-border:before,
             .flex-grid__item--{{ block.id }} .btn--tint-border:after {
-              border-color: {{ block.settings.color_tint | color_modify: 'alpha', 0.2 }};
+              border-color: {{ block.settings.ph_color_tint | color_modify: 'alpha', 0.2 }};
             }
           {% endif %}
         {% endif %}
 
-        {% if block.settings.color_tint != 'rgba(0,0,0,0)' and block.settings.color_tint_opacity > 0 %}
+        {% if block.settings.ph_color_tint != 'rgba(0,0,0,0)' and block.settings.ph_color_tint_opacity > 0 %}
           .flex-grid__item--{{ block.id }} .promo-grid__container--tint:before {
-            {%- assign color_tint_opacity = block.settings.color_tint_opacity | divided_by: 100.00 -%}
-            background: {{ block.settings.color_tint | color_modify: 'alpha', color_tint_opacity }};
+            {%- assign color_tint_opacity = block.settings.ph_color_tint_opacity | divided_by: 100.00 -%}
+            background: {{ block.settings.ph_color_tint | color_modify: 'alpha', color_tint_opacity }};
           }
         {% endif %}
 
@@ -219,7 +219,7 @@
           {%- when 'sale_collection' -%}
             <a
               href="{{ collections[block.settings.sale_collection].url }}"
-              class="promo-grid__container{% if block.settings.framed and block.settings.boxed == false %} promo-grid__container--framed{% endif %}{% if block.settings.color_tint_opacity > 0 %} promo-grid__container--tint{% endif %} vertical-center horizontal-left">
+              class="promo-grid__container{% if block.settings.framed and block.settings.boxed == false %} promo-grid__container--framed{% endif %}{% if block.settings.ph_color_tint_opacity > 0 %} promo-grid__container--tint{% endif %} vertical-center horizontal-left">
               {%- if block.settings.top_text != blank or block.settings.middle_text != blank or block.settings.bottom_text != blank -%}
                 <div class="promo-grid__content{% if block.settings.boxed %} promo-grid__content--boxed{% if block.settings.framed %} promo-grid__content--framed{% endif %}{% endif %}{% if block.settings.width == '50' %} promo-grid__content--small-text{% endif %}">
                   <div class="promo-grid__text text-center">
@@ -321,7 +321,7 @@
             -%}
 
             <a href="{{ block.settings.link }}"
-              class="promo-grid__container{% if block.settings.framed %} promo-grid__container--framed{% endif %}{% if block.settings.color_tint_opacity > 0 %} promo-grid__container--tint{% endif %} vertical-center horizontal-center">
+              class="promo-grid__container{% if block.settings.framed %} promo-grid__container--framed{% endif %}{% if block.settings.ph_color_tint_opacity > 0 %} promo-grid__container--tint{% endif %} vertical-center horizontal-center">
 
               <div class="promo-grid__bg">
                 {%- if block_img != blank -%}
@@ -376,7 +376,7 @@
             {%- if block.settings.link -%}
               <a href="{{ block.settings.link }}" class="type-banner__link">
             {%- endif -%}
-              <div class="promo-grid__container{% if block.settings.framed %} promo-grid__container--framed{% endif %}{% if block.settings.color_tint_opacity > 0 %} promo-grid__container--tint{% endif %}">
+              <div class="promo-grid__container{% if block.settings.framed %} promo-grid__container--framed{% endif %}{% if block.settings.ph_color_tint_opacity > 0 %} promo-grid__container--tint{% endif %}">
                 <div class="type-banner__content text-center">
                   {%- if block.settings.image != blank -%}
                     <div class="type-banner__image">
@@ -413,7 +413,7 @@
             {%- assign product = all_products[block.settings.product] -%}
             <div
               class="promo-grid__container{% if block.settings.framed %} promo-grid__container--framed{% endif %}">
-              <div class="type-product__wrapper{% if block.settings.color_tint_opacity > 0 %} promo-grid__container--tint{% endif %}">
+              <div class="type-product__wrapper{% if block.settings.ph_color_tint_opacity > 0 %} promo-grid__container--tint{% endif %}">
                 <div class="flex-grid flex-grid--center flex-grid--gutters">
                   <div class="flex-grid__item flex-grid__item--stretch flex-grid__item--50 flex-grid__item--mobile-second">
                     {%- if block.settings.subheading != blank or block.settings.heading != blank or block.settings.textarea != blank or block.settings.link_label != blank -%}

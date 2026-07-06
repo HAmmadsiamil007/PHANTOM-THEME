@@ -1,12 +1,12 @@
 {%- style -%}
   .newsletter-{{ section.id }} {
-    background-color: {{ section.settings.color_background }};
-    color: {{ section.settings.color_text }};
+    background-color: {{ section.settings.ph_color_background }};
+    color: {{ section.settings.ph_color_text }};
   }
 
-  .newsletter-{{ section.id }} .newsletter__input::-webkit-input-placeholder { color: {{ section.settings.color_text }}; }
-  .newsletter-{{ section.id }} .newsletter__input::-moz-placeholder { color: {{ section.settings.color_text }}; }
-  .newsletter-{{ section.id }} .newsletter__input::-ms-input-placeholder { color: {{ section.settings.color_text }}; }
+  .newsletter-{{ section.id }} .newsletter__input::-webkit-input-placeholder { color: {{ section.settings.ph_color_text }}; }
+  .newsletter-{{ section.id }} .newsletter__input::-moz-placeholder { color: {{ section.settings.ph_color_text }}; }
+  .newsletter-{{ section.id }} .newsletter__input::-ms-input-placeholder { color: {{ section.settings.ph_color_text }}; }
 {%- endstyle -%}
 
 {% render 'newsletter-section', section: section %}
@@ -208,13 +208,13 @@
       {
         "type": "color",
         "id": "color_background",
-        "label": "t:sections.newsletter.settings.color_background.label",
+        "label": "t:sections.newsletter.settings.ph_color_background.label",
         "default": "#f9f9f9"
       },
       {
         "type": "color",
         "id": "color_text",
-        "label": "t:sections.newsletter.settings.color_text.label",
+        "label": "t:sections.newsletter.settings.ph_color_text.label",
         "default": "#1c1d1d"
       },
       {

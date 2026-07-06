@@ -8,13 +8,13 @@
     }
   }
 
-  {%- assign button_alpha = section.settings.color_accent | color_extract: 'alpha' -%}
+  {%- assign button_alpha = section.settings.ph_color_accent | color_extract: 'alpha' -%}
   {% unless button_alpha == 0.0 %}
     .hero--{{ section.id }} .btn {
-      background: {{ section.settings.color_accent }} !important;
-      border-color: {{ section.settings.color_accent }} !important;
+      background: {{ section.settings.ph_color_accent }} !important;
+      border-color: {{ section.settings.ph_color_accent }} !important;
 
-      {%- assign accent_brightness = section.settings.color_accent | color_extract: 'lightness' -%}
+      {%- assign accent_brightness = section.settings.ph_color_accent | color_extract: 'lightness' -%}
 
       {% if accent_brightness > 40 %}
         color: #000 !important;
@@ -24,8 +24,8 @@
     {% if settings.button_style == 'angled' %}
       .hero--{{ section.id }} .btn:before,
       .hero--{{ section.id }} .btn:after {
-        background: {{ section.settings.color_accent }} !important;
-        border-color: {{ section.settings.color_accent }} !important;
+        background: {{ section.settings.ph_color_accent }} !important;
+        border-color: {{ section.settings.ph_color_accent }} !important;
       }
     {% endif %}
   {% endunless %}
@@ -131,7 +131,7 @@
               <div class="hero__link">
                 <div class="animation-cropper">
                   <div class="animation-contents">
-                    <a href="{{ link_href }}" class="btn{% if section.settings.color_accent and section.settings.color_accent == 'rgba(0,0,0,0)' %} btn--inverse{% endif %}"
+                    <a href="{{ link_href }}" class="btn{% if section.settings.ph_color_accent and section.settings.ph_color_accent == 'rgba(0,0,0,0)' %} btn--inverse{% endif %}"
                       {%- if section.settings.video_url contains 'vimeo.com' -%}
                         data-video-id="{{ video_id }}"
                       {%- endif -%}
@@ -195,7 +195,7 @@
     {
       "type": "color",
       "id": "color_accent",
-      "label": "t:sections.hero-video.settings.color_accent.label",
+      "label": "t:sections.hero-video.settings.ph_color_accent.label",
       "default": "rgba(0,0,0,0)"
     },
     {

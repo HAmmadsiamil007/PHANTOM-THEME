@@ -19,7 +19,7 @@
 
 
 {%- liquid
-  assign color_scheme = color_scheme | default: section.settings.color_scheme | default: 'none'
+  assign color_scheme = color_scheme | default: section.settings.ph_color_scheme | default: 'none'
   assign padding = padding | default: section.settings.padding | default: 'none'
   assign form_id = 'pdp-form-' | append: section.id
 -%}

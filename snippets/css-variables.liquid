@@ -28,69 +28,69 @@
         --buttonRadius: 0;
     {% endif %}
 
-    --colorGridOverlayOpacity: {{ settings.collection_grid_opacity | divided_by: 100.0 }};
-    --colorAnnouncement: {{ settings.color_announcement | default: "#1c1d1d" }};
-    --colorAnnouncementText: {{ settings.color_announcement_text | default: "#fff" }};
+    --ph-colorGridOverlayOpacity: {{ settings.collection_grid_opacity | divided_by: 100.0 }};
+    --ph-colorAnnouncement: {{ settings.ph_color_announcement | default: "#1c1d1d" }};
+    --ph-colorAnnouncementText: {{ settings.ph_color_announcement_text | default: "#fff" }};
 
-    --colorBody: {{ settings.color_body_bg | default: "#fff" }};
-    --colorBodyAlpha05: {{ settings.color_body_bg | default: "#fff" | color_modify: 'alpha', 0.05 }};
-    --colorBodyDim: {{ settings.color_body_bg | default: "#1c1d1d" | color_darken: 5 }};
-    --colorBodyLightDim: {{ settings.color_body_bg | default: '#fff' | color_darken: 2 }};
-    --colorBodyMediumDim: {{ settings.color_body_bg | default: '#fff' | color_darken: 4 }};
+    --ph-colorBody: {{ settings.ph_color_body_bg | default: "#fff" }};
+    --ph-colorBodyAlpha05: {{ settings.ph_color_body_bg | default: "#fff" | color_modify: 'alpha', 0.05 }};
+    --ph-colorBodyDim: {{ settings.ph_color_body_bg | default: "#1c1d1d" | color_darken: 5 }};
+    --ph-colorBodyLightDim: {{ settings.ph_color_body_bg | default: '#fff' | color_darken: 2 }};
+    --ph-colorBodyMediumDim: {{ settings.ph_color_body_bg | default: '#fff' | color_darken: 4 }};
 
 
-    --colorBorder: {{ settings.color_borders | default: "#1c1d1d" }};
+    --ph-colorBorder: {{ settings.ph_color_borders | default: "#1c1d1d" }};
 
-    --colorBtnPrimary: {{ settings.color_button | default: "#000" }};
-    --colorBtnPrimaryLight: {{ settings.color_button | default: "#000" | color_lighten: 10 }};
-    --colorBtnPrimaryDim: {{ settings.color_button | default: "#000" | color_darken: 5 }};
-    --colorBtnPrimaryText: {{ settings.color_button_text | default: "#fff" }};
+    --ph-colorBtnPrimary: {{ settings.ph_color_button | default: "#000" }};
+    --ph-colorBtnPrimaryLight: {{ settings.ph_color_button | default: "#000" | color_lighten: 10 }};
+    --ph-colorBtnPrimaryDim: {{ settings.ph_color_button | default: "#000" | color_darken: 5 }};
+    --ph-colorBtnPrimaryText: {{ settings.ph_color_button_text | default: "#fff" }};
 
-    --colorCartDot: {{ settings.color_cart_dot | default: "#ff4f33" }};
+    --ph-colorCartDot: {{ settings.ph_color_cart_dot | default: "#ff4f33" }};
 
-    --colorDrawers: {{ settings.color_drawer_background | default: "#1c1d1d" }};
-    --colorDrawersDim: {{ settings.color_drawer_background | default: "#1c1d1d" | color_darken: 5 }};
-    --colorDrawerBorder: {{ settings.color_drawer_border | default: "#343535" }};
-    --colorDrawerText: {{ settings.color_drawer_text | default: "#fff" }};
-    --colorDrawerTextDark: {{ settings.color_drawer_text | default: "#fff" | color_darken: 15 }};
-    --colorDrawerButton: {{ settings.color_drawer_button | default: "#a26b25" }};
-    --colorDrawerButtonText: {{ settings.color_drawer_button_text | default: "#fff" }};
+    --ph-colorDrawers: {{ settings.ph_color_drawer_background | default: "#1c1d1d" }};
+    --ph-colorDrawersDim: {{ settings.ph_color_drawer_background | default: "#1c1d1d" | color_darken: 5 }};
+    --ph-colorDrawerBorder: {{ settings.ph_color_drawer_border | default: "#343535" }};
+    --ph-colorDrawerText: {{ settings.ph_color_drawer_text | default: "#fff" }};
+    --ph-colorDrawerTextDark: {{ settings.ph_color_drawer_text | default: "#fff" | color_darken: 15 }};
+    --ph-colorDrawerButton: {{ settings.ph_color_drawer_button | default: "#a26b25" }};
+    --ph-colorDrawerButtonText: {{ settings.ph_color_drawer_button_text | default: "#fff" }};
 
-    --colorFooter: {{ settings.color_footer | default: "#111" }};
-    --colorFooterText: {{ settings.color_footer_text | default: "#fff" }};
-    --colorFooterTextAlpha01: {{ settings.color_footer_text | default: "#fff" }};
+    --ph-colorFooter: {{ settings.ph_color_footer | default: "#111" }};
+    --ph-colorFooterText: {{ settings.ph_color_footer_text | default: "#fff" }};
+    --ph-colorFooterTextAlpha01: {{ settings.ph_color_footer_text | default: "#fff" }};
 
-    --colorGridOverlay: {{ settings.collection_grid_tint | default: "#000" }};
-    --colorGridOverlayOpacity: {{ settings.collection_grid_opacity | divided_by: 100.0 }};
+    --ph-colorGridOverlay: {{ settings.collection_grid_tint | default: "#000" }};
+    --ph-colorGridOverlayOpacity: {{ settings.collection_grid_opacity | divided_by: 100.0 }};
 
-    --colorHeaderTextAlpha01: {{ settings.color_header_text | default: '#000' | color_modify: 'alpha', 0.1 }};
+    --ph-colorHeaderTextAlpha01: {{ settings.ph_color_header_text | default: '#000' | color_modify: 'alpha', 0.1 }};
 
-    --colorHeroText: {{ settings.color_image_text | default: "#fff" }};
+    --ph-colorHeroText: {{ settings.ph_color_image_text | default: "#fff" }};
 
-    --colorSmallImageBg: {{ settings.color_small_image_bg | default: "#eee" }};
-    --colorLargeImageBg: {{ settings.color_large_image_bg | default: "#1c1d1d" }};
+    --ph-colorSmallImageBg: {{ settings.ph_color_small_image_bg | default: "#eee" }};
+    --ph-colorLargeImageBg: {{ settings.ph_color_large_image_bg | default: "#1c1d1d" }};
 
-    --colorImageOverlay: {{ settings.color_image_overlay | default: "#000" }};
-    --colorImageOverlayOpacity: {{ settings.color_image_overlay_opacity | divided_by: 100.0 }};
-    --colorImageOverlayTextShadow: {{ settings.color_image_overlay_text_shadow | divided_by: 100.0 }};
+    --ph-colorImageOverlay: {{ settings.ph_color_image_overlay | default: "#000" }};
+    --ph-colorImageOverlayOpacity: {{ settings.ph_color_image_overlay_opacity | divided_by: 100.0 }};
+    --ph-colorImageOverlayTextShadow: {{ settings.ph_color_image_overlay_text_shadow | divided_by: 100.0 }};
 
-    --colorLink: {{ settings.color_body_text | default: "#1c1d1d" }};
+    --ph-colorLink: {{ settings.ph_color_body_text | default: "#1c1d1d" }};
 
-    --colorModalBg: {{ settings.color_modal_overlays | default: "#000" | color_modify: 'alpha', 0.6 }};
+    --ph-colorModalBg: {{ settings.ph_color_modal_overlays | default: "#000" | color_modify: 'alpha', 0.6 }};
 
-    --colorNav: {{ settings.color_header | default: "#fff" }};
-    --colorNavText: {{ settings.color_header_text | default: "#000" }};
+    --ph-colorNav: {{ settings.ph_color_header | default: "#fff" }};
+    --ph-colorNavText: {{ settings.ph_color_header_text | default: "#000" }};
 
-    --colorPrice: {{ settings.color_price | default: "#1c1d1d" }};
+    --ph-colorPrice: {{ settings.ph_color_price | default: "#1c1d1d" }};
 
-    --colorSaleTag: {{ settings.color_sale_tag | default: "#1c1d1d" }};
-    --colorSaleTagText: {{ settings.color_sale_tag_text | default: "#ffffff" }};
+    --ph-colorSaleTag: {{ settings.ph_color_sale_tag | default: "#1c1d1d" }};
+    --ph-colorSaleTagText: {{ settings.ph_color_sale_tag_text | default: "#ffffff" }};
 
-    --colorTextBody: {{ settings.color_body_text | default: "#1c1d1d" }};
-    --colorTextBodyAlpha015: {{ settings.color_body_text | default: '#1c1d1d' | color_modify: 'alpha', 0.15 }};
-    --colorTextBodyAlpha005: {{ settings.color_body_text | default: "#1c1d1d"  | color_modify: 'alpha', 0.05 }};
-    --colorTextBodyAlpha008: {{ settings.color_body_text | default: '#1c1d1d' | color_modify: 'alpha', 0.08 }};
-    --colorTextSavings: {{ settings.color_savings_text | default: "#1c1d1d" }};
+    --ph-colorTextBody: {{ settings.ph_color_body_text | default: "#1c1d1d" }};
+    --ph-colorTextBodyAlpha015: {{ settings.ph_color_body_text | default: '#1c1d1d' | color_modify: 'alpha', 0.15 }};
+    --ph-colorTextBodyAlpha005: {{ settings.ph_color_body_text | default: "#1c1d1d"  | color_modify: 'alpha', 0.05 }};
+    --ph-colorTextBodyAlpha008: {{ settings.ph_color_body_text | default: '#1c1d1d' | color_modify: 'alpha', 0.08 }};
+    --ph-colorTextSavings: {{ settings.ph_color_savings_text | default: "#1c1d1d" }};
 
     --urlSelectChevron: url({{ 'ph-chevron-down.svg' | asset_url | split: '?' | first }});
     --urlFooterChevron: url({{ 'ph-footer-chevron.svg' | asset_url | split: '?' | first }});
@@ -105,12 +105,12 @@
     --newsletterReminderPadding: 40px;
 
     /*Shop Pay Installments*/
-    --color-body-text: {{ settings.color_body_text | default: "#1c1d1d" }};
-    --color-body: {{ settings.color_body_bg | default: "#fff" }};
-    --color-bg: {{ settings.color_body_bg | default: "#fff" }};
+    --color-body-text: {{ settings.ph_color_body_text | default: "#1c1d1d" }};
+    --color-body: {{ settings.ph_color_body_bg | default: "#fff" }};
+    --color-bg: {{ settings.ph_color_body_bg | default: "#fff" }};
     }
 
     .placeholder-content {
-    background-image: linear-gradient(100deg, {{ settings.color_small_image_bg }} 40%, {{ settings.color_small_image_bg | color_darken: 3 }} 63%, {{ settings.color_small_image_bg }} 79%);
+    background-image: linear-gradient(100deg, {{ settings.ph_color_small_image_bg }} 40%, {{ settings.ph_color_small_image_bg | color_darken: 3 }} 63%, {{ settings.ph_color_small_image_bg }} 79%);
     }
 {%- endstyle -%}

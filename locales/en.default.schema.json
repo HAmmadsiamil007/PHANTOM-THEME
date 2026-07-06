@@ -2981,93 +2981,93 @@
     "colors": {
       "name": "Colors",
       "settings": {"header_general": "General",
-        "color_body_bg": {
+        "ph_color_body_bg": {
           "label": "Background"
         },
-        "color_body_text": {
+        "ph_color_body_text": {
           "label": "Text"
         },
-        "color_price": {
+        "ph_color_price": {
           "label": "Price"
         },
-        "color_savings_text": {
+        "ph_color_savings_text": {
           "label": "Save price"
         },
-        "color_borders": {
+        "ph_color_borders": {
           "label": "Lines and borders"
         },
-        "color_button": {
+        "ph_color_button": {
           "label": "Buttons"
         },
-        "color_button_text": {
+        "ph_color_button_text": {
           "label": "Button text"
         },
-        "color_sale_tag": {
+        "ph_color_sale_tag": {
           "label": "Sale tags"
         },
-        "color_sale_tag_text": {
+        "ph_color_sale_tag_text": {
           "label": "Sale tag text"
         },
-        "color_cart_dot": {
+        "ph_color_cart_dot": {
           "label": "Cart dot"
         },
-        "color_small_image_bg": {
+        "ph_color_small_image_bg": {
           "label": "Image background"
         },
-        "color_large_image_bg": {
+        "ph_color_large_image_bg": {
           "label": "Image section background"
         },
         "header_header": "Header",
-        "color_header": {
+        "ph_color_header": {
           "label": "Background"
         },
-        "color_header_text": {
+        "ph_color_header_text": {
           "label": "Text"
         },
-        "color_announcement": {
+        "ph_color_announcement": {
           "label": "Announcement bar"
         },
-        "color_announcement_text": {
+        "ph_color_announcement_text": {
           "label": "Announcement bar text"
         },
         "header_footer": "Footer",
-        "color_footer": {
+        "ph_color_footer": {
           "label": "Background"
         },
-        "color_footer_text": {
+        "ph_color_footer_text": {
           "label": "Text"
         },
         "header_menu_and_cart_drawers": "Menu and cart drawers",
-        "color_drawer_background": {
+        "ph_color_drawer_background": {
           "label": "Background"
         },
-        "color_drawer_text": {
+        "ph_color_drawer_text": {
           "label": "Text"
         },
-        "color_drawer_border": {
+        "ph_color_drawer_border": {
           "label": "Lines and borders"
         },
-        "color_drawer_button": {
+        "ph_color_drawer_button": {
           "label": "Buttons"
         },
-        "color_drawer_button_text": {
+        "ph_color_drawer_button_text": {
           "label": "Button text"
         },
-        "color_modal_overlays": {
+        "ph_color_modal_overlays": {
           "label": "Overlays"
         },
         "header_image_treatment": "Image treatment",
         "content": "Used on slideshows, video heroes, promo grid, and collection headers",
-        "color_image_text": {
+        "ph_color_image_text": {
           "label": "Text"
         },
-        "color_image_overlay": {
+        "ph_color_image_overlay": {
           "label": "Overlay"
         },
-        "color_image_overlay_opacity": {
+        "ph_color_image_overlay_opacity": {
           "label": "Overlay opacity"
         },
-        "color_image_overlay_text_shadow": {
+        "ph_color_image_overlay_text_shadow": {
           "label": "Text shadow amount"
         }
       }

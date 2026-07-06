@@ -7,10 +7,10 @@
     font-size: {{ section.settings.text_size }}px;
   }
 
-  {% if section.settings.color_scheme == 'button' %}
+  {% if section.settings.ph_color_scheme == 'button' %}
     .scrolling-text--{{ section.id }} {
-      background: {{ settings.color_button }};
-      color: {{ settings.color_button_text }};
+      background: {{ settings.ph_color_button }};
+      color: {{ settings.ph_color_button_text }};
     }
   {% endif %}
 {% endstyle %}

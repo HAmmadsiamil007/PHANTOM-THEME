@@ -1,13 +1,13 @@
 {%- style -%}
   .testimonials-{{ section.id }} {
-    background-color: {{ section.settings.color_background }};
-    color: {{ section.settings.color_text }};
+    background-color: {{ section.settings.ph_color_background }};
+    color: {{ section.settings.ph_color_text }};
   }
 }
 {%- endstyle -%}
 
 <div
-  class="testimonials-section testimonials-{{ section.id }}{% if section.settings.color_background == settings.color_body_bg %} testimonials-section--with-divider{% endif %} text-{{ section.settings.align_text }}"
+  class="testimonials-section testimonials-{{ section.id }}{% if section.settings.ph_color_background == settings.ph_color_body_bg %} testimonials-section--with-divider{% endif %} text-{{ section.settings.align_text }}"
   data-section-id="{{ section.id }}"
   data-section-type="testimonials"
   data-aos>
@@ -133,13 +133,13 @@
     {
       "type": "color",
       "id": "color_background",
-      "label": "t:sections.testimonials.settings.color_background.label",
+      "label": "t:sections.testimonials.settings.ph_color_background.label",
       "default": "#f9f9f9"
     },
     {
       "type": "color",
       "id": "color_text",
-      "label": "t:sections.testimonials.settings.color_text.label",
+      "label": "t:sections.testimonials.settings.ph_color_text.label",
       "default": "#1c1d1d"
     }
   ],
