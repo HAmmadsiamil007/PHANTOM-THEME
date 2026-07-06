@@ -143,6 +143,44 @@
         }
       },
       "presets": { "name": "Barra di urgenza" }
+    },
+    "size_guide": {
+      "name": "Guida alle taglie",
+      "close": "Chiudi",
+      "trigger_label": "Guida alle taglie",
+      "chest": "Torace (cm)",
+      "waist": "Vita (cm)",
+      "hip": "Fianchi (cm)",
+      "table": {
+        "size": "Taglia",
+        "chest": "Torace",
+        "waist": "Vita",
+        "hip": "Fianchi"
+      },
+      "settings": {
+        "heading": "Intestazione",
+        "intro_text": "Testo introduttivo",
+        "header_colors": "Colori",
+        "bg_color": "Sfondo",
+        "text_color": "Testo",
+        "accent_color": "Accento"
+      },
+      "blocks": {
+        "size": {
+          "name": "Riga taglia",
+          "settings": {
+            "label": "Etichetta taglia",
+            "chest_min": "Torace min",
+            "chest_max": "Torace max",
+            "waist_min": "Vita min",
+            "waist_max": "Vita max",
+            "hip_min": "Fianchi min",
+            "hip_max": "Fianchi max",
+            "recommendation": "Testo raccomandazione"
+          }
+        }
+      },
+      "presets": { "name": "Guida alle taglie" }
     }
   },
   "blogs": {

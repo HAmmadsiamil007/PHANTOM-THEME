@@ -143,6 +143,44 @@
         }
       },
       "presets": { "name": "Urgency Bar" }
+    },
+    "size_guide": {
+      "name": "Size Guide",
+      "close": "Close",
+      "trigger_label": "Size Guide",
+      "chest": "Chest (cm)",
+      "waist": "Waist (cm)",
+      "hip": "Hip (cm)",
+      "table": {
+        "size": "Size",
+        "chest": "Chest",
+        "waist": "Waist",
+        "hip": "Hip"
+      },
+      "settings": {
+        "heading": "Heading",
+        "intro_text": "Intro text",
+        "header_colors": "Colors",
+        "bg_color": "Background",
+        "text_color": "Text",
+        "accent_color": "Accent"
+      },
+      "blocks": {
+        "size": {
+          "name": "Size Row",
+          "settings": {
+            "label": "Size label",
+            "chest_min": "Chest min",
+            "chest_max": "Chest max",
+            "waist_min": "Waist min",
+            "waist_max": "Waist max",
+            "hip_min": "Hip min",
+            "hip_max": "Hip max",
+            "recommendation": "Recommendation text"
+          }
+        }
+      },
+      "presets": { "name": "Size Guide" }
     }
   },
   "blogs": {

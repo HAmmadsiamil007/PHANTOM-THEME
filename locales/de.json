@@ -143,6 +143,44 @@
         }
       },
       "presets": { "name": "Dringlichkeitsleiste" }
+    },
+    "size_guide": {
+      "name": "Gr\u00f6\u00dfenratgeber",
+      "close": "Schlie\u00dfen",
+      "trigger_label": "Gr\u00f6\u00dfenratgeber",
+      "chest": "Brust (cm)",
+      "waist": "Taille (cm)",
+      "hip": "H\u00fcfte (cm)",
+      "table": {
+        "size": "Gr\u00f6\u00dfe",
+        "chest": "Brust",
+        "waist": "Taille",
+        "hip": "H\u00fcfte"
+      },
+      "settings": {
+        "heading": "\u00dcberschrift",
+        "intro_text": "Einleitungstext",
+        "header_colors": "Farben",
+        "bg_color": "Hintergrund",
+        "text_color": "Text",
+        "accent_color": "Akzent"
+      },
+      "blocks": {
+        "size": {
+          "name": "Gr\u00f6\u00dfenzeile",
+          "settings": {
+            "label": "Gr\u00f6\u00dfenlabel",
+            "chest_min": "Brust min",
+            "chest_max": "Brust max",
+            "waist_min": "Taille min",
+            "waist_max": "Taille max",
+            "hip_min": "H\u00fcfte min",
+            "hip_max": "H\u00fcfte max",
+            "recommendation": "Empfehlungstext"
+          }
+        }
+      },
+      "presets": { "name": "Gr\u00f6\u00dfenratgeber" }
     }
   },
   "blogs": {

@@ -143,6 +143,44 @@
         }
       },
       "presets": { "name": "Barre d'urgence" }
+    },
+    "size_guide": {
+      "name": "Guide des tailles",
+      "close": "Fermer",
+      "trigger_label": "Guide des tailles",
+      "chest": "Poitrine (cm)",
+      "waist": "Taille (cm)",
+      "hip": "Hanches (cm)",
+      "table": {
+        "size": "Taille",
+        "chest": "Poitrine",
+        "waist": "Taille",
+        "hip": "Hanches"
+      },
+      "settings": {
+        "heading": "Titre",
+        "intro_text": "Texte d'introduction",
+        "header_colors": "Couleurs",
+        "bg_color": "Arri\u00e8re-plan",
+        "text_color": "Texte",
+        "accent_color": "Accent"
+      },
+      "blocks": {
+        "size": {
+          "name": "Ligne de taille",
+          "settings": {
+            "label": "\u00c9tiquette de taille",
+            "chest_min": "Poitrine min",
+            "chest_max": "Poitrine max",
+            "waist_min": "Taille min",
+            "waist_max": "Taille max",
+            "hip_min": "Hanches min",
+            "hip_max": "Hanches max",
+            "recommendation": "Texte de recommandation"
+          }
+        }
+      },
+      "presets": { "name": "Guide des tailles" }
     }
   },
   "blogs": {

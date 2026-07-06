@@ -143,6 +143,44 @@
         }
       },
       "presets": { "name": "Barra de urgencia" }
+    },
+    "size_guide": {
+      "name": "Gu\u00eda de tallas",
+      "close": "Cerrar",
+      "trigger_label": "Gu\u00eda de tallas",
+      "chest": "Pecho (cm)",
+      "waist": "Cintura (cm)",
+      "hip": "Cadera (cm)",
+      "table": {
+        "size": "Talla",
+        "chest": "Pecho",
+        "waist": "Cintura",
+        "hip": "Cadera"
+      },
+      "settings": {
+        "heading": "T\u00edtulo",
+        "intro_text": "Texto de introducci\u00f3n",
+        "header_colors": "Colores",
+        "bg_color": "Fondo",
+        "text_color": "Texto",
+        "accent_color": "Acento"
+      },
+      "blocks": {
+        "size": {
+          "name": "Fila de talla",
+          "settings": {
+            "label": "Etiqueta de talla",
+            "chest_min": "Pecho m\u00edn",
+            "chest_max": "Pecho m\u00e1x",
+            "waist_min": "Cintura m\u00edn",
+            "waist_max": "Cintura m\u00e1x",
+            "hip_min": "Cadera m\u00edn",
+            "hip_max": "Cadera m\u00e1x",
+            "recommendation": "Texto de recomendaci\u00f3n"
+          }
+        }
+      },
+      "presets": { "name": "Gu\u00eda de tallas" }
     }
   },
   "blogs": {
