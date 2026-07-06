@@ -2210,6 +2210,24 @@
         }
       }
     },
+    "quiz": {
+      "name": "Quiz",
+      "settings": {
+        "show_progress_bar": "Show progress bar",
+        "progress_bar_color": "Progress bar color",
+        "animation_style": "Animation style",
+        "animation_style_options": {
+          "slide": "Slide",
+          "fade": "Fade",
+          "none": "None"
+        },
+        "matching_mode": "Matching mode",
+        "matching_mode_options": {
+          "intersection": "Tag intersection",
+          "weighted-score": "Weighted score"
+        }
+      }
+    },
     "recently-viewed": {
       "name": "Recently viewed",
       "settings": {"content": "Recently viewed products are only visible when browsing outside of the editor",
@@ -3654,6 +3672,11 @@
       }
     },
     "sections": {
+      "quiz": {
+        "enhanced": {
+          "progress_label": "{{ current }} / {{ total }}"
+        }
+      },
       "map": {
         "get_directions": "Get directions",
         "address_error": "Error looking up that address",

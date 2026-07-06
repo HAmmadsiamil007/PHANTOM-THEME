@@ -1,175 +1,159 @@
 class QuizRecommendation extends HTMLElement {
-  constructor() {
-    super();
-    this.currentIndex = 0;
-    this.accumulatedHandles = [];
-    this.productsToShow = parseInt(this.getAttribute('data-products-to-show'), 10) || 3;
-    this.questionEls = [];
-    this.optionButtons = [];
-    this.boundClick = this.handleOptionClick.bind(this);
-    this.boundAddToCart = this.handleAddToCart.bind(this);
-  }
-
   connectedCallback() {
     this.intro = this.querySelector('[data-quiz-intro]');
+    this.questions = Array.from(this.querySelectorAll('[data-quiz-question]'));
     this.results = this.querySelector('[data-quiz-results]');
-    this.cardsContainer = this.querySelector('[data-quiz-cards]');
+    this.cards = this.querySelector('[data-quiz-cards]');
+    this.progress = this.querySelector('[data-quiz-progress]');
+    this.progressFill = this.querySelector('[data-quiz-progress-fill]');
+    this.progressLabel = this.querySelector('[data-quiz-progress-label]');
     this.noResults = this.querySelector('[data-quiz-no-results]');
-    this.startBtn = this.querySelector('[data-quiz-start]');
     this.resetBtn = this.querySelector('[data-quiz-reset]');
-    this.questionEls = [...this.querySelectorAll('[data-quiz-question]')];
-    this.optionButtons = [...this.querySelectorAll('[data-quiz-option]')];
-    this.cardSlots = [...this.querySelectorAll('[data-quiz-card-slot]')];
+    this.startBtn = this.querySelector('[data-quiz-start]');
+    this.productsToShow = parseInt(this.dataset.productsToShow) || 3;
+
+    this.scores = {};
+    this.currentQuestion = 0;
+    this.animationStyle = this.dataset.animationStyle || 'slide';
+    this.matchingMode = this.dataset.matchingMode || 'intersection';
+
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    this.reducedMotion = mq.matches;
+    mq.addEventListener('change', (e) => { this.reducedMotion = e.matches; });
 
     this.startBtn?.addEventListener('click', () => this.start());
     this.resetBtn?.addEventListener('click', () => this.reset());
-    this.optionButtons.forEach((btn) => btn.addEventListener('click', this.boundClick));
 
-    if (window.Shopify && window.Shopify.designMode) {
-      window.addEventListener('shopify:section:select', () => this.reset());
-      window.addEventListener('shopify:block:select', () => this.reset());
-    }
-  }
-
-  disconnectedCallback() {
-    this.optionButtons.forEach((btn) => btn.removeEventListener('click', this.boundClick));
-    this.startBtn?.removeEventListener('click', this.start);
-    this.resetBtn?.removeEventListener('click', this.reset);
-    document.querySelectorAll('[data-quiz-add-to-cart]').forEach((btn) => {
-      btn.removeEventListener('click', this.boundAddToCart);
+    this.questions.forEach((q, i) => {
+      q.querySelectorAll('[data-quiz-option]').forEach(opt => {
+        opt.addEventListener('click', () => this.selectOption(i, opt));
+      });
     });
   }
 
   start() {
     this.intro?.classList.add('is-hidden');
-    this.currentIndex = 0;
     this.showQuestion(0);
   }
 
   showQuestion(index) {
-    this.questionEls.forEach((el, i) => {
-      el.classList.add('is-hidden');
-      el.classList.remove('is-exiting');
+    if (index >= this.questions.length) { this.showResults(); return; }
+    this.questions.forEach((q, i) => {
+      q.classList.toggle('is-hidden', i !== index);
+      if (!this.reducedMotion && i === index) {
+        q.style.animation = 'quizFadeIn 0.4s ease forwards';
+      }
     });
-    if (this.questionEls[index]) {
-      this.questionEls[index].classList.remove('is-hidden');
+    this.currentQuestion = index;
+    this.updateProgress();
+  }
+
+  updateProgress() {
+    if (!this.progress || !this.progressFill) return;
+    const pct = ((this.currentQuestion + 1) / this.questions.length) * 100;
+    this.progressFill.style.width = `${pct}%`;
+    if (this.progressLabel) {
+      this.progressLabel.textContent = `${this.currentQuestion + 1} / ${this.questions.length}`;
     }
   }
 
-  handleOptionClick(e) {
-    const btn = e.currentTarget;
-    const handles = (btn.getAttribute('data-product-handles') || '')
-      .split(',')
-      .map((h) => h.trim())
-      .filter(Boolean);
+  selectOption(questionIndex, opt) {
+    const handles = (opt.dataset.productHandles || '').split(',').filter(Boolean);
+    const weight = parseFloat(opt.dataset.weight) || 1;
 
-    this.accumulatedHandles.push(...handles);
-    btn.classList.add('is-loading');
+    if (this.matchingMode === 'weighted-score') {
+      handles.forEach(h => { this.scores[h] = (this.scores[h] || 0) + weight; });
+    } else {
+      if (!this._accumulated) this._accumulated = [];
+      this._accumulated.push(...handles);
+    }
 
-    setTimeout(() => {
-      btn.classList.remove('is-loading');
-      const isLast = btn.hasAttribute('data-last-question');
-
-      if (this.questionEls[this.currentIndex]) {
-        this.questionEls[this.currentIndex].classList.add('is-exiting');
-      }
-
-      setTimeout(() => {
-        this.questionEls.forEach((el) => el.classList.add('is-hidden'));
-
-        if (isLast) {
-          this.showResults();
-        } else {
-          this.currentIndex++;
-          this.showQuestion(this.currentIndex);
-        }
-      }, 300);
-    }, 400);
+    this.showQuestion(questionIndex + 1);
   }
 
-  showResults() {
-    this.questionEls.forEach((el) => el.classList.add('is-hidden'));
+  async showResults() {
+    this.questions.forEach(q => q.classList.add('is-hidden'));
     this.results?.classList.remove('is-hidden');
+    if (!this.reducedMotion) this.results.style.animation = 'quizFadeIn 0.5s ease forwards';
 
-    if (this.accumulatedHandles.length === 0) {
+    let handles;
+    if (this.matchingMode === 'weighted-score') {
+      handles = Object.entries(this.scores)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, this.productsToShow)
+        .map(([h]) => h);
+    } else {
+      const freq = {};
+      (this._accumulated || []).forEach(h => { freq[h] = (freq[h] || 0) + 1; });
+      handles = [...new Set(this._accumulated || [])]
+        .sort((a, b) => freq[b] - freq[a])
+        .slice(0, this.productsToShow);
+    }
+
+    if (handles.length === 0) {
       this.noResults?.classList.remove('is-hidden');
       return;
     }
 
     this.noResults?.classList.add('is-hidden');
-    this.cardSlots.forEach((slot) => slot.classList.add('is-loading'));
-
-    const sorted = this.sortByFrequency(this.accumulatedHandles);
-    const handles = sorted.slice(0, this.productsToShow);
-
-    handles.forEach((handle, i) => {
-      if (this.cardSlots[i]) {
-        this.fetchProductCard(handle, this.cardSlots[i]);
-      }
+    const slots = this.querySelectorAll('[data-quiz-card-slot]');
+    const promises = handles.map((handle, i) => {
+      if (slots[i]) return this.fetchProduct(handle, slots[i]);
     });
+    await Promise.all(promises);
   }
 
-  sortByFrequency(handles) {
-    const freq = {};
-    handles.forEach((h) => (freq[h] = (freq[h] || 0) + 1));
-    return [...new Set(handles)].sort((a, b) => freq[b] - freq[a]);
-  }
-
-  async fetchProductCard(handle, slot) {
+  async fetchProduct(handle, slot) {
+    slot.classList.add('is-loading');
     try {
-      const res = await fetch(`/products/${handle}?section_id=quiz-product-card`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const html = await res.text();
-      slot.innerHTML = html;
-      slot.classList.remove('is-loading');
+      const cached = this._getCache(handle);
+      if (cached) { slot.innerHTML = cached; slot.classList.remove('is-loading'); return; }
 
-      const form = slot.querySelector('.quiz-card__form');
-      if (form) {
-        form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-          const btn = form.querySelector('[data-quiz-add-to-cart]');
-          if (btn) btn.disabled = true;
-          try {
-            const fd = new FormData(form);
-            await fetch('/cart/add.js', {
-              method: 'POST',
-              body: fd,
-              headers: { Accept: 'application/json' },
-            });
-            if (btn) {
-              btn.textContent = 'Added!';
-              setTimeout(() => {
-                btn.textContent = 'Add to cart';
-                btn.disabled = false;
-              }, 2000);
-            }
-          } catch (err) {
-            if (btn) btn.disabled = false;
-          }
-        });
-      }
-    } catch (err) {
-      slot.classList.remove('is-loading');
-      slot.innerHTML = '<p>Could not load product.</p>';
+      const res = await fetch(`${window.Shopify?.routes?.root || '/'}products/${handle}.js`);
+      if (!res.ok) throw new Error('not found');
+      const p = await res.json();
+      const money = window.Shopify?.formatMoney
+        ? window.Shopify.formatMoney(p.price)
+        : `$${(p.price / 100).toFixed(2)}`;
+
+      const html = `<div class="quiz-product-card">
+        <a href="/products/${p.handle}">
+          <img src="${p.featured_image || ''}" alt="${p.title}" loading="lazy" width="200" height="200" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px">
+        </a>
+        <h4 style="margin:8px 0 4px;font-size:0.95em"><a href="/products/${p.handle}" style="color:inherit;text-decoration:none">${p.title}</a></h4>
+        <span style="font-weight:600">${money}</span>
+        <form method="post" action="/cart/add" style="margin-top:8px">
+          <input type="hidden" name="id" value="${p.variants[0]?.id}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="btn btn--small btn--full" style="width:100%">Add to Cart</button>
+        </form>
+      </div>`;
+
+      this._setCache(handle, html);
+      slot.innerHTML = html;
+    } catch {
+      slot.innerHTML = '';
     }
+    slot.classList.remove('is-loading');
+  }
+
+  _getCache(handle) {
+    try { return sessionStorage.getItem(`ph-quiz-${handle}`); } catch { return null; }
+  }
+
+  _setCache(handle, html) {
+    try { sessionStorage.setItem(`ph-quiz-${handle}`, html); } catch {}
   }
 
   reset() {
-    this.accumulatedHandles = [];
-    this.currentIndex = 0;
+    this.scores = {};
+    this._accumulated = [];
+    this.currentQuestion = 0;
     this.results?.classList.add('is-hidden');
-    this.cardSlots.forEach((slot) => {
-      slot.innerHTML = '';
-      slot.classList.remove('is-loading');
-    });
-    this.intro?.classList.remove('is-hidden');
-    this.questionEls.forEach((el) => {
-      el.classList.add('is-hidden');
-      el.classList.remove('is-exiting');
-    });
-    this.optionButtons.forEach((btn) => btn.classList.remove('is-loading'));
     this.noResults?.classList.add('is-hidden');
+    this.querySelectorAll('[data-quiz-card-slot]').forEach(s => { s.innerHTML = ''; s.classList.remove('is-loading'); });
+    this.intro?.classList.remove('is-hidden');
+    this.updateProgress();
   }
 }
-
 customElements.define('quiz-recommendation', QuizRecommendation);

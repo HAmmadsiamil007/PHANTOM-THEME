@@ -188,6 +188,30 @@
     to { transform: rotate(360deg); }
   }
 
+  #quiz-{{ section.id }} .quiz-progress {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  #quiz-{{ section.id }} .quiz-progress__bar {
+    height: 4px;
+    background: color-mix(in srgb, var(--quiz-text), transparent 85%);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  #quiz-{{ section.id }} .quiz-progress__fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  #quiz-{{ section.id }} .quiz-progress__label {
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #quiz-{{ section.id }} .quiz-progress__fill { transition: none; }
+  }
+
   #quiz-{{ section.id }} .quiz-actions {
     display: flex;
     gap: 12px;
@@ -220,7 +244,10 @@
     {%- endif -%}
 
     <div class="quiz-section__content">
-      <quiz-recommendation data-products-to-show="{{ section.settings.products_to_show }}">
+      <quiz-recommendation
+        data-products-to-show="{{ section.settings.products_to_show }}"
+        data-animation-style="{{ section.settings.animation_style }}"
+        data-matching-mode="{{ section.settings.matching_mode }}">
         <div class="quiz-intro" data-quiz-intro>
           {%- if section.settings.heading != blank -%}
             <h2 class="quiz-heading">{{ section.settings.heading }}</h2>
@@ -229,6 +256,13 @@
             <div class="quiz-text rte">{{ section.settings.text }}</div>
           {%- endif -%}
           <button class="btn" data-quiz-start>{{ section.settings.start_button_label | default: 'Start Quiz' }}</button>
+        </div>
+
+        <div class="quiz-progress" data-quiz-progress{% unless section.settings.show_progress_bar %} style="display:none"{% endunless %}>
+          <div class="quiz-progress__bar">
+            <div class="quiz-progress__fill" data-quiz-progress-fill style="width:0%;background:{{ section.settings.progress_bar_color }}"></div>
+          </div>
+          <span class="quiz-progress__label" data-quiz-progress-label>1 / {{ section.blocks.size }}</span>
         </div>
 
         {%- assign computed_options = false -%}
@@ -304,10 +338,11 @@
                 -%}
 
                 {%- if opt_text != blank -%}
-                  <button
+                    <button
                     class="quiz-option"
                     data-quiz-option
                     data-product-handles="{{ clean_handles }}"
+                    data-weight="{{ block.settings.option_{{ i }}_weight }}"
                     {% if forloop.last and forloop.parentloop.last %}data-last-question{% endif %}>
                     {%- if opt_image != blank -%}
                       <span class="quiz-option__image">
@@ -445,6 +480,43 @@
     },
     {
       "type": "header",
+      "content": "Enhanced"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show progress bar",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "progress_bar_color",
+      "label": "Progress bar color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "animation_style",
+      "label": "Animation style",
+      "default": "slide",
+      "options": [
+        { "value": "slide", "label": "Slide" },
+        { "value": "fade", "label": "Fade" },
+        { "value": "none", "label": "None" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "matching_mode",
+      "label": "Matching mode",
+      "default": "intersection",
+      "options": [
+        { "value": "intersection", "label": "Tag intersection (current)" },
+        { "value": "weighted-score", "label": "Weighted score" }
+      ]
+    },
+    {
+      "type": "header",
       "content": "Layout"
     },
     {
@@ -514,6 +586,13 @@
           "info": "Products with this tag will be shown when this option is selected."
         },
         {
+          "type": "text",
+          "id": "option_1_weight",
+          "label": "Option 1 weight",
+          "default": "1",
+          "info": "Higher = more important"
+        },
+        {
           "type": "header",
           "content": "Option 2"
         },
@@ -533,6 +612,13 @@
           "id": "option_2_tag",
           "label": "Product tag",
           "info": "Products with this tag will be shown when this option is selected."
+        },
+        {
+          "type": "text",
+          "id": "option_2_weight",
+          "label": "Option 2 weight",
+          "default": "1",
+          "info": "Higher = more important"
         },
         {
           "type": "header",
@@ -556,6 +642,13 @@
           "info": "Products with this tag will be shown when this option is selected."
         },
         {
+          "type": "text",
+          "id": "option_3_weight",
+          "label": "Option 3 weight",
+          "default": "1",
+          "info": "Higher = more important"
+        },
+        {
           "type": "header",
           "content": "Option 4"
         },
@@ -575,6 +668,13 @@
           "id": "option_4_tag",
           "label": "Product tag",
           "info": "Products with this tag will be shown when this option is selected."
+        },
+        {
+          "type": "text",
+          "id": "option_4_weight",
+          "label": "Option 4 weight",
+          "default": "1",
+          "info": "Higher = more important"
         }
       ]
     }
