@@ -3273,9 +3273,48 @@
             "presets": {
                 "name": "Urgency Bar"
             }
-        }
-    },
-    "settings_schema": {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Barre de livraison gratuite",
+                                                "settings":  {
+                                                                  "enable":  "Activer la barre de livraison gratuite",
+                                                                  "enable_info":  "Affiche une barre de progression de livraison gratuite Ã  plusieurs niveaux dans le panier et sur le site.",
+                                                                  "display_mode":  "Mode d\u0027affichage",
+                                                                  "display_mode_option_0":  "Panier uniquement",
+                                                                  "display_mode_option_1":  "Flottant",
+                                                                  "display_mode_option_2":  "Les deux",
+                                                                  "animation_style":  "Style d\u0027animation",
+                                                                  "animation_style_option_0":  "Aucun",
+                                                                  "animation_style_option_1":  "Douce",
+                                                                  "animation_style_option_2":  "Remplissage",
+                                                                  "animation_style_option_3":  "Pulsation",
+                                                                  "floating_position":  "Position flottante",
+                                                                  "floating_position_option_0":  "Haut",
+                                                                  "floating_position_option_1":  "Bas",
+                                                                  "bg_color":  "ArriÃ¨re-plan",
+                                                                  "text_color":  "Texte",
+                                                                  "empty_bar_color":  "Couleur de la barre vide",
+                                                                  "empty_text":  "Texte du panier vide",
+                                                                  "empty_text_info":  "AffichÃ© lorsque le panier est vide. {{ threshold }} est remplacÃ© par le seuil du premier palier.",
+                                                                  "progress_text":  "Texte de progression",
+                                                                  "progress_text_info":  "AffichÃ© lors de la progression vers le palier suivant. {{ amount }} = montant actuel, {{ reward }} = nom du palier suivant.",
+                                                                  "unlocked_text":  "Texte de dÃ©verrouillage",
+                                                                  "unlocked_text_info":  "BriÃ¨vement affichÃ© lorsqu\u0027un palier est dÃ©verrouillÃ©. {{ reward }} = palier dÃ©verrouillÃ©, {{ amount }} = total des achats, {{ next_reward }} = palier suivant.",
+                                                                  "complete_text":  "Texte terminÃ©",
+                                                                  "complete_text_info":  "AffichÃ© lorsque tous les paliers sont dÃ©verrouillÃ©s. {{ max_reward }} = le nom du palier le plus Ã©levÃ©.",
+                                                                  "header_tier":  "Paliers",
+                                                                  "header_tier_info":  "DÃ©finissez jusqu\u0027Ã  10 seuils de livraison gratuite. Les paliers sont automatiquement triÃ©s par seuil croissant.",
+                                                                  "limit":  "Seuil",
+                                                                  "limit_info":  "Le montant minimum de commande en dollars ($) requis pour dÃ©bloquer ce palier.",
+                                                                  "label":  "Nom du palier",
+                                                                  "label_info":  "Un nom court pour ce palier (ex. \"Standard\", \"Premium\").",
+                                                                  "description_info":  "Description optionnelle affichÃ©e lorsque ce palier est dÃ©verrouillÃ©.",
+                                                                  "fill_color":  "Couleur de remplissage",
+                                                                  "fill_color_info":  "La couleur de remplissage de la barre de progression pour ce palier."
+                                                              }
+                                            },
+                  },
+     "settings_schema":  {
         "colors": {
             "name": "Couleurs",
             "settings": {

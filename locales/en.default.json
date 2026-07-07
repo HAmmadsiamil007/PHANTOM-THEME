@@ -215,9 +215,45 @@
                                                                                             }
                                                                             }
                                                  }
-                                }
-                 },
-    "blogs":  {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Free Shipping Bar",
+                                                "settings":  {
+                                                                  "enable":  "Enable Free Shipping Bar",
+                                                                  "display_mode":  "Display mode",
+                                                                  "animation_style":  "Animation style",
+                                                                  "floating_position":  "Floating position",
+                                                                  "header_colors":  "Colors",
+                                                                  "bg_color":  "Background",
+                                                                  "text_color":  "Text",
+                                                                  "empty_bar_color":  "Empty bar color",
+                                                                  "header_text":  "Text templates",
+                                                                  "empty_text":  "Empty cart text",
+                                                                  "empty_text_info":  "Shown when cart is empty. Use {{ threshold }} as placeholder.",
+                                                                  "progress_text":  "Progress text",
+                                                                  "progress_text_info":  "Shown when progressing to next tier. Use {{ amount }}, {{ reward }} as placeholders.",
+                                                                  "unlocked_text":  "Just unlocked text",
+                                                                  "unlocked_text_info":  "Shown when a tier is unlocked. Use {{ reward }}, {{ amount }}, {{ next_reward }} as placeholders.",
+                                                                  "complete_text":  "All unlocked text",
+                                                                  "complete_text_info":  "Shown when all tiers are unlocked. Use {{ max_reward }} as placeholder."
+                                                              },
+                                                "blocks":  {
+                                                               "tier":  {
+                                                                            "name":  "Tier",
+                                                                            "settings":  {
+                                                                                             "threshold":  "Threshold ($)",
+                                                                                             "label":  "Label",
+                                                                                             "description":  "Description",
+                                                                                             "fill_color":  "Bar fill color"
+                                                                                         }
+                                                                        }
+                                                           },
+                                                "presets":  {
+                                                                "name":  "Free Shipping Bar"
+                                                            }
+                                            },
+                  },
+     "blogs":  {
                   "article":  {
                                   "view_all":  "View all",
                                   "tags":  "Tags",

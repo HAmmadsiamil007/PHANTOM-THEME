@@ -215,9 +215,45 @@
                                                                                             }
                                                                             }
                                                  }
-                                }
-                 },
-    "blogs":  {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Barra di spedizione gratuita",
+                                                "settings":  {
+                                                                  "enable":  "Abilita barra di spedizione gratuita",
+                                                                  "display_mode":  "ModalitÃ  di visualizzazione",
+                                                                  "animation_style":  "Stile animazione",
+                                                                  "floating_position":  "Posizione fluttuante",
+                                                                  "header_colors":  "Colori",
+                                                                  "bg_color":  "Sfondo",
+                                                                  "text_color":  "Testo",
+                                                                  "empty_bar_color":  "Colore barra vuota",
+                                                                  "header_text":  "Modelli di testo",
+                                                                  "empty_text":  "Testo carrello vuoto",
+                                                                  "empty_text_info":  "Mostrato quando il carrello Ã¨ vuoto. Usa {{ threshold }} come segnaposto.",
+                                                                  "progress_text":  "Testo di avanzamento",
+                                                                  "progress_text_info":  "Mostrato durante l\u0027avanzamento al livello successivo. Usa {{ amount }}, {{ reward }} come segnaposto.",
+                                                                  "unlocked_text":  "Testo sbloccato",
+                                                                  "unlocked_text_info":  "Mostrato quando un livello viene sbloccato. Usa {{ reward }}, {{ amount }}, {{ next_reward }} come segnaposto.",
+                                                                  "complete_text":  "Testo completato",
+                                                                  "complete_text_info":  "Mostrato quando tutti i livelli sono sbloccati. Usa {{ max_reward }} come segnaposto."
+                                                              },
+                                                "blocks":  {
+                                                               "tier":  {
+                                                                            "name":  "Livello",
+                                                                            "settings":  {
+                                                                                             "threshold":  "Soglia ($)",
+                                                                                             "label":  "Etichetta",
+                                                                                             "description":  "Descrizione",
+                                                                                             "fill_color":  "Colore di riempimento della barra"
+                                                                                         }
+                                                                        }
+                                                           },
+                                                "presets":  {
+                                                                "name":  "Barra di spedizione gratuita"
+                                                            }
+                                            },
+                  },
+     "blogs":  {
                   "article":  {
                                   "view_all":  "Visualizza tutto",
                                   "tags":  "Tags",

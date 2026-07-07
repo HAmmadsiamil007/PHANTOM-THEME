@@ -3273,9 +3273,48 @@
             "presets": {
                 "name": "Urgency Bar"
             }
-        }
-    },
-    "settings_schema": {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Kostenloser Versand-Balken",
+                                                "settings":  {
+                                                                  "enable":  "Kostenlosen Versand-Balken aktivieren",
+                                                                  "enable_info":  "Zeigt eine mehrstufige Fortschrittsleiste fÃ¼r den kostenlosen Versand im Warenkorb und auf der Website an.",
+                                                                  "display_mode":  "Anzeigemodus",
+                                                                  "display_mode_option_0":  "Nur Warenkorb",
+                                                                  "display_mode_option_1":  "Schwebend",
+                                                                  "display_mode_option_2":  "Beide",
+                                                                  "animation_style":  "Animationsstil",
+                                                                  "animation_style_option_0":  "Keine",
+                                                                  "animation_style_option_1":  "Sanft",
+                                                                  "animation_style_option_2":  "GefÃ¼llt",
+                                                                  "animation_style_option_3":  "Pulsierend",
+                                                                  "floating_position":  "Schwebeposition",
+                                                                  "floating_position_option_0":  "Oben",
+                                                                  "floating_position_option_1":  "Unten",
+                                                                  "bg_color":  "Hintergrund",
+                                                                  "text_color":  "Text",
+                                                                  "empty_bar_color":  "Leere Balkenfarbe",
+                                                                  "empty_text":  "Leerer Warenkorb Text",
+                                                                  "empty_text_info":  "Wird angezeigt, wenn der Warenkorb leer ist. {{ threshold }} wird durch den Schwellenwert der ersten Stufe ersetzt.",
+                                                                  "progress_text":  "Fortschrittstext",
+                                                                  "progress_text_info":  "Wird angezeigt, wÃ¤hrend auf die nÃ¤chste Stufe hingearbeitet wird. {{ amount }} = aktueller Betrag, {{ reward }} = Name der nÃ¤chsten Stufe.",
+                                                                  "unlocked_text":  "Soeben freigeschalteter Text",
+                                                                  "unlocked_text_info":  "Wird kurz angezeigt, wenn eine Stufe freigeschaltet wird. {{ reward }} = freigeschaltete Stufe, {{ amount }} = Einkaufssumme, {{ next_reward }} = nÃ¤chste Stufe.",
+                                                                  "complete_text":  "Alle freigeschaltet Text",
+                                                                  "complete_text_info":  "Wird angezeigt, wenn alle Stufen freigeschaltet sind. {{ max_reward }} = der Name der hÃ¶chsten Stufe.",
+                                                                  "header_tier":  "Stufen",
+                                                                  "header_tier_info":  "Definieren Sie bis zu 10 Schwellenwerte fÃ¼r den kostenlosen Versand. Stufen werden automatisch nach Schwellenwert aufsteigend sortiert.",
+                                                                  "limit":  "Schwellenwert",
+                                                                  "limit_info":  "Der Mindestbestellwert in Dollar ($), der zum Freischalten dieser Stufe erforderlich ist.",
+                                                                  "label":  "Name der Stufe",
+                                                                  "label_info":  "Ein kurzer Name fÃ¼r diese Stufe (z. B. \"Standard\", \"Premium\").",
+                                                                  "description_info":  "Optionale Beschreibung, die angezeigt wird, wenn diese Stufe freigeschaltet ist.",
+                                                                  "fill_color":  "Balkenfarbe",
+                                                                  "fill_color_info":  "Die FÃ¼llfarbe des Fortschrittsbalkens fÃ¼r diese Stufe."
+                                                              }
+                                            },
+                  },
+     "settings_schema":  {
         "colors": {
             "name": "Farben",
             "settings": {

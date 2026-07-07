@@ -215,9 +215,45 @@
                                                                                             }
                                                                             }
                                                  }
-                                }
-                 },
-    "blogs":  {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Barra de envÃ­o gratis",
+                                                "settings":  {
+                                                                  "enable":  "Habilitar barra de envÃ­o gratis",
+                                                                  "display_mode":  "Modo de visualizaciÃ³n",
+                                                                  "animation_style":  "Estilo de animaciÃ³n",
+                                                                  "floating_position":  "PosiciÃ³n flotante",
+                                                                  "header_colors":  "Colores",
+                                                                  "bg_color":  "Fondo",
+                                                                  "text_color":  "Texto",
+                                                                  "empty_bar_color":  "Color de barra vacÃ­a",
+                                                                  "header_text":  "Plantillas de texto",
+                                                                  "empty_text":  "Texto del carrito vacÃ­o",
+                                                                  "empty_text_info":  "Se muestra cuando el carrito estÃ¡ vacÃ­o. Use {{ threshold }} como marcador de posiciÃ³n.",
+                                                                  "progress_text":  "Texto de progreso",
+                                                                  "progress_text_info":  "Se muestra al progresar al siguiente nivel. Use {{ amount }}, {{ reward }} como marcadores de posiciÃ³n.",
+                                                                  "unlocked_text":  "Texto de desbloqueo",
+                                                                  "unlocked_text_info":  "Se muestra cuando se desbloquea un nivel. Use {{ reward }}, {{ amount }}, {{ next_reward }} como marcadores de posiciÃ³n.",
+                                                                  "complete_text":  "Texto completo",
+                                                                  "complete_text_info":  "Se muestra cuando todos los niveles estÃ¡n desbloqueados. Use {{ max_reward }} como marcador de posiciÃ³n."
+                                                              },
+                                                "blocks":  {
+                                                               "tier":  {
+                                                                            "name":  "Nivel",
+                                                                            "settings":  {
+                                                                                             "threshold":  "Umbral ($)",
+                                                                                             "label":  "Etiqueta",
+                                                                                             "description":  "DescripciÃ³n",
+                                                                                             "fill_color":  "Color de relleno de la barra"
+                                                                                         }
+                                                                        }
+                                                           },
+                                                "presets":  {
+                                                                "name":  "Barra de envÃ­o gratis"
+                                                            }
+                                            },
+                  },
+     "blogs":  {
                   "article":  {
                                   "view_all":  "Ver todo",
                                   "tags":  "Etiquetas",

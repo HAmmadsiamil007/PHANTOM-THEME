@@ -215,9 +215,45 @@
                                                                                             }
                                                                             }
                                                  }
-                                }
-                 },
-    "blogs":  {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Barre de livraison gratuite",
+                                                "settings":  {
+                                                                  "enable":  "Activer la barre de livraison gratuite",
+                                                                  "display_mode":  "Mode d\u0027affichage",
+                                                                  "animation_style":  "Style d\u0027animation",
+                                                                  "floating_position":  "Position flottante",
+                                                                  "header_colors":  "Couleurs",
+                                                                  "bg_color":  "ArriÃ¨re-plan",
+                                                                  "text_color":  "Texte",
+                                                                  "empty_bar_color":  "Couleur de la barre vide",
+                                                                  "header_text":  "ModÃ¨les de texte",
+                                                                  "empty_text":  "Texte du panier vide",
+                                                                  "empty_text_info":  "AffichÃ© lorsque le panier est vide. Utilisez {{ threshold }} comme espace rÃ©servÃ©.",
+                                                                  "progress_text":  "Texte de progression",
+                                                                  "progress_text_info":  "AffichÃ© lors de la progression vers le prochain palier. Utilisez {{ amount }}, {{ reward }} comme espaces rÃ©servÃ©s.",
+                                                                  "unlocked_text":  "Texte de dÃ©verrouillage",
+                                                                  "unlocked_text_info":  "AffichÃ© lorsqu\u0027un palier est dÃ©verrouillÃ©. Utilisez {{ reward }}, {{ amount }}, {{ next_reward }} comme espaces rÃ©servÃ©s.",
+                                                                  "complete_text":  "Texte terminÃ©",
+                                                                  "complete_text_info":  "AffichÃ© lorsque tous les paliers sont dÃ©verrouillÃ©s. Utilisez {{ max_reward }} comme espace rÃ©servÃ©."
+                                                              },
+                                                "blocks":  {
+                                                               "tier":  {
+                                                                            "name":  "Palier",
+                                                                            "settings":  {
+                                                                                             "threshold":  "Seuil ($)",
+                                                                                             "label":  "Ã‰tiquette",
+                                                                                             "description":  "Description",
+                                                                                             "fill_color":  "Couleur de remplissage de la barre"
+                                                                                         }
+                                                                        }
+                                                           },
+                                                "presets":  {
+                                                                "name":  "Barre de livraison gratuite"
+                                                            }
+                                            },
+                  },
+     "blogs":  {
                   "article":  {
                                   "view_all":  "Voir toutes",
                                   "tags":  "Tags",

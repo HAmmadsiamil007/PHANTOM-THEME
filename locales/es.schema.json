@@ -3273,9 +3273,48 @@
             "presets": {
                 "name": "Urgency Bar"
             }
-        }
-    },
-    "settings_schema": {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Barra de envÃ­o gratis",
+                                                "settings":  {
+                                                                  "enable":  "Habilitar barra de envÃ­o gratis",
+                                                                  "enable_info":  "Muestra una barra de progreso de envÃ­o gratis de mÃºltiples niveles en el carrito y el sitio.",
+                                                                  "display_mode":  "Modo de visualizaciÃ³n",
+                                                                  "display_mode_option_0":  "Solo carrito",
+                                                                  "display_mode_option_1":  "Flotante",
+                                                                  "display_mode_option_2":  "Ambos",
+                                                                  "animation_style":  "Estilo de animaciÃ³n",
+                                                                  "animation_style_option_0":  "Ninguna",
+                                                                  "animation_style_option_1":  "Suave",
+                                                                  "animation_style_option_2":  "Relleno",
+                                                                  "animation_style_option_3":  "Pulsante",
+                                                                  "floating_position":  "PosiciÃ³n flotante",
+                                                                  "floating_position_option_0":  "Arriba",
+                                                                  "floating_position_option_1":  "Abajo",
+                                                                  "bg_color":  "Fondo",
+                                                                  "text_color":  "Texto",
+                                                                  "empty_bar_color":  "Color de barra vacÃ­a",
+                                                                  "empty_text":  "Texto del carrito vacÃ­o",
+                                                                  "empty_text_info":  "Se muestra cuando el carrito estÃ¡ vacÃ­o. {{ threshold }} se reemplaza con el umbral del primer nivel.",
+                                                                  "progress_text":  "Texto de progreso",
+                                                                  "progress_text_info":  "Se muestra mientras se avanza hacia el siguiente nivel. {{ amount }} = monto actual, {{ reward }} = nombre del siguiente nivel.",
+                                                                  "unlocked_text":  "Texto de desbloqueo",
+                                                                  "unlocked_text_info":  "Se muestra brevemente cuando se desbloquea un nivel. {{ reward }} = nivel desbloqueado, {{ amount }} = total de compra, {{ next_reward }} = prÃ³ximo nivel.",
+                                                                  "complete_text":  "Texto completo",
+                                                                  "complete_text_info":  "Se muestra cuando todos los niveles estÃ¡n desbloqueados. {{ max_reward }} = el nombre del nivel mÃ¡s alto.",
+                                                                  "header_tier":  "Niveles",
+                                                                  "header_tier_info":  "Defina hasta 10 umbrales de envÃ­o gratis. Los niveles se ordenan automÃ¡ticamente por umbral ascendente.",
+                                                                  "limit":  "Umbral",
+                                                                  "limit_info":  "El monto mÃ­nimo de pedido en dÃ³lares ($) requerido para desbloquear este nivel.",
+                                                                  "label":  "Nombre del nivel",
+                                                                  "label_info":  "Un nombre corto para este nivel (ej. \"EstÃ¡ndar\", \"Premium\").",
+                                                                  "description_info":  "DescripciÃ³n opcional que se muestra cuando este nivel estÃ¡ desbloqueado.",
+                                                                  "fill_color":  "Color de relleno de la barra",
+                                                                  "fill_color_info":  "El color de relleno de la barra de progreso para este nivel."
+                                                              }
+                                            },
+                  },
+     "settings_schema":  {
         "colors": {
             "name": "Colores",
             "settings": {

@@ -215,9 +215,45 @@
                                                                                             }
                                                                             }
                                                  }
-                                }
-                 },
-    "blogs":  {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Kostenloser Versand-Balken",
+                                                "settings":  {
+                                                                  "enable":  "Kostenlosen Versand-Balken aktivieren",
+                                                                  "display_mode":  "Anzeigemodus",
+                                                                  "animation_style":  "Animationsstil",
+                                                                  "floating_position":  "Schwebeposition",
+                                                                  "header_colors":  "Farben",
+                                                                  "bg_color":  "Hintergrund",
+                                                                  "text_color":  "Text",
+                                                                  "empty_bar_color":  "Leere Balkenfarbe",
+                                                                  "header_text":  "Textvorlagen",
+                                                                  "empty_text":  "Leerer Warenkorb Text",
+                                                                  "empty_text_info":  "Wird angezeigt, wenn der Warenkorb leer ist. Verwenden Sie {{ threshold }} als Platzhalter.",
+                                                                  "progress_text":  "Fortschrittstext",
+                                                                  "progress_text_info":  "Wird beim Fortschritt zur nÃ¤chsten Stufe angezeigt. Verwenden Sie {{ amount }}, {{ reward }} als Platzhalter.",
+                                                                  "unlocked_text":  "Soeben freigeschalteter Text",
+                                                                  "unlocked_text_info":  "Wird angezeigt, wenn eine Stufe freigeschaltet wird. Verwenden Sie {{ reward }}, {{ amount }}, {{ next_reward }} als Platzhalter.",
+                                                                  "complete_text":  "Alle freigeschaltet Text",
+                                                                  "complete_text_info":  "Wird angezeigt, wenn alle Stufen freigeschaltet sind. Verwenden Sie {{ max_reward }} als Platzhalter."
+                                                              },
+                                                "blocks":  {
+                                                               "tier":  {
+                                                                            "name":  "Stufe",
+                                                                            "settings":  {
+                                                                                             "threshold":  "Schwellenwert ($)",
+                                                                                             "label":  "Bezeichnung",
+                                                                                             "description":  "Beschreibung",
+                                                                                             "fill_color":  "Balkenfarbe"
+                                                                                         }
+                                                                        }
+                                                           },
+                                                "presets":  {
+                                                                "name":  "Kostenloser Versand-Balken"
+                                                            }
+                                            },
+                  },
+     "blogs":  {
                   "article":  {
                                   "view_all":  "Alle anzeigen",
                                   "tags":  "Tags",

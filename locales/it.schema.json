@@ -3273,9 +3273,48 @@
             "presets": {
                 "name": "Urgency Bar"
             }
-        }
-    },
-    "settings_schema": {
+                                 },
+                      "free_shipping_bar":  {
+                                                "name":  "Barra di spedizione gratuita",
+                                                "settings":  {
+                                                                  "enable":  "Abilita barra di spedizione gratuita",
+                                                                  "enable_info":  "Mostra una barra di progressione di spedizione gratuita a piÃ¹ livelli nel carrello e nel sito.",
+                                                                  "display_mode":  "ModalitÃ  di visualizzazione",
+                                                                  "display_mode_option_0":  "Solo carrello",
+                                                                  "display_mode_option_1":  "Fluttuante",
+                                                                  "display_mode_option_2":  "Entrambi",
+                                                                  "animation_style":  "Stile animazione",
+                                                                  "animation_style_option_0":  "Nessuna",
+                                                                  "animation_style_option_1":  "Morbida",
+                                                                  "animation_style_option_2":  "Riempimento",
+                                                                  "animation_style_option_3":  "Pulsante",
+                                                                  "floating_position":  "Posizione fluttuante",
+                                                                  "floating_position_option_0":  "In alto",
+                                                                  "floating_position_option_1":  "In basso",
+                                                                  "bg_color":  "Sfondo",
+                                                                  "text_color":  "Testo",
+                                                                  "empty_bar_color":  "Colore barra vuota",
+                                                                  "empty_text":  "Testo carrello vuoto",
+                                                                  "empty_text_info":  "Mostrato quando il carrello Ã¨ vuoto. {{ threshold }} viene sostituito con la soglia del primo livello.",
+                                                                  "progress_text":  "Testo di avanzamento",
+                                                                  "progress_text_info":  "Mostrato durante l\u0027avanzamento verso il livello successivo. {{ amount }} = importo attuale, {{ reward }} = nome del livello successivo.",
+                                                                  "unlocked_text":  "Testo sbloccato",
+                                                                  "unlocked_text_info":  "Mostrato brevemente quando un livello viene sbloccato. {{ reward }} = livello sbloccato, {{ amount }} = totale acquisto, {{ next_reward }} = livello successivo.",
+                                                                  "complete_text":  "Testo completato",
+                                                                  "complete_text_info":  "Mostrato quando tutti i livelli sono sbloccati. {{ max_reward }} = il nome del livello piÃ¹ alto.",
+                                                                  "header_tier":  "Livelli",
+                                                                  "header_tier_info":  "Definisci fino a 10 soglie di spedizione gratuita. I livelli vengono ordinati automaticamente per soglia crescente.",
+                                                                  "limit":  "Soglia",
+                                                                  "limit_info":  "L\u0027importo minimo dell\u0027ordine in dollari ($) richiesto per sbloccare questo livello.",
+                                                                  "label":  "Nome del livello",
+                                                                  "label_info":  "Un nome breve per questo livello (es. \"Standard\", \"Premium\").",
+                                                                  "description_info":  "Descrizione opzionale mostrata quando questo livello Ã¨ sbloccato.",
+                                                                  "fill_color":  "Colore di riempimento",
+                                                                  "fill_color_info":  "Il colore di riempimento della barra di progressione per questo livello."
+                                                              }
+                                            },
+                  },
+     "settings_schema":  {
         "colors": {
             "name": "Colori",
             "settings": {
