@@ -1,6 +1,6 @@
 {%- if section.settings.divider -%}<div class="section--divider">{%- endif -%}
 
-<div class="text-{{ section.settings.align_text }} page-width{% if section.settings.narrow_column %} page-width--narrow{% endif %}">
+<div class="text-{{ section.settings.align_text }} page-width{% if section.settings.narrow_column %} page-width--narrow{% endif %}" data-aos="{% if section.settings.entrance_animation and section.settings.entrance_animation != 'existing' %}{{ section.settings.entrance_animation }}{% else %}overflow__animation{% endif %}">
   {%- for block in section.blocks -%}
     <div class="theme-block" {{ block.shopify_attributes }}>
       {%- case block.type -%}
@@ -42,6 +42,21 @@
   "name": "t:sections.rich-text.name",
   "class": "index-section",
   "settings": [
+    {
+      "type": "select",
+      "id": "entrance_animation",
+      "label": "t:sections.common.settings.entrance_animation.label",
+      "default": "ph-fade-up",
+      "options": [
+        { "value": "existing", "label": "t:sections.common.settings.entrance_animation.options.existing.label" },
+        { "value": "ph-fade-up", "label": "ph-fade-up" },
+        { "value": "ph-scale-in", "label": "ph-scale-in" },
+        { "value": "ph-blur-in", "label": "ph-blur-in" },
+        { "value": "ph-slide-left", "label": "ph-slide-left" },
+        { "value": "ph-slide-right", "label": "ph-slide-right" },
+        { "value": "ph-rotate-in", "label": "ph-rotate-in" }
+      ]
+    },
     {
       "type": "select",
       "id": "align_text",
