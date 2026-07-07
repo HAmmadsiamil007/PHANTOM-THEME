@@ -1154,6 +1154,41 @@
         "max": 300,
         "step": 10,
         "unit": "ms"
+      },
+      {
+        "type": "header",
+        "content": "Design Tokens"
+      },
+      {
+        "type": "range",
+        "id": "ph_shadow_opacity",
+        "label": "Shadow opacity",
+        "default": 15,
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "ph_border_radius_default",
+        "label": "Default border radius",
+        "default": 4,
+        "min": 0,
+        "max": 24,
+        "step": 1,
+        "unit": "px"
+      },
+      {
+        "type": "select",
+        "id": "ph_elevation_intensity",
+        "label": "Elevation intensity",
+        "default": "normal",
+        "options": [
+          { "value": "subtle", "label": "Subtle" },
+          { "value": "normal", "label": "Normal" },
+          { "value": "pronounced", "label": "Pronounced" }
+        ]
       }
     ]
   },

@@ -3948,6 +3948,21 @@
                 "ph_motion_stagger_amount": {
                     "label": "Stagger delay amount",
                     "info": "Milliseconds between each item's animation start."
+                },
+                "header_design_tokens": "Design Tokens",
+                "ph_shadow_opacity": {
+                    "label": "Shadow opacity"
+                },
+                "ph_border_radius_default": {
+                    "label": "Default border radius"
+                },
+                "ph_elevation_intensity": {
+                    "label": "Elevation intensity",
+                    "options": {
+                        "subtle": { "label": "Subtle" },
+                        "normal": { "label": "Normal" },
+                        "pronounced": { "label": "Pronounced" }
+                    }
                 }
             }
         },

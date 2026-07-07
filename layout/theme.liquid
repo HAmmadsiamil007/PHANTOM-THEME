@@ -336,6 +336,15 @@
     {%- endif -%}
   {%- endif -%}
 
+  {%- if settings.ph_shadow_opacity -%}
+  <style>
+    :root {
+      --ph-shadow-opacity: {{ settings.ph_shadow_opacity | divided_by: 100.0 }};
+      --ph-border-radius-md: {{ settings.ph_border_radius_default }}px;
+    }
+  </style>
+  {%- endif -%}
+
   <script src="{{ 'phantom-vendor.js' | asset_url | split: '?' | first }}" defer="defer"></script>
 
   <script src="{{ 'theme.js' | asset_url }}" defer="defer"></script>
