@@ -336,10 +336,16 @@
     {%- endif -%}
   {%- endif -%}
 
-  {%- if settings.ph_shadow_opacity -%}
+  {%- if settings.ph_shadow_opacity or settings.ph_shadow_color or settings.ph_elevation_intensity -%}
+  {%- assign elev_factor = 1.0 -%}
+  {%- if settings.ph_elevation_intensity == 'subtle' -%}{%- assign elev_factor = 0.6 -%}{%- endif -%}
+  {%- if settings.ph_elevation_intensity == 'pronounced' -%}{%- assign elev_factor = 1.5 -%}{%- endif -%}
   <style>
     :root {
-      --ph-shadow-opacity: {{ settings.ph_shadow_opacity | divided_by: 100.0 }};
+      --ph-shadow-opacity: {{ settings.ph_shadow_opacity | times: elev_factor | divided_by: 100.0 }};
+      {%- if settings.ph_shadow_color != blank and settings.ph_shadow_color != '#000000' -%}
+      --ph-shadow-color-rgb: {{ settings.ph_shadow_color | color_to_rgb | remove: 'rgb(' | remove: ')' | remove: ' ' }};
+      {%- endif -%}
       --ph-border-radius-md: {{ settings.ph_border_radius_default }}px;
     }
   </style>
