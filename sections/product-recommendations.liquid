@@ -38,11 +38,19 @@
             {% comment %}
               This content is visually hidden and replaced when recommended products show up
             {% endcomment %}
-            <div class="grid grid--uniform visually-invisible" aria-hidden="true">
-              {%- render 'product-grid-item',
-                product: product,
-                quick_shop_enable: settings.quick_shop_enable
-              -%}
+            <div class="grid grid--uniform"{% if settings.ph_motion_skeletons_enable %} aria-hidden="false"{% else %} aria-hidden="true"{% endif %}>
+              {%- if settings.ph_motion_skeletons_enable -%}
+                {%- for i in (1..section.settings.related_count) -%}
+                  <div class="grid__item">
+                    {%- render 'ph-skeleton-product' -%}
+                  </div>
+                {%- endfor -%}
+              {%- else -%}
+                {%- render 'product-grid-item',
+                  product: product,
+                  quick_shop_enable: settings.quick_shop_enable
+                -%}
+              {%- endif -%}
             </div>
           </div>
         {%- endif -%}
