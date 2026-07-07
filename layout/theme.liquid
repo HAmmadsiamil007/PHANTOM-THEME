@@ -322,10 +322,12 @@
     <script>
       window.phMotionSettings = {
         entranceSpeed: {{ settings.ph_motion_entrance_speed | default: 0.7 }},
+        entranceDefault: "{{ settings.ph_motion_entrance_default | default: 'ph-fade-up' }}",
         viewTransitionsEnabled: {{ settings.ph_motion_viewtransitions_enable | default: false }},
         skeletonsEnabled: {{ settings.ph_motion_skeletons_enable | default: false }}
       };
     </script>
+      {{ 'ph-motion.js' | asset_url | script_tag }}
     {%- if settings.ph_motion_viewtransitions_enable -%}
       <script src="{{ 'ph-transitions.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
