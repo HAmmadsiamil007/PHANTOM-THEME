@@ -185,6 +185,9 @@
   ],
   "blocks": [
     {
+      "type": "@app"
+    },
+    {
       "type": "collection_description",
       "name": "t:sections.main-collection.blocks.collection_description.name",
       "limit": 1
@@ -246,6 +249,9 @@
       ],
       "limit": 1
     }
-  ]
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
 }
 {% endschema %}

@@ -275,10 +275,11 @@
       "content": "t:sections.header.settings.header_toolbar"
     },
     {
-      "type": "link_list",
+      "type": "text",
       "id": "toolbar_menu",
       "label": "t:sections.header.settings.toolbar_menu.label",
-      "info": "t:sections.header.settings.toolbar_menu.info"
+      "info": "t:sections.header.settings.toolbar_menu.info",
+      "default": "main-menu"
     },
     {
       "type": "checkbox",
@@ -287,6 +288,9 @@
     }
   ],
   "blocks": [
+    {
+      "type": "@app"
+    },
     {
       "type": "logo",
       "name": "t:sections.header.blocks.logo.name",
