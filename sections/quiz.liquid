@@ -358,6 +358,11 @@
             <h3 class="quiz-results__heading">{{ section.settings.results_heading }}</h3>
           {%- endif -%}
           <div class="quiz-product-cards" data-quiz-cards>
+            {%- if settings.ph_motion_skeletons_enable -%}
+              <div class="ph-skeleton--container" data-skeleton="product-cards" hidden>
+                {%- render 'ph-skeleton-product-cards' -%}
+              </div>
+            {%- endif -%}
             {%- for i in (1..section.settings.products_to_show) -%}
               <div class="quiz-card-slot" data-quiz-card-slot="{{ forloop.index0 }}"></div>
             {%- endfor -%}

@@ -38,6 +38,14 @@
 
   <script type="application/json" data-ph-shipping-config>{{ config_json }}</script>
 
+  {%- if settings.ph_motion_skeletons_enable -%}
+    <div class="ph-skeleton--container" data-skeleton="shipping-bar" hidden>
+      <div style="padding:16px;">
+        <div class="ph-skeleton ph-skeleton--text" style="height:12px;border-radius:6px;margin-bottom:8px;"></div>
+        <div class="ph-skeleton ph-skeleton--text-short" style="height:10px;border-radius:5px;"></div>
+      </div>
+    </div>
+  {%- endif -%}
   <ph-shipping-bar
     data-display-mode="{{ section.settings.display_mode }}"
     data-cart-total="{{ cart.total_price | default: 0 }}"

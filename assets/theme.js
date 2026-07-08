@@ -4090,7 +4090,9 @@ theme.recentlyViewed = {
       };
   
       const params = this.paramUrl(searchObj);
-  
+
+      this.setAttribute('loading', '');
+
       fetch(`${theme.routes.predictiveSearch}?${params}&section_id=search-results`)
         .then((response) => {
           if (!response.ok) {
@@ -4111,6 +4113,9 @@ theme.recentlyViewed = {
         .catch((error) => {
           this.close();
           throw error;
+        })
+        .finally(() => {
+          this.removeAttribute('loading');
         });
     }
   

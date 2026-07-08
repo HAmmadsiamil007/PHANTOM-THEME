@@ -13,6 +13,11 @@
   data-aos="{% if section.settings.entrance_animation and section.settings.entrance_animation != 'existing' %}{{ section.settings.entrance_animation }}{% endif %}"
 >
   <div id="CollectionAjaxContent">
+    {%- if settings.ph_motion_skeletons_enable -%}
+      <div class="ph-skeleton--container" data-skeleton="collection-grid" hidden>
+        {%- render 'ph-skeleton-collection-grid', columns: section.settings.grid_items_per_row, show_sidebar: section.settings.enable_sidebar -%}
+      </div>
+    {%- endif -%}
     <div class="page-width">
       <div class="grid">
         <div class="grid__item medium-up--one-fifth grid__item--sidebar">

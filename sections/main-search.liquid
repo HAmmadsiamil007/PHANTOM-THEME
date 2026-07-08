@@ -27,6 +27,11 @@
         {%- paginate search.results by paginate_by -%}
 
         <div id="CollectionAjaxContent" class="grid grid--uniform" data-scroll-to>
+          {%- if settings.ph_motion_skeletons_enable -%}
+            <div class="ph-skeleton--container" data-skeleton="collection-grid" hidden>
+              {%- render 'ph-skeleton-collection-grid', columns: section.settings.grid_items_per_row, show_sidebar: section.settings.enable_sidebar -%}
+            </div>
+          {%- endif -%}
 
           <div class="grid__item medium-up--one-fifth grid__item--sidebar">
             {%- render 'collection-grid-filters',

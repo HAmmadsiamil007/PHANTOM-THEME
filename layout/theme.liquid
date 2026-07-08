@@ -339,6 +339,10 @@
     <script src="{{ 'ph-loader.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
 
+  {%- if settings.ph_motion_skeletons_enable -%}
+    <script src="{{ 'ph-skeleton.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
+
   {%- if settings.ph_shadow_opacity or settings.ph_shadow_color or settings.ph_elevation_intensity -%}
   {%- assign elev_factor = 1.0 -%}
   {%- if settings.ph_elevation_intensity == 'subtle' -%}{%- assign elev_factor = 0.6 -%}{%- endif -%}
