@@ -1,0 +1,11 @@
+.git
+.gitignore
+node_modules
+*/vendor
+*.md
+*.log
+.gitattributes
+.github
+.agents
+.skills
+.vscode

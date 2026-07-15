@@ -1,0 +1,42 @@
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PHP
+phpunit.phar
+*.log
+
+# Project temp
+nul
+*.png
+*.jpg
+*.txt
+*.yml
+*.bak
+*-backup.php
+wp-config-backup.php
+check-engines.php
+fix-config.php
+reactivate.php
+restore-config.php
+anchored-summary.md
+CONTEXT.md
+wp-install-page.md
+front-page-*.md
+homepage*.md
+homepage*.png
+*desktop-full.png
+*mobile-full.png
+*desktop.png
+*snapshot.md
+*before-hover.png
+*rosegold-final.png
+*test-front.png
+*banner-final.png
