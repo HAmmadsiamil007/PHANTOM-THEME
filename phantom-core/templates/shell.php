@@ -18,6 +18,7 @@ class Shell {
     private array $routes = array();
     private ?int $resolved_product_id = null;
     private ?int $resolved_post_id = null;
+    private bool $is_product_page = false;
 
     public static function get_instance(): self {
         if ( null === self::$instance ) {
@@ -69,7 +70,6 @@ class Shell {
             add_filter( 'woocommerce_disable_template_redirect', '__return_true' );
             add_filter( 'woocommerce_cart_redirect_after_add', '__return_false' );
             add_filter( 'woocommerce_enable_ajax_add_to_cart', '__return_false' );
-            add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_woo_assets' ), 20 );
         }
 
         // Cache invalidation on content changes
@@ -139,6 +139,7 @@ class Shell {
 
         // Handle product detail pages
         if ( preg_match( '/^product\/(.+)$/', $slug, $matches ) ) {
+            $this->is_product_page = true;
             $template = 'product-detail.html';
             $product_slug = sanitize_title( $matches[1] );
             $product_query = new \WP_Query( array(
@@ -232,6 +233,7 @@ class Shell {
 
 		// Inject PhantomBridge data + script
 		$html = $this->inject_bridge( $html );
+		$html = $this->inject_woo_scripts( $html );
 		$html = $this->inject_auth_nonces( $html );
 		$html = $this->inject_minified_js( $html );
 
@@ -710,6 +712,17 @@ class Shell {
 		);
 	}
 
+	private function inject_woo_scripts( string $html ): string {
+		if ( ! $this->is_product_page || ! class_exists( 'WooCommerce' ) ) {
+			return $html;
+		}
+		$script_url = includes_url( 'js/underscore.min.js' ) . '?ver=' . WC()->version;
+		$wc_variation_url = plugins_url( 'woocommerce/assets/js/frontend/add-to-cart-variation.min.js' );
+		$script = '<script src="' . esc_url( $script_url ) . '" id="underscore-js"></script>' . "\n";
+		$script .= '<script src="' . esc_url( $wc_variation_url ) . '" id="wc-add-to-cart-variation-js" defer></script>' . "\n";
+		return str_replace( '</body>', $script . '</body>', $html );
+	}
+
 	private function inject_google_fonts( string $html ): string {
 		$options     = get_option( 'phantom_options', array() );
 		$body_font   = $options['typography_body_font'] ?? 'Archivo';
@@ -731,29 +744,6 @@ class Shell {
     }
 
 	/**
-	 * Minify CSS by stripping comments, whitespace, and newlines.
-	 */
-	private function minify_css( string $css ): string {
-		$css = preg_replace( '/\/\*.*?\*\//s', '', $css );
-		$css = preg_replace( '/\s*([{}:;,])\s*/', '$1', $css );
-		$css = preg_replace( '/\s{2,}/', ' ', $css );
-		return trim( $css );
-	}
-
-	/**
-	 * Enqueue WooCommerce variation script on product detail pages.
-	 */
-	public function enqueue_woo_assets(): void {
-		if ( ! class_exists( 'WooCommerce' ) ) {
-			return;
-		}
-		$is_product = is_singular( 'product' );
-		if ( $is_product ) {
-			wp_enqueue_script( 'wc-add-to-cart-variation' );
-		}
-	}
-
-	/**
 	 * Invalidate REST API cache when content is saved or deleted.
 	 */
 	public function invalidate_cache_on_save( int $post_id ): void {
@@ -762,13 +752,6 @@ class Shell {
 		$cache_dir  = $upload_dir['basedir'] . '/phantom-cache/';
 		if ( is_dir( $cache_dir ) ) {
 			$files = glob( $cache_dir . '*.css' );
-			if ( is_array( $files ) ) {
-				array_map( 'unlink', $files );
-			}
-		}
-		$legacy_dir = WP_CONTENT_DIR . '/cache/phantom/';
-		if ( is_dir( $legacy_dir ) ) {
-			$files = glob( $legacy_dir . '*.css' );
 			if ( is_array( $files ) ) {
 				array_map( 'unlink', $files );
 			}

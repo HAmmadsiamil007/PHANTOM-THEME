@@ -17,7 +17,8 @@
 		frame.on('select', function() {
 			var attachment = frame.state().get('selection').first().toJSON();
 			input.val(attachment.id);
-			preview.html('<img src="' + attachment.url + '" alt="" />');
+			preview.empty();
+			$('<img>', { src: attachment.url, alt: '' }).appendTo(preview);
 			container.find('.phantom-core-image-remove').show();
 		});
 

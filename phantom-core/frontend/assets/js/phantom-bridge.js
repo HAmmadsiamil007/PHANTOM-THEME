@@ -71,7 +71,7 @@
       }
 
       var self = this;
-      var nonce = this._data.api_nonce || '';
+      var nonce = this._getNonce();
       return fetch(this._baseUrl + '/settings/' + encodeURIComponent(key), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Phantom-Nonce': nonce },
@@ -137,7 +137,7 @@
         if (!changes.hasOwnProperty(key)) continue;
         self._data[key] = changes[key];
       }
-      var nonce = this._data.api_nonce || '';
+      var nonce = this._getNonce();
       return fetch(this._baseUrl + '/settings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Phantom-Nonce': nonce },

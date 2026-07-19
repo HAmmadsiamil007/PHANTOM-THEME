@@ -122,6 +122,20 @@ add_action(
 	5
 );
 
+// Declare WooCommerce compatibility
+add_action(
+	'after_setup_theme',
+	function (): void {
+		if ( class_exists( 'WooCommerce' ) ) {
+			add_theme_support( 'woocommerce' );
+			add_theme_support( 'wc-product-gallery-zoom' );
+			add_theme_support( 'wc-product-gallery-lightbox' );
+			add_theme_support( 'wc-product-gallery-slider' );
+		}
+	},
+	10
+);
+
 add_action(
 	'plugins_loaded',
 	function (): void {

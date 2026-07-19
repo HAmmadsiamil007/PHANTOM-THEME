@@ -91,7 +91,7 @@
     // data-phantom-bg="key" — sets background-image
     document.querySelectorAll('[data-phantom-bg]').forEach(function (el) {
       const key = el.getAttribute('data-phantom-bg');
-      if (settings[key]) el.style.backgroundImage = 'url("' + settings[key].replace(/[^a-zA-Z0-9\-._~:\/?#@!$&'()*+,;=]/g, '') + '")';
+      if (settings[key]) el.style.backgroundImage = 'url("' + settings[key].replace(/[^a-zA-Z0-9\-._~:\/?#@!$&'(*+,;=]/g, '') + '")';
     });
   }
 
@@ -350,6 +350,8 @@
           data.products.slice(0, count).forEach(function(p) {
             container.appendChild(buildProductCard(p, showSaleBadge, saleBadgeText, settings));
           });
+        }).catch(function (err) {
+          console.error('[PhantomCore] Product fetch failed:', err);
         });
         return;
       }
@@ -1092,7 +1094,32 @@
         data.items.forEach(function (item) {
           var div = document.createElement('div');
           div.className = 'product-details d-flex align-items-center w-100 mb-2';
-          div.innerHTML = '<div class="product-image box1"><figure class="mb-0"><img src="' + (item.image || './assets/images/cart-item.png') + '" alt="' + (item.name || '') + '" class="img-fluid"></figure></div><div class="product-content"><span class="product-title d-block">' + escapeHtml(item.name || '') + '</span><span class="product-color text d-block">Qty: <span>' + (item.qty || 0) + '</span></span><span class="product-size text d-block mb-0 beige">' + escapeHtml(item.total || '') + '</span></div>';
+          var imgDiv = document.createElement('div');
+          imgDiv.className = 'product-image box1';
+          var figure = document.createElement('figure');
+          figure.className = 'mb-0';
+          var img = document.createElement('img');
+          img.src = item.image || './assets/images/cart-item.png';
+          img.alt = item.name || '';
+          img.className = 'img-fluid';
+          figure.appendChild(img);
+          imgDiv.appendChild(figure);
+          var contentDiv = document.createElement('div');
+          contentDiv.className = 'product-content';
+          var nameSpan = document.createElement('span');
+          nameSpan.className = 'product-title d-block';
+          nameSpan.textContent = item.name || '';
+          contentDiv.appendChild(nameSpan);
+          var qtySpan = document.createElement('span');
+          qtySpan.className = 'product-color text d-block';
+          qtySpan.innerHTML = 'Qty: <span>' + (item.qty || 0) + '</span>';
+          contentDiv.appendChild(qtySpan);
+          var totalSpan = document.createElement('span');
+          totalSpan.className = 'product-size text d-block mb-0 beige';
+          totalSpan.textContent = item.total || '';
+          contentDiv.appendChild(totalSpan);
+          div.appendChild(imgDiv);
+          div.appendChild(contentDiv);
           itemsContainer.appendChild(div);
         });
       }

@@ -247,8 +247,6 @@
               var target = document.querySelector(selector);
               if (target) {
                 target.innerHTML = data.html;
-              } else {
-                console.warn('[Phantom Partial] selector not found:', selector);
               }
             }
           })

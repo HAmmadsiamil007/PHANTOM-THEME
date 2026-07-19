@@ -9,8 +9,6 @@
   var apiBase = (window.phantomData && window.phantomData.rest_url ? window.phantomData.rest_url.replace(/\/+$/, '') : (window.wpApiSettings && window.wpApiSettings.root ? window.wpApiSettings.root.replace(/\/+$/, '') : '/index.php?rest_route=/phantom/v1')) + '/phantom/v1';
   let editMode = false;
   let toolbar = null;
-  let restNonce = '';
-
   function getNonce() {
     return (window.phantomData && window.phantomData.api_nonce) || '';
   }
@@ -22,7 +20,8 @@
   function saveSetting(key, value) {
     const url = apiBase + '/settings/' + encodeURIComponent(key);
     var headers = { 'Content-Type': 'application/json' };
-    if (restNonce) headers['X-Phantom-Nonce'] = restNonce;
+    var nonce = getNonce();
+    if (nonce) headers['X-Phantom-Nonce'] = nonce;
     return fetch(url, {
       method: 'PUT',
       credentials: 'same-origin',
@@ -136,7 +135,6 @@
 
   function init() {
     if (!isAdmin()) return;
-    restNonce = getNonce();
     createToolbar();
     document.addEventListener('click', onElementClick);
   }
