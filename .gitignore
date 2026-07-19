@@ -1,4 +1,4 @@
-# OS
+﻿# OS
 Thumbs.db
 .DS_Store
 desktop.ini
@@ -30,3 +30,16 @@ wp-install-page.md
 front-page-*.md
 homepage*.md
 *snapshot.md
+
+# Serena memories
+.serena/
+
+# Temp test files
+tmp_*.php
+test.md
+
+# Playwright snapshots
+.playwright-mcp/
+
+# PowerShell artifacts
+-w
