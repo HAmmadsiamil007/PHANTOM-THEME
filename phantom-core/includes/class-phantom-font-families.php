@@ -59,6 +59,13 @@ class Phantom_Font_Families {
 		return '"' . $font_family . '", sans-serif';
 	}
 
+	public function get_all(): array {
+		return array(
+			'system' => $this->get_system_fonts(),
+			'google' => $this->get_google_fonts(),
+		);
+	}
+
 	public function get_subsets(): array {
 		return array(
 			'latin',

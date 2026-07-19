@@ -1,3 +1,12 @@
+/**
+ * @deprecated 2.0.0 — Legacy jQuery cart handler. Phantom REST cart in phantom-data.js handles all cart operations.
+ * @see phantom-data.js
+ */
+
+/**
+ * @deprecated 2.0.0 No longer loaded in HTML templates. Product quantity
+ *             operations handled by phantom-data.js via REST API.
+ */
 function increaseValue(element) {
     var qtyElement = element.parentNode.querySelector('.number');
     var linePriceElement = element.parentNode.parentNode.parentNode.querySelector('.product-line-price');

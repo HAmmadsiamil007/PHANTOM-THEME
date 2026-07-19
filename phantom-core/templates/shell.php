@@ -541,32 +541,11 @@ class Shell {
      * Inject Customizer CSS variables inline for initial page render.
      */
     private function inject_customizer_css( string $html ): string {
-        $options = get_option( 'phantom_options', array() );
-        $map = $this->get_css_var_map();
-        $css = '';
-        foreach ( $map as $key => $var ) {
-            $val = null;
-            if ( isset( $options[ $key ] ) && '' !== $options[ $key ] ) {
-                $val = $options[ $key ];
-            } else {
-                $individual = get_option( 'phantom_' . $key, null );
-                if ( null !== $individual && '' !== $individual ) {
-                    $val = $individual;
-                }
-            }
-            if ( null !== $val ) {
-                if ( in_array( $key, $this->get_px_keys(), true ) && is_numeric( $val ) ) {
-                    $val .= 'px';
-                }
-                $css .= $var . ':' . esc_attr( $val ) . ';';
-            }
-        }
-		if ( '' === $css ) {
+		$all_css = \Phantom_Custom_CSS::instance()->render_style();
+		if ( '' === $all_css ) {
 			return $html;
 		}
-		$css = $this->minify_css( $css );
-		$extra_css = \Phantom_Custom_CSS::instance()->render_style();
-		return str_replace( '</head>', '<style id="phantom-customizer-css">:root{' . $css . '}</style>' . $extra_css . '</head>', $html );
+		return str_replace( '</head>', $all_css . '</head>', $html );
     }
 
 	private function inject_images( string $html ): string {
@@ -735,26 +714,11 @@ class Shell {
 		$options     = get_option( 'phantom_options', array() );
 		$body_font   = $options['typography_body_font'] ?? 'Archivo';
 		$heading_font = $options['typography_heading_font'] ?? 'Playfair Display';
-
-		$fonts = array();
-		if ( $body_font ) {
-			$fonts[] = rawurlencode( $body_font ) . ':wght@100;200;300;400;500;600;700;800;900';
-		}
-		if ( $heading_font ) {
-			$fonts[] = rawurlencode( $heading_font ) . ':wght@100;200;300;400;500;600;700;800;900';
-		}
-
-		if ( empty( $fonts ) ) {
-			return $html;
-		}
-
-		$family = implode( '&family=', $fonts );
-		$url    = 'https://fonts.googleapis.com/css2?family=' . $family . '&display=swap';
-		$link   = sprintf(
+		$url         = \PhantomCore\Fonts::instance()->get_enqueue_url( $body_font, $heading_font );
+		$link        = sprintf(
 			'<link rel="stylesheet" id="phantom-google-fonts-css" href="%s" media="all" />',
 			esc_url( $url )
 		);
-
 		return str_replace( '</head>', $link . '</head>', $html );
 	}
 

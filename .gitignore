@@ -4,3 +4,5 @@ phantom-core-remediation-todo.md
 .playwright-mcp/
 .serena/
 nul
+*.phar
+.phpunit.result.cache

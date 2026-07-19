@@ -31,7 +31,7 @@ $(function () {
             dd = String(today.getDate()).padStart(2, "0"),
             mm = String(today.getMonth() + 1).padStart(2, "0"),
             yyyy = today.getFullYear(),
-            nextYear = '2025',
+            nextYear = String(yyyy + 1),
             dayMonth = "10/24/",
             birthday = dayMonth + yyyy;
 

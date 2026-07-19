@@ -5,6 +5,10 @@ namespace PhantomCore\Customizer\Controls;
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * @deprecated 2.0.0 Duplicate of includes/class-phantom-font-families.php.
+ *             Use \Phantom_Font_Families::instance() instead.
+ */
 class Font_Families {
 
     public static function get_system_fonts(): array {

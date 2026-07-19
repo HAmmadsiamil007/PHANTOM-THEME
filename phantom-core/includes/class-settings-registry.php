@@ -240,8 +240,8 @@ class Settings_Registry {
 			'color_link_hover'             => '--link--hover',
 			'form_input_border_radius'     => '--form-input-radius',
 			'form_input_height'            => '--form-input-height',
-			'button_padding_x'             => '--btn--pad--x',
-			'button_padding_y'             => '--btn--pad--y',
+			'button_padding_x'             => '--button-padding-x',
+			'button_padding_y'             => '--button-padding-y',
 			'header_bg'                    => '--header-bg',
 			'header_text_color'            => '--header-color',
 			'header_padding_x'             => '--header-padding-x',
@@ -2850,7 +2850,7 @@ class Settings_Registry {
 				'default'      => '#999999',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Text Color', 'phantom-core' ),
-				'css_property' => '--footer-text',
+				'css_property' => '--footer--text',
 				'css_selector' => ':root',
 			),
 			'footer_heading_text'         => array(
@@ -2989,7 +2989,7 @@ class Settings_Registry {
 				'default'      => '#222222',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Footer Background', 'phantom-core' ),
-				'css_property' => '--footer-bg',
+				'css_property' => '--footer--bg',
 				'css_selector' => ':root',
 			),
 			'footer_scroll_to_top_enable' => array(
@@ -3154,6 +3154,22 @@ class Settings_Registry {
 				'sanitize' => 'sanitize_text_field',
 				'label'   => __( 'Heading Font Family', 'phantom-core' ),
 			),
+			'font_subset'                => array(
+				'section'    => 'typography',
+				'type'       => 'multi_select',
+				'default'    => array( 'latin' ),
+				'choices'    => array(
+					'latin'        => 'Latin',
+					'latin-ext'    => 'Latin Extended',
+					'cyrillic'     => 'Cyrillic',
+					'cyrillic-ext' => 'Cyrillic Extended',
+					'greek'        => 'Greek',
+					'greek-ext'    => 'Greek Extended',
+					'vietnamese'   => 'Vietnamese',
+				),
+				'sanitize' => 'phantom_sanitize_subsets',
+				'label'    => __( 'Font Subsets', 'phantom-core' ),
+			),
 			'typography_heading_weight'  => array(
 				'section' => 'typography',
 				'type'    => 'select',
@@ -3294,6 +3310,13 @@ class Settings_Registry {
 				'sanitize' => 'absint',
 				'label'   => __( 'H6 Line Height (px)', 'phantom-core' ),
 			),
+			'typography_headings'        => array(
+				'section'  => 'typography',
+				'type'     => 'json',
+				'default'  => array(),
+				'sanitize' => 'phantom_sanitize_headings_json',
+				'label'    => __( 'Heading Typography (Composite)', 'phantom-core' ),
+			),
 		);
 	}
 
@@ -3305,7 +3328,7 @@ class Settings_Registry {
 				'default'      => '#7635d5',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Primary Color', 'phantom-core' ),
-				'css_property' => '--color-primary',
+				'css_property' => '--primary--color',
 				'css_selector' => ':root',
 			),
 			'color_secondary'  => array(
@@ -3314,7 +3337,7 @@ class Settings_Registry {
 				'default'      => '#ffffff',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Secondary Color', 'phantom-core' ),
-				'css_property' => '--color-secondary',
+				'css_property' => '--secondary--color',
 				'css_selector' => ':root',
 			),
 			'color_accent'     => array(
@@ -3323,7 +3346,7 @@ class Settings_Registry {
 				'default'      => '#fcd668',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Accent Color', 'phantom-core' ),
-				'css_property' => '--color-accent',
+				'css_property' => '--accent--color',
 				'css_selector' => ':root',
 			),
 			'color_text'       => array(
@@ -3332,7 +3355,7 @@ class Settings_Registry {
 				'default'      => '#4e4e4e',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Text Color', 'phantom-core' ),
-				'css_property' => '--color-text',
+				'css_property' => '--text--color',
 				'css_selector' => ':root',
 			),
 			'color_heading'    => array(
@@ -3341,7 +3364,7 @@ class Settings_Registry {
 				'default'      => '#3f3f3f',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Heading Color', 'phantom-core' ),
-				'css_property' => '--color-heading',
+				'css_property' => '--heading--color',
 				'css_selector' => ':root',
 			),
 			'color_background' => array(
@@ -3350,7 +3373,7 @@ class Settings_Registry {
 				'default'      => '#ffffff',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Background Color', 'phantom-core' ),
-				'css_property' => '--color-background',
+				'css_property' => '--bg',
 				'css_selector' => ':root',
 			),
 			'color_header_bg'  => array(
@@ -3377,7 +3400,7 @@ class Settings_Registry {
 				'default'      => '#705b53',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Link Color', 'phantom-core' ),
-				'css_property' => '--color-link',
+				'css_property' => '--link',
 				'css_selector' => ':root',
 			),
 			'color_link_hover' => array(
@@ -3386,7 +3409,7 @@ class Settings_Registry {
 				'default'      => '#c19a6b',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Link Hover', 'phantom-core' ),
-				'css_property' => '--color-link-hover',
+				'css_property' => '--link--hover',
 				'css_selector' => ':root',
 			),
 			'color_border'     => array(
@@ -3395,7 +3418,7 @@ class Settings_Registry {
 				'default'      => '#e5e5e5',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Border Color', 'phantom-core' ),
-				'css_property' => '--color-border',
+				'css_property' => '--border--color',
 				'css_selector' => ':root',
 			),
 			'color_sale'       => array(
@@ -3404,7 +3427,7 @@ class Settings_Registry {
 				'default'      => '#e74c3c',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Sale Color', 'phantom-core' ),
-				'css_property' => '--color-sale',
+				'css_property' => '--sale--color',
 				'css_selector' => ':root',
 			),
 			'color_light_bg'     => array(
@@ -3413,7 +3436,7 @@ class Settings_Registry {
 				'default'      => '#f8f5fd',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Light Background', 'phantom-core' ),
-				'css_property' => '--color-light-bg',
+				'css_property' => '--light--bg--color',
 				'css_selector' => ':root',
 			),
 			'color_grey'         => array(
@@ -3422,7 +3445,7 @@ class Settings_Registry {
 				'default'      => '#d8d8d8',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Grey Color', 'phantom-core' ),
-				'css_property' => '--color-grey',
+				'css_property' => '--grey--color',
 				'css_selector' => ':root',
 			),
 			'color_success'      => array(
@@ -3431,7 +3454,7 @@ class Settings_Registry {
 				'default'      => '#76a22c',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Success Color', 'phantom-core' ),
-				'css_property' => '--color-success',
+				'css_property' => '--success--color',
 				'css_selector' => ':root',
 			),
 			'color_error'        => array(
@@ -3440,7 +3463,7 @@ class Settings_Registry {
 				'default'      => '#dc3545',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Error Color', 'phantom-core' ),
-				'css_property' => '--color-error',
+				'css_property' => '--error--color',
 				'css_selector' => ':root',
 			),
 			'color_warning'      => array(
@@ -3449,7 +3472,7 @@ class Settings_Registry {
 				'default'      => '#ffc107',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Warning Color', 'phantom-core' ),
-				'css_property' => '--color-warning',
+				'css_property' => '--warning--color',
 				'css_selector' => ':root',
 			),
 			'color_info'         => array(
@@ -3458,7 +3481,7 @@ class Settings_Registry {
 				'default'      => '#17a2b8',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Info Color', 'phantom-core' ),
-				'css_property' => '--color-info',
+				'css_property' => '--info--color',
 				'css_selector' => ':root',
 			),
 			'color_gradient_start' => array(
@@ -3467,7 +3490,7 @@ class Settings_Registry {
 				'default'      => '#f4cafe',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Gradient Start', 'phantom-core' ),
-				'css_property' => '--color-gradient-start',
+				'css_property' => '--gradient-start--color',
 				'css_selector' => ':root',
 			),
 			'color_gradient_end'   => array(
@@ -3476,7 +3499,7 @@ class Settings_Registry {
 				'default'      => '#f4ca5f',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Gradient End', 'phantom-core' ),
-				'css_property' => '--color-gradient-end',
+				'css_property' => '--gradient-end--color',
 				'css_selector' => ':root',
 			),
 			'color_featured_badge' => array(
@@ -3485,7 +3508,7 @@ class Settings_Registry {
 				'default'      => '#ff6b35',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Featured Badge', 'phantom-core' ),
-				'css_property' => '--color-featured-badge',
+				'css_property' => '--featured-badge--color',
 				'css_selector' => ':root',
 			),
 			'color_rating'         => array(
@@ -3494,7 +3517,7 @@ class Settings_Registry {
 				'default'      => '#f4ca5f',
 				'sanitize'     => 'sanitize_hex_color',
 				'label'        => __( 'Star Rating', 'phantom-core' ),
-				'css_property' => '--color-rating',
+				'css_property' => '--woo--rating',
 				'css_selector' => ':root',
 			),
 		);

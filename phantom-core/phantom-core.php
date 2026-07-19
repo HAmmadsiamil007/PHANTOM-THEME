@@ -58,6 +58,7 @@ require_once PHANTOM_CORE_PATH . 'includes/class-customizer.php';
 require_once PHANTOM_CORE_PATH . 'includes/class-custom-css.php';
 require_once PHANTOM_CORE_PATH . 'includes/class-phantom-global-palette.php';
 require_once PHANTOM_CORE_PATH . 'includes/class-phantom-version-compatibility.php';
+require_once PHANTOM_CORE_PATH . 'includes/class-fonts.php';
 require_once PHANTOM_CORE_PATH . 'includes/class-phantom-font-families.php';
 require_once PHANTOM_CORE_PATH . 'includes/class-phantom-webfont-loader.php';
 require_once PHANTOM_CORE_PATH . 'includes/partial-renderers.php';
@@ -199,6 +200,33 @@ function phantom_enqueue_dark_mode(): void {
 add_action( 'wp_enqueue_scripts', 'PhantomCore\\phantom_enqueue_dark_mode', 11 );
 
 \Phantom_Webfont_Loader::instance()->init();
+
+if ( ! function_exists( 'phantom_sanitize_subsets' ) ) {
+	function phantom_sanitize_subsets( $value ): array {
+		if ( ! is_array( $value ) ) {
+			return array( 'latin' );
+		}
+		$valid = \PhantomCore\Fonts::instance()->get_subsets();
+		return array_intersect( $value, $valid );
+	}
+}
+
+if ( ! function_exists( 'phantom_sanitize_headings_json' ) ) {
+	function phantom_sanitize_headings_json( $value ): array {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+		$allowed = array( 'size', 'line_height', 'weight', 'spacing' );
+		$heads   = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' );
+		$result  = array();
+		foreach ( $heads as $h ) {
+			if ( isset( $value[ $h ] ) && is_array( $value[ $h ] ) ) {
+				$result[ $h ] = array_intersect_key( $value[ $h ], array_flip( $allowed ) );
+			}
+		}
+		return $result;
+	}
+}
 
 // JS minification: Run `npm run build` before deployment. Custom control JS files in admin/js/custom-controls/
 
