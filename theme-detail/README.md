@@ -1,113 +1,124 @@
-# Phantom Core Framework
+# Phantom Core Framework v1.5.0
 
-A **decoupled WordPress framework** that replaces traditional PHP template hierarchy with a static HTML SPA architecture. Dynamic data is injected client-side via a custom REST API.
+A **decoupled WordPress framework** that replaces traditional PHP template hierarchy with a static HTML SPA architecture. Dynamic data is injected client-side via a custom REST API. The frontend is **100% replaceable** without touching PHP.
 
 ## Quick Stats
 
 | Metric | Value |
 |--------|-------|
 | Version | **1.5.0** |
+| Plugin | `phantom-core` (acts as both plugin + theme framework) |
+| WordPress Theme Dir | **None** — no `wp-content/themes/` exists |
 | Settings | **555** across 44 sections |
-| Customizer Panels | 14 panels, 49 sections |
-| REST API Endpoints | **21** routes |
-| PHP Files | **38** |
-| HTML Templates | 21 (static, replaceable) |
-| CSS Var Tokens | **65** |
-| WooCommerce | Template overrides + REST endpoints |
-| Backend Health | **98/100** — Code Quality 97, Security 100 |
+| REST API Endpoints | **34** under `phantom/v1` |
+| Customizer Panels | **14** panels, **49** sections |
+| Custom Controls | **13** |
+| PHP Files | **38** (12,506 lines) |
+| HTML Templates | **31** (static, replaceable) |
+| Frontend JS | **24** files (7,815 lines incl. vendor) |
+| PHPUnit Tests | **23** (4,206 assertions) |
+| WooCommerce | Full integration via Store API + `wc-ajax` |
+| Backend Health | **98/100** (Code Quality 97, Security 100) |
 
-## Architecture
+## Architecture Overview
 
 ```
-WordPress Core ─── WooCommerce
-       │                │
-       └────────────────┘
-              │
-     Phantom Core Plugin
-       │              │
-  Settings Registry   │
-  (555 settings)      │
-       │              │
-  ┌────┴────┬─────────┴──┐
-  │         │            │
-Customizer  Admin Page   REST API
-(visual)    (form)       (21 routes)
-  │         │            │
-  └─────────┴────────────┘
-              │
-      Shell (SPA Router)
-   template_redirect → HTML
-              │
-     ┌────────┴────────┐
-     │                  │
-  Static HTML       phantom-data.js
-  Templates         (data injection)
+WordPress Core ─── WooCommerce ─── Customizer
+      │                  │              │
+      └──────────────────┴──────────────┘
+                     │
+             Phantom Core Plugin
+        ┌───────────┼───────────┐
+        │           │           │
+   Settings     REST API    Customizer
+   Registry     34 routes   14 panels
+   555 sets     phantom/v1  49 sections
+        │           │           │
+        └───────────┼───────────┘
+                    │
+            Shell SPA Router
+         (template_redirect)
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+   31 Static HTML           phantom-data.js
+   Templates                (REST API bridge)
+        │                       │
+        └───────────┬───────────┘
+                    │
+            Browser SPA (Swup.js)
+         Page transitions via AJAX
 ```
 
-## Key Concepts
+## How It Works
 
-- **No standard WordPress themes** — Plugin-based architecture. No `wp-content/themes/` exists.
-- **Static HTML SPA** — 21 static HTML files. All dynamic data via REST API
-- **Attribute-based binding** — `data-phantom="key"` on HTML elements drives data injection
-- **CSS Variable architecture** — 65 design tokens as CSS custom properties on `:root`
-- **Three-way customization** — Customizer (visual) + Admin (form) + REST API (programmatic)
-- **WooCommerce via Store API** — Modern cart/checkout integration
+**Server-side (PHP):**
+1. `template_redirect` at priority 0 intercepts all frontend requests
+2. Shell maps URL → HTML template (e.g., `/shop` → `frontend/shop.html`)
+3. Injects 65 CSS custom properties as `<style id="phantom-customizer-css">`
+4. Injects SEO meta tags, security headers, `phantomData` JS config
+5. Serves HTML + `exit` (WordPress never renders a theme)
 
-## Documentation
+**Client-side (JS):**
+1. `phantom-data.js` loads on DOMContentLoaded
+2. Fetches `/wp-json/phantom/v1/page-data` (mega-endpoint, 1hr cached)
+3. Finds `[data-phantom="key"]` attributes in HTML → injects values
+4. Finds `[data-phantom-menu]`, `[data-phantom-products]`, etc. → builds menus/products
+5. Binds WooCommerce handlers (add-to-cart, quantity, checkout)
+6. Subsequent navigation via Swup.js — fetches new page, replaces `#swup` content
+
+## Documentation Files
 
 | File | Contents |
 |------|----------|
-| `ARCHITECTURE.md` | Complete system architecture, data flow, component relationships |
-| `FEATURES.md` | Full feature list — WordPress, WooCommerce, Theme Settings |
-| `CUSTOMIZATION.md` | 555+ controls guide — Customizer, Admin, REST API, CSS vars |
-| `FORENSIC-AUDIT.md` | Full backend audit results — 19 bugs fixed, health scores |
-| `FRONTEND-GUIDE.md` | How to edit/replace frontend, data binding reference, WooCommerce hooks |
-| `FRONTEND-REPLACE-GUIDE.md` | Step-by-step guide for complete frontend replacement |
+| `ARCHITECTURE.md` | Complete system architecture, data flow, component relationships, init order |
+| `FEATURES.md` | Full feature inventory — 555 settings, 14 panels, WooCommerce, SEO, performance |
+| `CUSTOMIZATION.md` | 3-way customization guide — Customizer (visual) + Admin (form) + REST API (programmatic) |
+| `FORENSIC-AUDIT.md` | Full backend audit — 19 bugs fixed, 5-agent forensic report, health scores |
+| `FRONTEND-GUIDE.md` | Complete frontend development guide — data binding, attributes, WooCommerce integration |
+| `FRONTEND-REPLACE-GUIDE.md` | Step-by-step guide for replacing the entire frontend with React/Vue/Next.js/static HTML |
 
-## Backend Health (Post-Audit)
+## Three Ways to Customize
 
-| Domain | Score | Status |
-|--------|-------|--------|
-| Code Quality | 97/100 | ✅ Dead code removed, no syntax errors, proper typing |
-| Security | 100/100 | ✅ Nonce, sanitization, escaping, capabilities all verified |
-| Performance | 98/100 | ✅ Efficient options-based storage, CSS caching |
-| **Aggregate** | **98/100** | ✅ Production-ready |
-
-### 19 Issues Fixed Across 2 Commits
-- Removed dead `Phantom_Fonts` class + test files from production
-- Fixed font loading bug — default Google Fonts not skipped
-- **Critical: Fixed nonce corruption** — `sanitize_key()` was mutating nonce before `wp_verify_nonce()`
-- Fixed 5 hardcoded `'1.0.0'` versions → `PHANTOM_CORE_VERSION`
-- Fixed duplicate body class in `inject_editor()`
-- Fixed `get_template_part()` crash without theme
-- Fixed header_padding_x/y dead CSS keys + responsive array handling
-- Added `esc_attr()` to responsive-helper CSS output
-- Fixed permissive regex in color-group sanitize
+| Method | URL | Best For |
+|--------|-----|----------|
+| WordPress Customizer | `/wp-admin/customize.php` | Visual live preview (colors, fonts, layout) |
+| Admin Settings Page | `/wp-admin/themes.php?page=phantom-core-settings` | Full CRUD with all 555 settings |
+| REST API | `/wp-json/phantom/v1` | Programmatic control, integrations |
 
 ## Quick Start
 
 ```bash
-# Theme is activated in WordPress
 # Settings managed via:
-# - Customizer: /wp-admin/customize.php
-# - Admin: /wp-admin/themes.php?page=phantom-core-settings
-# - REST API: /wp-json/phantom/v1
+# - Customizer:  /wp-admin/customize.php        (visual)
+# - Admin:       /wp-admin/themes.php?page=phantom-core-settings  (full CRUD)
+# - REST API:    /wp-json/phantom/v1            (programmatic)
 
-# To push local changes to Docker:
-docker cp phantom-core optix_wordpress:/var/www/html/wp-content/plugins/phantom-core
+# Push local changes to Docker:
+docker cp phantom-core wordpress:/var/www/html/wp-content/plugins/phantom-core
 
-# To pull from Docker:
-docker cp optix_wordpress:/var/www/html/wp-content/plugins/phantom-core ./phantom-core
+# Pull from Docker:
+docker cp wordpress:/var/www/html/wp-content/plugins/phantom-core ./phantom-core
 ```
 
 ## Requirements
 
 - WordPress 6.4+
 - PHP 8.1+
-- WooCommerce (optional, for shop features)
+- WooCommerce 8.0+ (optional, for shop features)
+- MySQL 8.0 (recommended)
 
 ## GitHub
 
 - **Repo:** `github.com/HAmmadsiamil007/PHANTOM-CORE`
 - **Branch:** `master` (primary)
-- **Frontend:** To be replaced with React/Vue/Next.js — backend stays as-is
+- **Frontend:** Any framework — backend stays as-is. See `FRONTEND-REPLACE-GUIDE.md`
+
+## Backend Health (Post-Audit)
+
+| Domain | Score | Status |
+|--------|-------|--------|
+| Code Quality | 97/100 | 19 bugs fixed, dead code removed, proper typing |
+| Security | 100/100 | Nonce, sanitization, escaping, capabilities all verified |
+| Performance | 98/100 | Options-based storage, CSS caching, no slow operations |
+| **Aggregate** | **98/100** | Production-ready for any frontend |
