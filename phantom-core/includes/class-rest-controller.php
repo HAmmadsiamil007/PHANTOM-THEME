@@ -576,8 +576,8 @@ class Rest_Controller extends \WP_REST_Controller {
 		return current_user_can( 'edit_theme_options' );
 	}
 
-	public function admin_permission_check(): bool|\WP_Error {
-		$nonce = $this->verify_nonce();
+	public function admin_permission_check( $request ): bool|\WP_Error {
+		$nonce = $this->verify_nonce( $request );
 		if ( is_wp_error( $nonce ) ) {
 			return $nonce;
 		}
@@ -588,19 +588,13 @@ class Rest_Controller extends \WP_REST_Controller {
 		return current_user_can( 'edit_theme_options' );
 	}
 
-	private function verify_nonce(): bool|\WP_Error {
+	private function verify_nonce( $request = null ): bool|\WP_Error {
 		if ( ! function_exists( 'wp_verify_nonce' ) ) {
 			return true;
 		}
 		$nonce = '';
-		if ( function_exists( 'rest_get_server' ) ) {
-			$server = rest_get_server();
-			if ( $server ) {
-				$request = $server->get_request();
-				if ( $request ) {
-					$nonce = $request->get_header( 'X-Phantom-Nonce' ) ?? '';
-				}
-			}
+		if ( $request instanceof \WP_REST_Request ) {
+			$nonce = $request->get_header( 'X-Phantom-Nonce' ) ?? '';
 		}
 		if ( '' === $nonce ) {
 			$nonce = isset( $_SERVER['HTTP_X_PHANTOM_NONCE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_PHANTOM_NONCE'] ) ) : '';
@@ -623,8 +617,8 @@ class Rest_Controller extends \WP_REST_Controller {
 		return current_user_can( 'edit_theme_options' );
 	}
 
-	public function cart_write_permission_check(): bool|\WP_Error {
-		return $this->verify_nonce();
+	public function cart_write_permission_check( $request ): bool|\WP_Error {
+		return $this->verify_nonce( $request );
 	}
 
 	public function get_partial( \WP_REST_Request $request ): \WP_REST_Response {
@@ -2825,7 +2819,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		$fname   = sanitize_text_field( $request->get_param( 'fname' ) );
 		$email   = sanitize_email( $request->get_param( 'email' ) );
 		$phone   = sanitize_text_field( $request->get_param( 'phone' ) );
-		$message = sanitize_textarea_field( $request->get_param( 'message' ) );
+		$message = sanitize_textarea_field( $request->get_param( 'message' ) ?: $request->get_param( 'msg' ) );
 
 		if ( empty( $fname ) || empty( $email ) ) {
 			return $this->wp_error( 'missing_fields', __( 'Name and email are required.', 'phantom-core' ), 400 );

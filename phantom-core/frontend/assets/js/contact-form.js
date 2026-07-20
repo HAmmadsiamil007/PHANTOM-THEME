@@ -1,5 +1,8 @@
 $(function () {
 	$(document).on('click', '#submit', function () {
+		$.validator.addMethod('phone', function (value, element) {
+			return this.optional(element) || /^[\d\s\-\+\(\)]{7,20}$/.test(value);
+		}, 'Please enter a valid phone number.');
 		$("#contactpage").validate({
 			submitHandler: function (e) {
 				submitSignupFormNow($("#contactpage"))
