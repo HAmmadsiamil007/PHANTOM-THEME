@@ -973,15 +973,22 @@ USER PROMPT: "Create a premium [CATEGORY] template for [USE CASE]"
 | CSS var theming | ✅ Reference core vars | ✅ Extended premium vars |
 | Bootstrap grid | ✅ | ✅ |
 | GSAP animations | Optional | ✅ |
-| Lenis scroll | Optional | ✅ |
+| Scroll-linked video sequence | - | ✅ (AI → EZGIF → GSAP) |
+| Lenis / Locomotive scroll | Optional | ✅ Both available |
 | Swiper sliders | Optional | ✅ |
-| Three.js 3D | - | ✅ |
+| Three.js 3D | - | ✅ + ScrollTrigger |
+| Lottie animations | - | ✅ |
+| Splitting.js text effects | - | ✅ |
+| Typed.js typing animation | - | ✅ |
+| Shaders / WebGL | - | ✅ |
 | Parallax | Optional | ✅ |
 | Dark mode | Optional | ✅ |
 | Page transitions (Swup) | ✅ | ✅ |
 | 3D models (.glb) | - | Optional |
 | Particle effects | - | Optional |
 | Customizer integration | ✅ | ✅ (inline editor) |
+| SCSS preprocessing | Optional | ✅ (via Vite) |
+| Vite dev server | - | ✅ |
 
 ### Verification Checklist (Docker Live Test)
 
@@ -1027,17 +1034,46 @@ Phase 6: Categories
 
 Phase 7: Premium Features
   □ GSAP animations play on scroll
-  □ Lenis smooth scroll works
+  □ Lenis / Locomotive smooth scroll works
   □ Swiper carousel works
   □ Three.js 3D scene renders (if used)
   □ Dark mode toggle works
   □ Mobile responsive
   □ Touch interactions work on mobile
+  □ Splitting.js text effects render correctly
+  □ Typed.js typing animation plays
+  □ Lottie animation plays (if used)
+
+Phase 8: AI 3D Scroll Sequence (if used)
+  □ prompt.md created in project root
+  □ Scroll-sequence canvas renders
+  □ Frames preload with loading indicator
+  □ GSAP ScrollTrigger pins the canvas
+  □ Scrub scroll advances frames smoothly
+  □ First frame shows immediately (before all frames load)
+  □ Responsive: canvas resizes with window
+  □ Phantom Core hero content overlays correctly
+  □ Fallback text visible while loading
+  □ Lighthouse Performance ≥ 95 (preloaded frames)
 ```
 
 ---
 
-## Section 5: Skills & MCPs Reference
+## Section 5: Skills, MCPs & Ultimate Frontend Stack
+
+### 🚀 Ultimate Frontend Stack (TemplateMonster/ThemeForest Grade)
+
+This is the full toolkit for building award-quality HTML templates. Install the dev tools globally:
+
+```bash
+npm install -g vite                              # Build tool & dev server
+npm install -g sass                              # SCSS compilation
+npm install -g @playwright/test                  # Browser testing
+npm install -g lighthouse                        # Performance audit
+npm install -g live-server                       # Dev server fallback
+npm install -g terser                            # JS minification
+npm install -g clean-css-cli                     # CSS minification
+```
 
 ### Must-Use Skills (in priority order)
 
@@ -1046,13 +1082,27 @@ Phase 7: Premium Features
 | `wordpress-pro` | Integration | WordPress/WooCommerce hooks, REST API, settings |
 | `brainstorming` | Before any work | Requirements, design exploration |
 | `frontend-design` | Design | Aesthetic direction, typography, visual choices |
-| `design-systems` | Design | Bold aesthetic, avoiding generic design |
-| `impeccable` | Polish | UX review, visual hierarchy, accessibility |
-| `mobile-responsiveness` | Build | Mobile-first, breakpoints, touch |
-| `fixing-accessibility` | Verify | ARIA, keyboard nav, focus, contrast |
-| `design-motion-principles` | Animation | Purposeful motion, micro-interactions |
+| `design-systems` | Design | Bold aesthetic, avoiding generic "AI slop" |
+| `ui-ux-pro-max` | Design | Design systems, color palettes, font pairings, UX rules |
+| `impeccable` | Polish | UX review, visual hierarchy, accessibility, anti-pattern audit |
+| `mobile-responsiveness` | Build | Mobile-first, breakpoints, touch interactions |
+| `fixing-accessibility` | Verify | ARIA, keyboard nav, focus management, contrast |
+| `web-design-guidelines` | Review | UI code review against Web Interface Guidelines |
+| `writing-guidelines` | Review | Docs/prose review against Writing Guidelines |
+| `design-motion-principles` | Animation | Purposeful motion, micro-interactions (Emil Kowalski / Jhey Tompkins) |
+| `review-animations` | Animation Review | Animation code review against craft bar |
+| `gsap-skill` | Animation | GSAP-specific best practices |
+| `color-expert` | Design | Color theory, palette generation, accessibility |
+| `gradient` | Design | Gradient generation, color stops, blending |
+| `brand-guidelines` | Design | Brand colors, typography, visual formatting |
+| `theme-factory` | Styling | Apply pre-set themes with colors/fonts |
+| `ui-styling` | Build | Beautiful, accessible UI with Tailwind/shadcn/ui |
+| `design-taste-frontend` | Build | Anti-slop frontend, real design systems, audit-first |
+| `taste-design` | Design | Semantic design system, premium standards |
+| `seo-audit` | Verify | SEO compliance, meta tags, structured data |
 | `deploy-to-vercel` | Deploy | Deploy to Vercel |
 | `playwright-cli` | Test | Browser testing, screenshot verification |
+| `open-design-mcp` | Design | AI-powered UI design generation via Open Design daemon |
 
 ### MCP Servers
 
@@ -1062,6 +1112,9 @@ Phase 7: Premium Features
 | `@anthropic/mcp-git` | Git operations, commit, push |
 | `@modelcontextprotocol/server-web-fetch` | Fetch URLs, library docs |
 | `context7` | Library documentation (React, GSAP, Three.js) |
+| `serena` | Code understanding, symbol search, file navigation, refactoring |
+| `open-design-mcp` | AI-powered design generation (prototypes, decks, templates) |
+| `@anthropic/mcp-server-filesystem` | File operations, directory management |
 
 ---
 
@@ -1072,10 +1125,16 @@ Phase 7: Premium Features
 GSAP:           https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js
 ScrollTrigger:  https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js
 Lenis:          https://unpkg.com/lenis@1.1.18/dist/lenis.min.js
+Locomotive Scroll: https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js
+AOS:            https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js
+Typed.js:       https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js
+Splitting.js:   https://unpkg.com/splitting@1.0.6/dist/splitting.min.js
 
 <!-- 3D -->
 Three.js:       https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js
 OrbitControls:  https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js
+GLTFLoader:     https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js
+Lottie:         https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js
 
 <!-- SLIDERS -->
 Swiper CSS:     https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css
@@ -1083,10 +1142,35 @@ Swiper JS:      https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js
 
 <!-- ICONS -->
 Font Awesome:   https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css
+Bootstrap Icons: https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css
 
 <!-- UTILITIES -->
 Chart.js:       https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js
 Isotope:        https://unpkg.com/isotope-layout@3.0.6/dist/isotope.pkgd.min.js
+MagnificPopup:  https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js
+jQuery Validate: https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js
+Lodash:         https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js
+
+<!-- WEBGL / SHADERS -->
+Particles.js:   https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js
+Three.js Shaders: Built-in via Three.js r128 (ShaderMaterial, RawShaderMaterial)
+```
+
+### Build Tools (install globally)
+
+```bash
+# Dev server & build
+npm install -g vite                    # Vite dev server + build (fast, modern)
+npm install -g sass                    # SCSS → CSS compilation
+npm install -g live-server             # Lightweight dev server fallback
+
+# Minification
+npm install -g terser                  # JS minification
+npm install -g clean-css-cli           # CSS minification
+
+# Testing & audit
+npm install -g lighthouse              # Performance/accessibility/SEO audit
+npm install -g @playwright/test        # Browser testing framework
 ```
 
 ---
@@ -1114,9 +1198,22 @@ PHANTOM CORE INTEGRATION REQUIRED:
   □ Auth forms (login/register/reset)
   □ Search
   □ Categories
+
+3D APPROACH:
+  □ Scroll-linked image sequence (AI video → EZGIF frames → GSAP canvas)
+  □ Three.js real-time 3D (Three.js + ScrollTrigger)
+  □ Lottie animation (Lottie-web)
+  □ Shaders/WebGL (Three.js ShaderMaterial)
+  □ 360 product viewer (Three.js OrbitControls)
 ```
 
 Then follow the workflow in Section 4 to plan, design, build, verify, and deploy.
+
+If 3D is selected, the CLI will:
+1. Create `prompt.md` with start/end frame prompts (see Section 9.2)
+2. Generate Three.js hero template (see Section 9.6)
+3. Add scroll-sequence.js with GSAP/ScrollTrigger
+4. Wire Phantom Core data-phantom attributes on top
 
 ---
 
@@ -1351,6 +1448,426 @@ Every page must pass:
 - ✅ All `data-phantom` elements populated
 - ✅ CSS vars applied correctly
 - ✅ Phantom Core connection verified
+
+---
+
+## Section 9: AI 3D Video & Scroll Sequence Pipeline
+
+When the user requests 3D elements (hero banner, product showcase, background), use this AI-powered pipeline to generate cinema-quality scroll-linked animations WITHOUT writing 3D code.
+
+### 9.1 Workflow Overview
+
+```
+USER: "Make a 3D hero banner for [product]"
+      │
+      ▼
+  Step 1: CLI creates prompt.md with start/end frame prompts
+      │  └── Generated from Cindy Zhu's 5k scroll animation guide
+      │
+      ▼
+  Step 2: User generates frames in Google Flow
+      │  └── labs.google/flow → Frames to Video
+      │
+      ▼
+  Step 3: User converts to image sequence via EZGIF
+      │  └── ezgif.com/video-to-jpg → Download frames as ZIP
+      │
+      ▼
+  Step 4: CLI builds scroll-linked animation
+      │  └── GSAP + ScrollTrigger + Canvas = Apple-style scroll sequence
+      │
+      ▼
+  Step 5: CLI integrates into Phantom Core template
+      │  └── Hero banner with data-phantom attributes + CSS vars
+      │
+      ▼
+  Step 6: Deploy & verify
+```
+
+### 9.2 The prompt.md File (Generated by CLI)
+
+When 3D is requested, the CLI creates `prompt.md` in the project root:
+
+```markdown
+# 3D Video Frame Prompts
+
+Generate these in Google Flow (labs.google/flow → Frames to Video)
+
+## Start Frame (assembled)
+High-end studio product photograph of [PRODUCT NAME], fully assembled
+and intact, floating dead center against a seamless matte light-grey
+studio background. Straight-on view, perfectly level camera, soft even
+studio lighting, one subtle soft shadow directly beneath the product,
+photorealistic, ultra sharp, high detail. Keep the product small enough
+in frame that there is generous empty space on every side. No text,
+no watermark, no hands, no props, no brand logos. Landscape 16:9.
+
+## End Frame (exploded view)
+High-end studio product photograph of the same [PRODUCT NAME] as a clean
+exploded view: [LIST 4-6 PARTS] separated and floating in an organized,
+evenly spaced arrangement along one axis, like a technical teardown render.
+Same straight-on view, same perfectly level camera, same soft even studio
+lighting, same seamless matte light-grey studio background, one subtle
+soft shadow beneath. The core body stays in the exact center at the same
+size, with the parts spreading outward around it. Photorealistic, ultra
+sharp, high detail. No text, no watermark, no hands, no props, no brand
+logos. Landscape 16:9.
+
+## Motion Prompt (for Frames to Video)
+The product slowly comes apart into an exploded view: the casing separates
+and the internal parts spread outward smoothly and evenly. Camera locked
+in place, background unchanged.
+
+## EZGIF Settings
+1. Go to https://ezgif.com/video-to-jpg
+2. Upload the generated video
+3. Set to 30fps
+4. Click "Video to JPG (image sequence)"
+5. Click "Download frames as ZIP"
+6. Unzip into: assets/frames/
+
+## After placing frames in assets/frames/
+Run the build command and the template will wire the scroll animation.
+```
+
+### 9.3 Scroll-Linked Image Sequence (Build Prompt)
+
+After frames are placed in `assets/frames/`, use this build prompt:
+
+```javascript
+// main.js — Scroll-linked image sequence (Apple AirPods style)
+// Place in frontend/assets/js/scroll-sequence.js
+
+(function($) {
+  'use strict';
+
+  const frameContainer = document.getElementById('scroll-sequence');
+  if (!frameContainer) return;
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  frameContainer.appendChild(canvas);
+
+  const frameCount = 120; // Detect from assets/frames/ folder
+  const images = [];
+  let loaded = 0;
+  let currentFrame = 0;
+
+  // Preload all frames
+  for (let i = 1; i <= frameCount; i++) {
+    const img = new Image();
+    img.src = `assets/frames/frame-${String(i).padStart(4, '0')}.jpg`;
+    img.onload = () => {
+      loaded++;
+      if (loaded === 1) drawFrame(1); // Show first frame immediately
+    };
+    images.push(img);
+  }
+
+  function drawFrame(index) {
+    const img = images[index - 1];
+    if (!img || !img.complete) return;
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  }
+
+  // GSAP ScrollTrigger pin + scrub
+  ScrollTrigger.create({
+    trigger: frameContainer,
+    start: 'top top',
+    end: `+=${frameCount * 8}px`, // ~4 seconds at 30fps
+    pin: true,
+    scrub: 1,
+    onUpdate: (self) => {
+      const frame = Math.round(self.progress * (frameCount - 1)) + 1;
+      if (frame !== currentFrame) {
+        currentFrame = frame;
+        drawFrame(frame);
+      }
+    },
+  });
+
+  // Responsive resize
+  window.addEventListener('resize', () => {
+    const rect = frameContainer.getBoundingClientRect();
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+  });
+
+  // Fallback loading indicator
+  if (loaded < frameCount) {
+    const loader = document.createElement('div');
+    loader.className = 'frame-loader';
+    loader.textContent = 'Loading 3D animation...';
+    frameContainer.appendChild(loader);
+    const check = setInterval(() => {
+      if (loaded === frameCount) {
+        loader.remove();
+        clearInterval(check);
+      }
+    }, 500);
+  }
+
+})(jQuery);
+```
+
+### 9.4 Full Hero Banner Template (with Scroll Sequence + Phantom Core)
+
+```html
+<!-- frontend/3d-hero.html — Hero section with scroll sequence + Phantom data -->
+<section class="hero-3d-section position-relative overflow-hidden" id="hero">
+  <!-- Phantom Core data binding (settings text) -->
+  <div class="hero-content position-absolute top-50 start-50 translate-middle text-center z-3">
+    <span class="hero-badge badge mb-3" data-phantom="hero_badge">New Collection</span>
+    <h1 class="hero-title display-3 fw-bold mb-3" data-phantom="hero_title">
+      The Future is Here
+    </h1>
+    <p class="hero-desc lead mb-4" data-phantom="hero_description">
+      Experience innovation like never before.
+    </p>
+    <a class="btn btn-primary btn-lg" data-phantom="hero_button_url" href="#">
+      <span data-phantom="hero_button_text">Explore Now</span>
+    </a>
+  </div>
+
+  <!-- Scroll-linked 3D sequence container -->
+  <div id="scroll-sequence" class="scroll-sequence position-absolute top-0 start-0 w-100 h-100">
+    <!-- Canvas injected by scroll-sequence.js -->
+  </div>
+
+  <!-- Overlay for text readability -->
+  <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100"></div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator position-absolute bottom-0 start-50 translate-middle-x mb-4">
+    <span class="scroll-text">Scroll to explore</span>
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+  </div>
+</section>
+```
+
+### 9.5 3D Hero CSS (with Phantom Core CSS vars)
+
+```css
+/* frontend/assets/css/3d-hero.css */
+.hero-3d-section {
+  height: 100vh;
+  min-height: 600px;
+  background: var(--bg, #ffffff);
+  color: var(--heading--color, #0f172a);
+}
+
+.scroll-sequence {
+  z-index: 1;
+}
+
+.scroll-sequence canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-content {
+  z-index: 3;
+  max-width: var(--container-narrow, 768px);
+  padding: var(--section-padding-x);
+}
+
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,0.3) 100%
+  );
+  z-index: 2;
+}
+
+.hero-badge {
+  background: var(--primary--color, #6366f1);
+  color: var(--button-text, #ffffff);
+  padding: 0.5rem 1.5rem;
+  border-radius: var(--border-radius-full, 9999px);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.frame-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text--color, #1e293b);
+  font-size: 1.125rem;
+  z-index: 4;
+}
+```
+
+### 9.6 Alternative: Pure Three.js 3D with GSAP ScrollTrigger
+
+When the user wants a real-time 3D scene (not a video sequence), use Three.js directly:
+
+```javascript
+// three-scenes.js — 3D hero with GSAP scroll-driven animation
+class ScrollDriven3D {
+  constructor(containerId) {
+    this.container = document.getElementById(containerId);
+    if (!this.container) return;
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(
+      75, this.container.clientWidth / this.container.clientHeight, 0.1, 1000
+    );
+    this.renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.container.appendChild(this.renderer.domElement);
+    this.setupLights();
+    this.createObjects();
+    this.animate();
+    this.bindScroll();
+    window.addEventListener('resize', () => this.onResize());
+  }
+
+  setupLights() {
+    const ambient = new THREE.AmbientLight(0x404040);
+    const directional = new THREE.DirectionalLight(0xffffff, 1);
+    directional.position.set(5, 5, 5);
+    this.scene.add(ambient, directional);
+  }
+
+  createObjects() {
+    const geo = new THREE.IcosahedronGeometry(1, 1);
+    const mat = new THREE.MeshPhysicalMaterial({
+      color: getComputedStyle(document.documentElement)
+        .getPropertyValue('--primary--color').trim() || '#6366f1',
+      metalness: 0.3, roughness: 0.2,
+      transparent: true, opacity: 0.9,
+    });
+    this.mesh = new THREE.Mesh(geo, mat);
+    this.scene.add(this.mesh);
+
+    // Wireframe overlay
+    const wireMat = new THREE.MeshBasicMaterial({
+      color: getComputedStyle(document.documentElement)
+        .getPropertyValue('--accent--color').trim() || '#f59e0b',
+      wireframe: true, transparent: true, opacity: 0.3,
+    });
+    this.wireframe = new THREE.Mesh(geo.clone(), wireMat);
+    this.wireframe.scale.set(1.02, 1.02, 1.02);
+    this.scene.add(this.wireframe);
+  }
+
+  bindScroll() {
+    // GSAP drives the 3D rotation + scale based on scroll
+    gsap.to(this.mesh.rotation, {
+      y: Math.PI * 2,
+      scrollTrigger: {
+        trigger: this.container,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5,
+      },
+    });
+    gsap.to(this.mesh.scale, {
+      x: 1.5, y: 1.5, z: 1.5,
+      scrollTrigger: {
+        trigger: this.container,
+        start: 'top bottom',
+        end: 'center center',
+        scrub: 1,
+      },
+    });
+    if (this.wireframe) {
+      gsap.to(this.wireframe.rotation, {
+        y: -Math.PI * 3,
+        scrollTrigger: {
+          trigger: this.container,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+        },
+      });
+    }
+  }
+
+  animate() {
+    requestAnimationFrame(() => this.animate());
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  onResize() {
+    if (!this.container) return;
+    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+  }
+}
+
+// Init
+const hero3d = new ScrollDriven3D('hero-3d');
+```
+
+### 9.7 3D Workflow Decision Matrix
+
+| User Wants | Method | Tools | Output |
+|-----------|--------|-------|--------|
+| Product hero + scroll | Scroll-linked image sequence | Google Flow → EZGIF → GSAP | Canvas with pre-rendered frames |
+| Real-time 3D object | Three.js + ScrollTrigger | Three.js, GSAP | Interactive WebGL scene |
+| Background particles | Three.js Points | Three.js BufferGeometry | Particle field |
+| Lottie animation | Lottie-web + ScrollTrigger | Lottie, GSAP | Vector animation |
+| Parallax product reveal | Locomotive/Lenis + GSAP | Lenis, ScrollTrigger | Multi-layer parallax |
+| Shader effects | Three.js ShaderMaterial | Three.js, GLSL | Custom WebGL shaders |
+| 360 product viewer | Three.js OrbitControls | Three.js | Drag-to-rotate product |
+
+### 9.8 prompt.md Template (for CLI Agent)
+
+When the user says "3D hero" or "3D website", the CLI creates this file automatically:
+
+```markdown
+# 3D Hero — Start Here
+
+## Option A: AI Video Pipeline (recommended for photorealism)
+1. Go to https://labs.google/flow
+2. Use "Frames to Video: First + last"
+3. Upload the start + end frames from the prompts below
+4. Add motion prompt → Generate → Download
+5. Go to https://ezgif.com/video-to-jpg
+6. Upload video → Set 30fps → Convert → Download ZIP
+7. Unzip into `frontend/assets/frames/`
+8. CLI will build the scroll animation
+
+## Option B: Three.js (for real-time 3D)
+CLI will generate a Three.js scene with GSAP scroll-driven animation.
+No external assets needed.
+
+## Generated Prompts
+Start frame: [INSERT PRODUCT-SPECIFIC PROMPT]
+End frame: [INSERT PRODUCT-SPECIFIC PROMPT]
+Motion prompt: slow smooth 360 rotation / exploded view / material transition
+
+## EZGIF Settings
+fps: 30
+format: JPG
+output: assets/frames/
+```
+
+### 9.9 Integrating with Open Design MCP for UI Design
+
+Use Open Design MCP to generate the hero banner design itself:
+
+```bash
+# Open Design generates the full hero section design
+od_generate_design(
+  prompt: "Design a premium hero banner for a 3D product showcase.
+           Full-viewport hero with canvas area for scroll-linked 3D animation,
+           headline overlay, CTA button, and scroll indicator.
+           Dark theme with accent color #6366f1.",
+  kind: "prototype"
+)
+```
+
+Then merge the generated design with the scroll-sequence JavaScript and Phantom Core `data-phantom` attributes.
 
 ---
 
