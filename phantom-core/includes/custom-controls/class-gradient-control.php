@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Gradient_Control extends Control_Base {
 
+    public $type = 'ast-gradient';
+
     public static function get_type(): string {
         return 'ast-gradient';
     }

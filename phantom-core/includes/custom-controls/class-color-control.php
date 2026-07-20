@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Color_Control extends Control_Base {
 
+    public $type = 'ast-color';
+
     public static function get_type(): string {
         return 'ast-color';
     }

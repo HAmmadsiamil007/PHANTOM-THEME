@@ -144,8 +144,15 @@ class Customizer {
 					$control_priority += 1;
 
 					$setting_id = 'phantom_' . $key;
+					$default = $entry['default'] ?? '';
+					if ( is_array( $default ) ) {
+						$default = wp_json_encode( $default, JSON_UNESCAPED_SLASHES );
+						if ( false === $default || '[]' === $default ) {
+							$default = '';
+						}
+					}
 					$wp_customize->add_setting( $setting_id, array(
-						'default'           => $entry['default'] ?? '',
+						'default'           => $default,
 						'sanitize_callback' => $this->get_sanitize_callback( $entry ),
 						'transport'         => $this->get_transport( $key, $entry ),
 						'capability'        => 'edit_theme_options',
@@ -267,6 +274,8 @@ class Customizer {
 			case 'repeater':
 			case 'array':
 			case 'multiselect':
+			case 'multi_select':
+			case 'json':
 				$wp_customize->add_control( $setting_id, array(
 					'type'        => 'textarea',
 					'label'       => $label,
@@ -439,6 +448,9 @@ class Customizer {
 			return $sanitize;
 		}
 		$type = $entry['type'] ?? 'string';
+		if ( in_array( $type, array( 'array', 'repeater', 'multiselect', 'multi_select', 'json' ), true ) ) {
+			return 'sanitize_textarea_field';
+		}
 		$custom_sanitize = Control_Base::get_sanitize_for_type( $type );
 		if ( $custom_sanitize ) {
 			return $custom_sanitize;

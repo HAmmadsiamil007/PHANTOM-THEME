@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Select_Control extends Control_Base {
 
+    public $type = 'ast-select';
+
     public static function get_type(): string {
         return 'ast-select';
     }

@@ -270,6 +270,8 @@ class Shell {
 
         // In Customizer preview, inject WordPress scripts into Phantom Core HTML
         if ( $is_customizer_preview ) {
+            // Strip hardcoded jQuery library (not jquery.validate.js) to avoid double-loading
+            $html = preg_replace( '/<script[^>]*src="[^"]*jquery(?:-\d[\w.]*)?(?:\.min)?\.js[^"]*"[^>]*><\/script>/i', '', $html );
             ob_start();
             wp_head();
             $wp_head_output = ob_get_clean();

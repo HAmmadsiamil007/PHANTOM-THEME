@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 class Border_Control extends Control_Base {
 
-	public string $type = 'ast-border';
+	public $type = 'ast-border';
 
 	public static function get_type(): string {
 		return 'ast-border';

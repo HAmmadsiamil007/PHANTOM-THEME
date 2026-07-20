@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Typography_Control extends Control_Base {
 
+    public $type = 'ast-typography';
+
     public static function get_type(): string {
         return 'ast-typography';
     }

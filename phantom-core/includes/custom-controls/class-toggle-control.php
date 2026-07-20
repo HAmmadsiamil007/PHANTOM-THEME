@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Toggle_Control extends Control_Base {
 
+    public $type = 'ast-toggle';
+
     public static function get_type(): string {
         return 'ast-toggle';
     }

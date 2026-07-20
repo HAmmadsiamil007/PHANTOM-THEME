@@ -35,20 +35,7 @@ abstract class Control_Base extends \WP_Customize_Control {
                 require_once $path;
             }
         }
-        $classes = array(
-            Toggle_Control::class,
-            Select_Control::class,
-            Radio_Image_Control::class,
-            Color_Control::class,
-            Gradient_Control::class,
-            Responsive_Slider_Control::class,
-            Responsive_Spacing_Control::class,
-            Typography_Control::class,
-            Color_Group_Control::class,
-            Background_Control::class,
-            Border_Control::class,
-        );
-        foreach ( $classes as $class ) {
+        foreach ( array_values( self::$type_class_map ) as $class ) {
             if ( class_exists( $class ) ) {
                 $wp_customize->register_control_type( $class );
             }

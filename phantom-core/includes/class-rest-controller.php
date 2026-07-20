@@ -621,7 +621,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return $this->verify_nonce( $request );
 	}
 
-	public function get_partial( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_partial( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$partial_key = $request->get_param( 'partial' );
 		$entries     = Settings_Registry::get_instance()->get_entries();
 
@@ -694,7 +694,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $this->format_entry( $key, $entry ), 200 );
 	}
 
-	public function update_settings( \WP_REST_Request $request ): \WP_REST_Response {
+	public function update_settings( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$settings = $request->get_param( 'settings' );
 		$changes  = $request->get_param( 'changes' );
 
@@ -893,7 +893,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function import_settings( \WP_REST_Request $request ): \WP_REST_Response {
+	public function import_settings( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return $this->wp_error( 'unauthorized', __( 'You do not have permission to import settings.', 'phantom-core' ), 403 );
 		}
@@ -1023,7 +1023,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return $response;
 	}
 
-	public function get_post_by_slug( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_post_by_slug( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$slug = sanitize_title( $request->get_param( 'slug' ) );
 		$post = get_page_by_path( $slug, OBJECT, 'post' );
 
@@ -1079,7 +1079,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $data, 200 );
 	}
 
-	public function get_page_by_slug( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_page_by_slug( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$slug = sanitize_title( $request->get_param( 'slug' ) );
 		$page = get_page_by_path( $slug, OBJECT, 'page' );
 
@@ -1159,7 +1159,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return $response;
 	}
 
-	public function get_menu( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_menu( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$location = sanitize_text_field( $request->get_param( 'location' ) );
 		$theme_locations = get_nav_menu_locations();
 
@@ -1187,7 +1187,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function get_products( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_products( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1324,7 +1324,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return $response;
 	}
 
-	public function get_featured_products(): \WP_REST_Response {
+	public function get_featured_products(): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1359,7 +1359,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return $response;
 	}
 
-	public function create_product( \WP_REST_Request $request ): \WP_REST_Response {
+	public function create_product( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1434,7 +1434,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $this->format_product( $product, true ), 201 );
 	}
 
-	public function update_product( \WP_REST_Request $request ): \WP_REST_Response {
+	public function update_product( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1491,7 +1491,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $this->format_product( $product, true ), 200 );
 	}
 
-	public function delete_product( \WP_REST_Request $request ): \WP_REST_Response {
+	public function delete_product( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1507,7 +1507,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( array( 'deleted' => true, 'id' => $id ), 200 );
 	}
 
-	public function get_product( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_product( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1533,7 +1533,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $data, 200 );
 	}
 
-	public function add_to_cart_endpoint( \WP_REST_Request $request ): \WP_REST_Response {
+	public function add_to_cart_endpoint( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1552,7 +1552,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		}
 	}
 
-	public function update_cart_item_endpoint( \WP_REST_Request $request ): \WP_REST_Response {
+	public function update_cart_item_endpoint( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1569,7 +1569,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		}
 	}
 
-	public function remove_cart_item_endpoint( \WP_REST_Request $request ): \WP_REST_Response {
+	public function remove_cart_item_endpoint( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1585,7 +1585,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		}
 	}
 
-	public function apply_coupon_endpoint( \WP_REST_Request $request ): \WP_REST_Response {
+	public function apply_coupon_endpoint( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1601,7 +1601,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		}
 	}
 
-	public function remove_coupon_endpoint( \WP_REST_Request $request ): \WP_REST_Response {
+	public function remove_coupon_endpoint( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1614,7 +1614,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		}
 	}
 
-	public function get_shipping_methods(): \WP_REST_Response {
+	public function get_shipping_methods(): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -1656,7 +1656,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		}
 	}
 
-	public function get_cart(): \WP_REST_Response {
+	public function get_cart(): \WP_REST_Response|\WP_Error {
 		if ( ! class_exists( 'WooCommerce' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -2524,7 +2524,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function get_woo_attributes(): \WP_REST_Response {
+	public function get_woo_attributes(): \WP_REST_Response|\WP_Error {
 		if ( ! function_exists( 'wc_get_attribute_taxonomies' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -2546,7 +2546,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $data, 200 );
 	}
 
-	public function get_woo_variations( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_woo_variations( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -2588,7 +2588,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		return new \WP_REST_Response( $data, 200 );
 	}
 
-	public function get_woo_reviews( \WP_REST_Request $request ): \WP_REST_Response {
+	public function get_woo_reviews( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return $this->wp_error( 'woocommerce_inactive', __( 'WooCommerce is not active.', 'phantom-core' ), 400 );
 		}
@@ -2674,7 +2674,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function auth_login( \WP_REST_Request $request ): \WP_REST_Response {
+	public function auth_login( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$rate_error = $this->check_rate_limit( 'login' );
 		if ( $rate_error ) {
 			return $this->wp_error( 'rate_limit_exceeded', __( 'Too many login attempts. Please try again later.', 'phantom-core' ), 429 );
@@ -2707,7 +2707,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function auth_register( \WP_REST_Request $request ): \WP_REST_Response {
+	public function auth_register( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$rate_error = $this->check_rate_limit( 'register' );
 		if ( $rate_error ) {
 			return $this->wp_error( 'rate_limit_exceeded', __( 'Too many registration attempts. Please try again later.', 'phantom-core' ), 429 );
@@ -2761,7 +2761,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function auth_password_reset( \WP_REST_Request $request ): \WP_REST_Response {
+	public function auth_password_reset( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$rate_error = $this->check_rate_limit( 'password_reset' );
 		if ( $rate_error ) {
 			return $this->wp_error( 'rate_limit_exceeded', __( 'Too many reset attempts. Please try again later.', 'phantom-core' ), 429 );
@@ -2815,7 +2815,7 @@ class Rest_Controller extends \WP_REST_Controller {
 		);
 	}
 
-	public function handle_contact( \WP_REST_Request $request ): \WP_REST_Response {
+	public function handle_contact( \WP_REST_Request $request ): \WP_REST_Response|\WP_Error {
 		$fname   = sanitize_text_field( $request->get_param( 'fname' ) );
 		$email   = sanitize_email( $request->get_param( 'email' ) );
 		$phone   = sanitize_text_field( $request->get_param( 'phone' ) );

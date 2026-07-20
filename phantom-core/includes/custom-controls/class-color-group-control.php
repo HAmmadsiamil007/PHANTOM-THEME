@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 class Color_Group_Control extends Control_Base {
 
-	public string $type = 'ast-color-group';
+	public $type = 'ast-color-group';
 
 	public static function get_type(): string {
 		return 'ast-color-group';

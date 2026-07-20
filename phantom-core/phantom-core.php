@@ -24,6 +24,12 @@ define( 'PHANTOM_CORE_FILE', __FILE__ );
 define( 'PHANTOM_CORE_PATH', plugin_dir_path( __FILE__ ) );
 define( 'PHANTOM_CORE_URL', plugin_dir_url( __FILE__ ) );
 
+load_plugin_textdomain(
+	'phantom-core',
+	false,
+	dirname( plugin_basename( __FILE__ ) ) . '/languages'
+);
+
 spl_autoload_register(
 	function ( string $class ): void {
 		$prefix = 'PhantomCore\\';
@@ -99,18 +105,6 @@ if ( file_exists( $shell_path ) ) {
 	require_once $shell_path;
 	\PhantomCore\Shell::get_instance()->init();
 }
-
-add_action(
-	'plugins_loaded',
-	function (): void {
-		load_plugin_textdomain(
-			'phantom-core',
-			false,
-			dirname( plugin_basename( __FILE__ ) ) . '/languages'
-		);
-	},
-	1
-);
 
 add_action(
 	'plugins_loaded',

@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Responsive_Spacing_Control extends Control_Base {
 
+    public $type = 'ast-responsive-spacing';
+
     public static function get_type(): string {
         return 'ast-responsive-spacing';
     }

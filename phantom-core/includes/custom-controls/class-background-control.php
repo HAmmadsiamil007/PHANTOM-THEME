@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 class Background_Control extends Control_Base {
 
-	public string $type = 'ast-background';
+	public $type = 'ast-background';
 
 	public static function get_type(): string {
 		return 'ast-background';

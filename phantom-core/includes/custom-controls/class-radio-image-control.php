@@ -7,6 +7,8 @@ defined( 'ABSPATH' ) || exit;
 
 class Radio_Image_Control extends Control_Base {
 
+    public $type = 'ast-radio-image';
+
     public static function get_type(): string {
         return 'ast-radio-image';
     }
