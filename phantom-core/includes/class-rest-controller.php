@@ -421,12 +421,12 @@ class Rest_Controller extends \WP_REST_Controller {
 
 		register_rest_route(
 			$this->namespace,
-			'/cart/shipping-methods',
+				'/cart/shipping-methods',
 			array(
 				array(
 					'methods'             => \WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'get_shipping_methods' ),
-					'permission_callback' => array( $this, 'cart_write_permission_check' ),
+					'permission_callback' => '__return_true',
 				),
 			)
 		);
