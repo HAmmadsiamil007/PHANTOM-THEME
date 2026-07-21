@@ -1,0 +1,16 @@
+/*
+Theme Name: Phantom Core Theme
+Theme URI: https://phantom.test
+Author: Phantom
+Author URI: https://phantom.test
+Description: A decoupled SPA WordPress theme with static HTML architecture, dynamic CSS generation, global color palette system, Google Fonts integration, WooCommerce support, and full Customizer integration. Features 31+ pre-built templates including shop, blog, about, contact, team, testimonials, and more.
+Version: 1.5.0
+Requires at least: 6.4
+Tested up to: 6.7
+Requires PHP: 8.1
+Text Domain: phantom-theme
+Domain Path: /languages
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Tags: one-column, two-columns, three-columns, four-columns, six-columns, custom-colors, custom-menu, custom-logo, featured-images, full-site-editing, theme-options, threaded-comments, translation-ready, blog, e-commerce, portfolio, wide-blocks, block-styles, block-patterns
+*/

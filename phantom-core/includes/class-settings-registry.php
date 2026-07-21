@@ -34,7 +34,7 @@ class Settings_Registry {
 		return isset( $this->entries[ $key ] );
 	}
 
-	public function get( string $key ): mixed {
+	public function get( string $key ) {
 		if ( ! $this->registered ) {
 			$this->register();
 		}
@@ -49,7 +49,7 @@ class Settings_Registry {
 		return $value;
 	}
 
-	public function set( string $key, mixed $value ): void {
+	public function set( string $key, $value ): void {
 		if ( ! $this->registered ) {
 			$this->register();
 		}
@@ -144,7 +144,7 @@ class Settings_Registry {
 		return (float) ( $this->get( $key ) ?? $default );
 	}
 
-	public function get_image( string $key, string $size = 'full' ): string|int {
+	public function get_image( string $key, string $size = 'full' ) {
 		$val = $this->get( $key );
 		if ( is_numeric( $val ) ) {
 			$src = wp_get_attachment_image_url( (int) $val, $size );
@@ -174,7 +174,7 @@ class Settings_Registry {
 		return $default;
 	}
 
-	public function get_option( string $key, mixed $default = null ): mixed {
+	public function get_option( string $key, $default = null ) {
 		return $this->get( $key ) ?? $default;
 	}
 

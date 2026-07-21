@@ -152,7 +152,7 @@ class Settings_Page {
 		}
 	}
 
-	private function render_field_row( string $key, array $entry, mixed $value ): void {
+	private function render_field_row( string $key, array $entry, $value ): void {
 		$type        = $entry['type'] ?? 'string';
 		$label       = $entry['label'] ?? $key;
 		$desc        = $entry['desc'] ?? '';
@@ -186,7 +186,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_field_input( string $type, string $key, array $entry, mixed $value ): void {
+	private function render_field_input( string $type, string $key, array $entry, $value ): void {
 		switch ( $type ) {
 			case 'text':
 				$this->render_textarea( $key, $entry, $value );
@@ -229,7 +229,7 @@ class Settings_Page {
 		}
 	}
 
-	private function render_string( string $key, array $entry, mixed $value ): void {
+	private function render_string( string $key, array $entry, $value ): void {
 		$placeholder = $entry['placeholder'] ?? '';
 		?>
 		<input type="text"
@@ -241,7 +241,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_textarea( string $key, array $entry, mixed $value ): void {
+	private function render_textarea( string $key, array $entry, $value ): void {
 		$placeholder = $entry['placeholder'] ?? '';
 		$rows        = $entry['rows'] ?? 5;
 		?>
@@ -253,7 +253,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_checkbox( string $key, array $entry, mixed $value ): void {
+	private function render_checkbox( string $key, array $entry, $value ): void {
 		?>
 		<label>
 			<input type="hidden" name="phantom_core[<?php echo esc_attr( $key ); ?>]" value="0" />
@@ -266,7 +266,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_number( string $key, array $entry, mixed $value ): void {
+	private function render_number( string $key, array $entry, $value ): void {
 		$min  = $entry['min'] ?? 0;
 		$max  = $entry['max'] ?? 999999;
 		$step = $entry['step'] ?? 1;
@@ -282,7 +282,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_float( string $key, array $entry, mixed $value ): void {
+	private function render_float( string $key, array $entry, $value ): void {
 		$min  = $entry['min'] ?? 0;
 		$max  = $entry['max'] ?? 999999;
 		$step = $entry['step'] ?? '0.01';
@@ -298,7 +298,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_color( string $key, array $entry, mixed $value ): void {
+	private function render_color( string $key, array $entry, $value ): void {
 		?>
 		<input type="text"
 			   id="<?php echo esc_attr( $key ); ?>"
@@ -309,7 +309,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_select( string $key, array $entry, mixed $value ): void {
+	private function render_select( string $key, array $entry, $value ): void {
 		$options = $entry['options'] ?? array();
 		?>
 		<select id="<?php echo esc_attr( $key ); ?>"
@@ -323,7 +323,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_multiselect( string $key, array $entry, mixed $value ): void {
+	private function render_multiselect( string $key, array $entry, $value ): void {
 		$options = $entry['options'] ?? array();
 		$value   = is_array( $value ) ? $value : ( is_string( $value ) ? explode( ',', $value ) : array() );
 		$value   = array_map( 'strval', $value );
@@ -342,7 +342,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_image( string $key, array $entry, mixed $value ): void {
+	private function render_image( string $key, array $entry, $value ): void {
 		$attachment_id = is_numeric( $value ) ? (int) $value : 0;
 		$preview_url   = '';
 
@@ -375,7 +375,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_code( string $key, array $entry, mixed $value ): void {
+	private function render_code( string $key, array $entry, $value ): void {
 		$mode = $entry['mode'] ?? 'text/html';
 		?>
 		<textarea id="<?php echo esc_attr( $key ); ?>"
@@ -386,7 +386,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_repeater( string $key, array $entry, mixed $value ): void {
+	private function render_repeater( string $key, array $entry, $value ): void {
 		$value      = is_array( $value ) ? $value : array();
 		$sub_fields = $entry['sub_fields'] ?? $this->infer_repeater_fields( $value );
 		$index      = 0;
@@ -408,7 +408,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_repeater_row( string $key, int|string $index, array $row, array $sub_fields ): void {
+	private function render_repeater_row( string $key, $index, array $row, array $sub_fields ): void {
 		?>
 		<div class="phantom-core-repeater-row">
 			<div class="phantom-core-repeater-fields">
@@ -436,7 +436,7 @@ class Settings_Page {
 		<?php
 	}
 
-	private function render_repeater_subfield( string $type, string $name, string $id, mixed $value, array $config ): void {
+	private function render_repeater_subfield( string $type, string $name, string $id, $value, array $config ): void {
 		switch ( $type ) {
 			case 'bool':
 				?>
@@ -534,7 +534,7 @@ class Settings_Page {
 		return $fields;
 	}
 
-	private function render_array_field( string $key, array $entry, mixed $value ): void {
+	private function render_array_field( string $key, array $entry, $value ): void {
 		$json = is_array( $value ) ? wp_json_encode( $value, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES ) : (string) $value;
 		?>
 		<textarea id="<?php echo esc_attr( $key ); ?>"

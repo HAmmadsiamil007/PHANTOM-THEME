@@ -1,0 +1,164 @@
+- generic [active]:
+  - link "Skip to main content" [ref=e1] [cursor=pointer]:
+    - /url: "#phantom-main-content"
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - paragraph [ref=e7]:
+        - text: Summer sale discount off
+        - generic [ref=e8]: 60%
+        - text: on all of your orders!
+      - generic [ref=e10]:
+        - generic [ref=e12] [cursor=pointer]: EN
+        - generic [ref=e14] [cursor=pointer]: USD
+    - banner [ref=e15]:
+      - navigation [ref=e17]:
+        - link [ref=e18] [cursor=pointer]:
+          - /url: /
+          - figure [ref=e19]:
+            - img "Site logo" [ref=e20]
+        - list [ref=e208]:
+          - listitem [ref=e209]:
+            - link "Navigate to Shop" [ref=e210] [cursor=pointer]:
+              - /url: /shop/
+              - text: Shop
+          - listitem [ref=e211]:
+            - link "Navigate to About" [ref=e212] [cursor=pointer]:
+              - /url: /about/
+              - text: About
+          - listitem [ref=e213]:
+            - link "Navigate to Blog" [ref=e214] [cursor=pointer]:
+              - /url: /blog/
+              - text: Blog
+          - listitem [ref=e215]:
+            - link "Navigate to Contact" [ref=e216] [cursor=pointer]:
+              - /url: /contact/
+              - text: Contact
+          - listitem [ref=e217]:
+            - button "Navigate to Pages" [ref=e218] [cursor=pointer]: Pages
+        - generic [ref=e21]:
+          - link "Search" [ref=e22] [cursor=pointer]:
+            - /url: "#search"
+          - link "Shopping Cart" [ref=e23] [cursor=pointer]:
+            - /url: /cart/
+            - generic [ref=e24]: "0"
+          - link "My Account" [ref=e25] [cursor=pointer]:
+            - /url: /my-account/
+    - generic [ref=e26]:
+      - figure
+      - figure
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - figure [ref=e30]
+          - generic [ref=e31]: PRO TEST Hero Heading
+          - heading "PRO TEST Big Title!" [level=1] [ref=e219]:
+            - text: PRO TEST
+            - text: Big Title!
+          - paragraph [ref=e34]: PRO TEST description verified live
+          - link "PRO TEST Shop " [ref=e220] [cursor=pointer]:
+            - /url: /shop/
+            - text: PRO TEST Shop
+            - generic [ref=e36]: 
+        - link [ref=e38] [cursor=pointer]:
+          - /url: "#promotion"
+          - figure [ref=e39]
+          - figure [ref=e40]
+  - link "View All " [ref=e48] [cursor=pointer]:
+    - /url: /shop/
+    - text: View All
+    - generic [ref=e49]: 
+  - generic [ref=e50]:
+    - figure
+    - figure
+    - figure
+  - link "View All " [ref=e88] [cursor=pointer]:
+    - /url: /shop/
+    - text: View All
+    - generic [ref=e89]: 
+  - generic [ref=e96]:
+    - figure
+    - figure
+  - contentinfo [ref=e221]:
+    - generic [ref=e130]:
+      - generic [ref=e132]:
+        - link [ref=e133] [cursor=pointer]:
+          - /url: /
+          - figure [ref=e134]:
+            - img "Site logo" [ref=e135]
+        - paragraph [ref=e136]: Duis aute irure dolor in reprehenderit in voluptate velit cillum dolore eu fugiat nulla pariatur ccaecat cupidata proident, sunt in culpa officia deserunt mollit.
+        - list [ref=e137]:
+          - listitem [ref=e222]:
+            - link "" [ref=e223] [cursor=pointer]:
+              - /url: https://www.facebook.com/
+              - generic [ref=e224]: 
+          - listitem [ref=e225]:
+            - link "" [ref=e226] [cursor=pointer]:
+              - /url: https://www.instagram.com/
+              - generic [ref=e227]: 
+          - listitem [ref=e228]:
+            - link "" [ref=e229] [cursor=pointer]:
+              - /url: https://www.youtube.com/
+              - generic [ref=e230]: 
+      - generic [ref=e148]:
+        - heading "Navigation" [level=5] [ref=e149]
+        - list [ref=e150]:
+          - listitem [ref=e151]:
+            - generic [ref=e152] [cursor=pointer]: 
+            - link "Home" [ref=e153] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e154]:
+            - generic [ref=e155] [cursor=pointer]: 
+            - link "Shop" [ref=e156] [cursor=pointer]:
+              - /url: /shop/
+          - listitem [ref=e157]:
+            - generic [ref=e158] [cursor=pointer]: 
+            - link "About" [ref=e159] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=e160]:
+            - generic [ref=e161] [cursor=pointer]: 
+            - link "Blog" [ref=e162] [cursor=pointer]:
+              - /url: /blog/
+          - listitem [ref=e163]:
+            - generic [ref=e164] [cursor=pointer]: 
+            - link "Contact" [ref=e165] [cursor=pointer]:
+              - /url: /contact/
+      - generic [ref=e167]:
+        - heading "Support" [level=5] [ref=e168]
+        - list [ref=e169]:
+          - listitem [ref=e170]:
+            - generic [ref=e171] [cursor=pointer]: 
+            - link "Term of use" [ref=e172] [cursor=pointer]:
+              - /url: /term-of-use/
+          - listitem [ref=e173]:
+            - generic [ref=e174] [cursor=pointer]: 
+            - link "Privacy policy" [ref=e175] [cursor=pointer]:
+              - /url: /privacy-policy/
+          - listitem [ref=e176]:
+            - generic [ref=e177] [cursor=pointer]: 
+            - link "Cookie policy" [ref=e178] [cursor=pointer]:
+              - /url: /cookie-policy/
+          - listitem [ref=e179]:
+            - generic [ref=e180] [cursor=pointer]: 
+            - link "Latest Posts" [ref=e181] [cursor=pointer]:
+              - /url: /post/
+          - listitem [ref=e182]:
+            - generic [ref=e183] [cursor=pointer]: 
+            - link "Care Guide" [ref=e184] [cursor=pointer]:
+              - /url: /contact/
+      - generic [ref=e186]:
+        - heading "Contact Us" [level=5] [ref=e187]
+        - list [ref=e188]:
+          - listitem [ref=e189]:
+            - generic [ref=e190] [cursor=pointer]: 
+            - link "+1235 211 5236" [ref=e191] [cursor=pointer]:
+              - /url: tel:+12352115236
+          - listitem [ref=e192]:
+            - generic [ref=e193] [cursor=pointer]: 
+            - link "hello@claudia.com" [ref=e194] [cursor=pointer]:
+              - /url: mailto:hello@claudia.com
+          - listitem [ref=e195]:
+            - generic [ref=e196] [cursor=pointer]: 
+            - link "121 King Street Melbourne, <br>3000, Australia" [ref=e231] [cursor=pointer]:
+              - /url: https://www.google.com/maps/place/21+King+St,+Melbourne+VIC+3000,+Australia/@-37.8199805,144.9529083,18z/data=!4m6!3m5!1s0x6ad65d52754eaecb:0x22f367daf52cbd47!8m2!3d-37.819936!4d144.9570765!16s%2Fg%2F11c2dj2n2c?entry=ttu
+    - generic [ref=e200]:
+      - paragraph [ref=e201]: © 2026 PRO TEST FOOTER
+      - img "Accepted payment cards" [ref=e202]

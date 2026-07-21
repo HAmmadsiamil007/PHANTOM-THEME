@@ -244,9 +244,6 @@ class Shell {
 		// Inject Customizer CSS variables for initial page render
 		$html = $this->inject_customizer_css( $html );
 
-		// Inject frontend editor for admin users
-		$html = $this->inject_editor( $html );
-
 		// Inject PhantomBridge data + script
 		$html = $this->inject_bridge( $html );
 		$html = $this->inject_woo_scripts( $html );
@@ -619,65 +616,7 @@ class Shell {
 		return $html;
 	}
 
-	private function inject_editor( string $html ): string {
-		if ( ! is_user_logged_in() || ! current_user_can( 'edit_theme_options' ) ) {
-			return $html;
-		}
 
-		$ver = PHANTOM_CORE_VERSION;
-
-		// Add data-phantom-key attributes to known editable elements
-		$html = preg_replace(
-			'/(class="d-inline-block primary-text text-uppercase banner-span")/',
-			'$1 data-phantom-key="home_banner_heading"',
-			$html,
-			1
-		);
-		$html = preg_replace(
-			'/(<h1\s+class="font-size92")>/',
-			'$1 data-phantom-key="home_banner_title">',
-			$html,
-			1
-		);
-		$html = preg_replace(
-			'/(<p>)(Discover a world of fun and joy)/',
-			'<p data-phantom-key="home_banner_description">$2',
-			$html,
-			1
-		);
-		$html = preg_replace(
-			'/class="d-inline-block text-size-14(.*?footer-about-text)"/',
-			'class="d-inline-block text-size-14$1" data-phantom-key="footer_about_text"',
-			$html,
-			1
-		);
-		$html = preg_replace(
-			'/class="copyright(.*?)content(.*?)p"/',
-			'class="copyright$1content$2p" data-phantom-key="footer_copyright"',
-			$html,
-			1
-		);
-
-		// Editor CSS
-		$css_url = PHANTOM_CORE_URL . 'frontend/assets/css/phantom-editor.css?v=' . $ver;
-		$editor_css = '<link rel="stylesheet" id="phantom-editor-css" href="' . esc_url( $css_url ) . '" media="all" />';
-
-		// Add body class for JS detection — append to existing class or add new
-		if ( preg_match( '/<body\s+class="([^"]*)"/', $html ) ) {
-			$html = preg_replace( '/(<body\s+class=")([^"]*)(")/', '$1$2 phantom-editor-enabled$3', $html, 1 );
-		} else {
-			$html = preg_replace( '/<body(\s[^>]*)?>/', '<body class="phantom-editor-enabled"$1>', $html, 1 );
-		}
-
-		// REST API nonce for PUT/DELETE requests
-		$nonce = wp_create_nonce( 'wp_rest' );
-		$nonce_tag = '<meta name="wp-rest-nonce" content="' . esc_attr( $nonce ) . '" />';
-
-		$assets = $nonce_tag . "\n" . $editor_css;
-		$html = str_replace( '</head>', $assets . '</head>', $html );
-
-		return $html;
-	}
 
 	private function inject_bridge( string $html ): string {
 		$entries = Settings_Registry::get_instance()->get_entries();
