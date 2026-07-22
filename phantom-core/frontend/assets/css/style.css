@@ -59,8 +59,6 @@ Heading: "Playfair Display", sans-serif;
 */
 
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-
 
 body {
     font-family: var(--font-body, "Archivo", sans-serif);
@@ -165,59 +163,78 @@ figure {
 
 
 h1 {
+    font-family: var(--h1-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h1-weight, var(--font-heading-weight, 500));
     font-size: var(--h1-size, 86px);
     line-height: var(--h1-height, 86px);
-    font-weight: 500;
+    text-transform: var(--h1-case, var(--font-heading-case, none));
+    letter-spacing: var(--h1-spacing, var(--font-heading-spacing, 0px));
     color: var(--secondary--color);
 }
 
 h1.font-size92 {
+    font-family: var(--h1-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h1-weight, var(--font-heading-weight, 600));
     font-size: 92px;
     line-height: 96px;
-    font-weight: 600;
     color: var(--secondary--color);
 }
 
 h2 {
+    font-family: var(--h2-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h2-weight, var(--font-heading-weight, 500));
     font-size: var(--h2-size, 62px);
     line-height: var(--h2-height, 68px);
-    font-weight: 500;
+    text-transform: var(--h2-case, var(--font-heading-case, none));
+    letter-spacing: var(--h2-spacing, var(--font-heading-spacing, 0px));
     color: var(--black--color);
 }
 
 h3 {
+    font-family: var(--h3-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h3-weight, var(--font-heading-weight, 500));
     font-size: var(--h3-size, 46px);
     line-height: var(--h3-height, 58px);
-    font-weight: 500;
+    text-transform: var(--h3-case, var(--font-heading-case, none));
+    letter-spacing: var(--h3-spacing, var(--font-heading-spacing, 0px));
     color: var(--black--color);
 }
 
 h4 {
+    font-family: var(--h4-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h4-weight, var(--font-heading-weight, 600));
     font-size: var(--h4-size, 24px);
     line-height: var(--h4-height, 30px);
-    font-weight: 600;
+    text-transform: var(--h4-case, var(--font-heading-case, none));
+    letter-spacing: var(--h4-spacing, var(--font-heading-spacing, 0px));
     color: var(--black--color);
 }
 
 h4.font-size30 {
+    font-family: var(--h4-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h4-weight, var(--font-heading-weight, 600));
     font-size: 30px;
     line-height: 32px;
-    font-weight: 600;
     color: var(--secondary--color);
-    font-family: "Archivo", sans-serif;
 }
 
 h5 {
+    font-family: var(--h5-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h5-weight, var(--font-heading-weight, 500));
     font-size: var(--h5-size, 22px);
     line-height: var(--h5-height, 30px);
-    font-weight: 500;
+    text-transform: var(--h5-case, var(--font-heading-case, none));
+    letter-spacing: var(--h5-spacing, var(--font-heading-spacing, 0px));
     color: var(--black--color);
 }
 
 h6 {
+    font-family: var(--h6-font, var(--font-heading, "Playfair Display", serif));
+    font-weight: var(--h6-weight, var(--font-heading-weight, 500));
     font-size: var(--h6-size, 20px);
     line-height: var(--h6-height, 24px);
-    font-weight: 500;
+    text-transform: var(--h6-case, var(--font-heading-case, none));
+    letter-spacing: var(--h6-spacing, var(--font-heading-spacing, 0px));
     color: var(--black--color);
 }
 

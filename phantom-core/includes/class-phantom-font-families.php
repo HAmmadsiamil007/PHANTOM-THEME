@@ -291,7 +291,7 @@ class Phantom_Font_Families {
 		foreach ( $fonts as $font ) {
 			$font = trim( $font );
 			if ( '' !== $font ) {
-				$families[] = rawurlencode( $font ) . ':wght@100;200;300;400;500;600;700;800;900';
+				$families[] = str_replace( ' ', '+', $font ) . ':wght@100;200;300;400;500;600;700;800;900';
 			}
 		}
 

@@ -160,10 +160,11 @@ add_filter( 'body_class', 'phantom_theme_body_class' );
  * Customizer integration: Output dynamic CSS variables
  */
 function phantom_theme_customizer_css(): void {
-	$primary   = get_theme_mod( 'phantom_primary_color', '#7635d5' );
-	$accent    = get_theme_mod( 'phantom_accent_color', '#fcd668' );
-	$text      = get_theme_mod( 'phantom_text_color', '#4e4e4e' );
-	$bg        = get_theme_mod( 'phantom_bg_color', '#ffffff' );
+	$options = get_option( 'phantom_options', array() );
+	$primary = $options['color_primary'] ?? get_option( 'phantom_color_primary', '#7635d5' );
+	$accent  = $options['color_accent'] ?? get_option( 'phantom_color_accent', '#fcd668' );
+	$text    = $options['color_text'] ?? get_option( 'phantom_color_text', '#4e4e4e' );
+	$bg      = $options['color_background'] ?? get_option( 'phantom_color_background', '#ffffff' );
 	?>
 	<style id="phantom-theme-vars">
 		:root {
