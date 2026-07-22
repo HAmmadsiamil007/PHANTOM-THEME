@@ -282,6 +282,7 @@
         font-size: 20px;
         line-height: 32px;
         margin-bottom: 20px;
+        white-space: pre-line;
     }
 
     .banner-con h1.font-size92 {
@@ -781,6 +782,7 @@
         font-size: 19px;
         line-height: 30px;
         margin-bottom: 18px;
+        white-space: pre-line;
     }
 
     .banner-con .button_down figure img.btndown-img {
@@ -1595,16 +1597,15 @@
         font-size: 17px;
         line-height: 27px;
         margin-bottom: 16px;
-        padding: 0 22%
+        padding: 0 22%;
+        white-space: pre-line;
     }
 
     .banner-con {
         padding-top: 40px;
     }
 
-    .banner-con p br {
-        display: none;
-    }
+}
 
 
 }
@@ -2297,6 +2298,7 @@
         line-height: 26px;
         margin-bottom: 16px;
         padding: 0 22%;
+        white-space: pre-line;
     }
 
     .banner-con {
@@ -2985,6 +2987,7 @@
         line-height: 25px;
         margin-bottom: 14px;
         padding: 0 4%;
+        white-space: pre-line;
     }
 
     .banner-con span.banner-span {

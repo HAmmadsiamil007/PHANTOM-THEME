@@ -2768,6 +2768,7 @@ button.primary_btn:hover {
     font-weight: 500;
     margin-bottom: 30px;
     color: var(--black--color);
+    white-space: pre-line;
 }
 
 /* .banner-con .center-context {

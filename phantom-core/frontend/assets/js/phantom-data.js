@@ -1481,9 +1481,9 @@
     const copyrightEl = document.querySelector('.copyright .content p');
     if (copyrightEl) {
       if (settings.footer_copyright) {
-        copyrightEl.textContent = settings.footer_copyright.replace('%d', new Date().getFullYear());
+        copyrightEl.innerHTML = escapeHtml(settings.footer_copyright).replace('%d', new Date().getFullYear()).replace(/\n/g, '<br>');
       }
-      copyrightEl.textContent = copyrightEl.textContent.replace(/2025/g, new Date().getFullYear().toString());
+      copyrightEl.innerHTML = copyrightEl.innerHTML.replace(/2025/g, new Date().getFullYear().toString());
     }
 
     // Payment cards
@@ -1528,7 +1528,7 @@
   function injectBanner(settings) {
     if (!settings) return;
     const span = document.querySelector('.banner-span');
-    if (span && settings.home_banner_heading) span.textContent = settings.home_banner_heading;
+    if (span && settings.home_banner_heading) span.innerHTML = escapeHtml(settings.home_banner_heading).replace(/\n/g, '<br>');
     const h1 = document.querySelector('.center-context h1.font-size92');
     if (h1 && settings.home_banner_title) h1.innerHTML = escapeHtml(settings.home_banner_title).replace(/\n/g, '<br>');
     const p = document.querySelector('.center-context p');

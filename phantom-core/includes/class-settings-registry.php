@@ -408,9 +408,9 @@ class Settings_Registry {
 			),
 			'branding_site_tagline_text'   => array(
 				'section'  => 'branding',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Just another WordPress site',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Custom Tagline', 'phantom-core' ),
 			),
 			'branding_logo_retina'         => array(
@@ -1032,9 +1032,9 @@ class Settings_Registry {
 			),
 			'home_banner_heading'     => array(
 				'section'   => 'hero',
-				'type'      => 'string',
+				'type'      => 'text',
 				'default'   => 'Claudia Kids Collection',
-				'sanitize'  => 'sanitize_text_field',
+				'sanitize'  => 'sanitize_textarea_field',
 				'label'     => __( 'Hero Heading', 'phantom-core' ),
 				'transport' => 'postMessage',
 			),
@@ -1127,16 +1127,16 @@ class Settings_Registry {
 			),
 			'home_categories_heading' => array(
 				'section'  => 'collections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'magna aliqua',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Categories Heading', 'phantom-core' ),
 			),
 			'home_categories_title'   => array(
 				'section'  => 'collections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Product Categories',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Categories Title', 'phantom-core' ),
 			),
 			'home_categories'         => array(
@@ -1268,16 +1268,16 @@ class Settings_Registry {
 			),
 			'home_products_heading'          => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Collection',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Products Heading', 'phantom-core' ),
 			),
 			'home_products_title'            => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Popular Products',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Products Title', 'phantom-core' ),
 			),
 			'home_products_count'            => array(
@@ -1317,16 +1317,16 @@ class Settings_Registry {
 			),
 			'home_cta_title'                 => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Mid Season Sale!',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'CTA Title', 'phantom-core' ),
 			),
 			'home_cta_subtitle'              => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Get 20% Off on All New Arrivals!',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'CTA Subtitle', 'phantom-core' ),
 			),
 			'home_cta_btn_text'              => array(
@@ -1352,9 +1352,9 @@ class Settings_Registry {
 			),
 			'home_top_selling_title'         => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Top Selling Products',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Top Selling Title', 'phantom-core' ),
 			),
 			'home_top_selling_count'         => array(
@@ -1373,16 +1373,16 @@ class Settings_Registry {
 			),
 			'home_testimonials_heading'      => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Testimonials',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Testimonials Heading', 'phantom-core' ),
 			),
 			'home_testimonials_title'        => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Client Reviews',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Testimonials Title', 'phantom-core' ),
 			),
 			'home_testimonials'              => array(
@@ -1431,16 +1431,16 @@ class Settings_Registry {
 			),
 			'home_instagram_heading'         => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => '@claudia instagram',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Instagram Heading', 'phantom-core' ),
 			),
 			'home_instagram_title'           => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Find us On Instagram',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Instagram Title', 'phantom-core' ),
 			),
 			'home_instagram_images'          => array(
@@ -1507,11 +1507,11 @@ class Settings_Registry {
 				'sanitize' => 'absint',
 				'label'    => __( 'Enable Brands', 'phantom-core' ),
 			),
-			'home_brands_title'              => array(
+			'home_brands_title'     => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Shop by Brand',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Brands Title', 'phantom-core' ),
 			),
 			'home_brands'                    => array(
@@ -1549,9 +1549,9 @@ class Settings_Registry {
 			),
 			'home_hero_subheading'           => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => '',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Hero Subheading', 'phantom-core' ),
 			),
 			'home_hero_parallax'             => array(
@@ -1592,16 +1592,16 @@ class Settings_Registry {
 			),
 			'home_features_heading'          => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
-				'default'  => 'Features',
-				'sanitize' => 'sanitize_text_field',
+				'type'     => 'text',
+				'default'  => 'What we offer!',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Features Heading', 'phantom-core' ),
 			),
 			'home_features_title'            => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
-				'default'  => 'Why Choose Us',
-				'sanitize' => 'sanitize_text_field',
+				'type'     => 'text',
+				'default'  => 'Our Featured Services',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Features Title', 'phantom-core' ),
 			),
 			'home_features_items'            => array(
@@ -1621,16 +1621,16 @@ class Settings_Registry {
 			),
 			'home_blog_heading'              => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
-				'default'  => 'Blog',
-				'sanitize' => 'sanitize_text_field',
+				'type'     => 'text',
+				'default'  => 'Our Blog',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Blog Heading', 'phantom-core' ),
 			),
 			'home_blog_title'                => array(
 				'section'  => 'home_sections',
-				'type'     => 'string',
-				'default'  => 'Latest News',
-				'sanitize' => 'sanitize_text_field',
+				'type'     => 'text',
+				'default'  => 'Read Our Latest Posts',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Blog Title', 'phantom-core' ),
 			),
 			'home_blog_count'                => array(
@@ -1729,9 +1729,9 @@ class Settings_Registry {
 		return array(
 			'shop_title'             => array(
 				'section'  => 'shop_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Shop',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Shop Page Title', 'phantom-core' ),
 			),
 			'shop_products_per_page' => array(
@@ -1849,11 +1849,11 @@ class Settings_Registry {
 
 	private function section_product_page(): array {
 		return array(
-			'product_related_title'                     => array(
+			'product_related_title'  => array(
 				'section'  => 'product_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Related Products',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Related Products Title', 'phantom-core' ),
 			),
 			'product_related_count'                     => array(
@@ -1872,16 +1872,16 @@ class Settings_Registry {
 			),
 			'product_more_title'                        => array(
 				'section'  => 'product_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'More Products',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'More Products Title', 'phantom-core' ),
 			),
 			'product_detail_title'                      => array(
 				'section'  => 'product_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Product Details',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Detail Section Title', 'phantom-core' ),
 			),
 			'product_detail_name'                       => array(
@@ -2172,9 +2172,9 @@ class Settings_Registry {
 			),
 			'cart_tax_description'       => array(
 				'section'  => 'woocommerce',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Enter your billing address to get a tax estimate.',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Tax Description', 'phantom-core' ),
 			),
 			'cart_country_label'         => array(
@@ -2448,9 +2448,9 @@ class Settings_Registry {
 			),
 			'blog_title'                            => array(
 				'section'  => 'blog',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Blog',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Blog Title', 'phantom-core' ),
 			),
 			'blog_posts_per_page'                   => array(
@@ -2540,9 +2540,9 @@ class Settings_Registry {
 			),
 			'single_blog_related_title'             => array(
 				'section'  => 'blog',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Related Posts',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Related Posts Title', 'phantom-core' ),
 			),
 			'blog_excerpt_length'                   => array(
@@ -2846,9 +2846,9 @@ class Settings_Registry {
 			),
 			'footer_copyright'            => array(
 				'section'  => 'footer',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Copyright (c) %d claudia.com All rights reserved.',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Copyright Text', 'phantom-core' ),
 			),
 			'footer_payment_cards'        => array(
@@ -2950,9 +2950,9 @@ class Settings_Registry {
 			),
 			'newsletter_heading'          => array(
 				'section'  => 'footer',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Subscribe to Our Newsletter :',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Newsletter Heading', 'phantom-core' ),
 			),
 			'newsletter_placeholder'      => array(
@@ -4243,7 +4243,7 @@ class Settings_Registry {
 				'section'  => 'search',
 				'type'     => 'text',
 				'default'  => 'No results found. Try a different search term.',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'No Results Message', 'phantom-core' ),
 			),
 			'search_results_layout' => array(
@@ -4693,16 +4693,16 @@ class Settings_Registry {
 			),
 			'about_about_heading'     => array(
 				'section'  => 'about_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'About Us',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'About Heading', 'phantom-core' ),
 			),
 			'about_about_title'       => array(
 				'section'  => 'about_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Unique clothes & Toys For Kids',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'About Title', 'phantom-core' ),
 			),
 			'about_about_text_1'      => array(
@@ -4749,16 +4749,16 @@ class Settings_Registry {
 			),
 			'about_mission_heading'   => array(
 				'section'  => 'about_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Mission',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Mission Heading', 'phantom-core' ),
 			),
 			'about_mission_title'     => array(
 				'section'  => 'about_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Start of Countless Collection.',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Mission Title', 'phantom-core' ),
 			),
 			'about_mission_text_1'    => array(
@@ -4784,16 +4784,16 @@ class Settings_Registry {
 			),
 			'about_team_heading'      => array(
 				'section'  => 'about_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Experts Team',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Team Heading', 'phantom-core' ),
 			),
 			'about_team_title'        => array(
 				'section'  => 'about_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Team Members',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Team Title', 'phantom-core' ),
 			),
 			'about_team_members'      => array(
@@ -4857,16 +4857,16 @@ class Settings_Registry {
 		return array(
 			'contact_info_heading'    => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Contact Info',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Info Heading', 'phantom-core' ),
 			),
 			'contact_info_title'      => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Information',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Info Title', 'phantom-core' ),
 			),
 			'contact_location_icon'   => array(
@@ -4885,9 +4885,9 @@ class Settings_Registry {
 			),
 			'contact_location_title'  => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Location',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Location Title', 'phantom-core' ),
 			),
 			'contact_phone_icon'      => array(
@@ -4907,9 +4907,9 @@ class Settings_Registry {
 			),
 			'contact_phone_title'     => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Phone Number',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Phone Title', 'phantom-core' ),
 			),
 			'contact_email_icon'      => array(
@@ -4929,23 +4929,23 @@ class Settings_Registry {
 			),
 			'contact_email_title'     => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Email Us:',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Email Title', 'phantom-core' ),
 			),
 			'contact_form_heading'    => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Get in Touch',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Form Heading', 'phantom-core' ),
 			),
 			'contact_form_title'      => array(
 				'section'  => 'contact_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Send Us a Message',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Form Title', 'phantom-core' ),
 			),
 			'contact_form_btn_text'   => array(
@@ -4977,16 +4977,16 @@ class Settings_Registry {
 			),
 			'faq_heading'          => array(
 				'section'  => 'faq_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'FAQs',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'FAQ Heading', 'phantom-core' ),
 			),
 			'faq_title'            => array(
 				'section'  => 'faq_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Frequently Asked Questions',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'FAQ Title', 'phantom-core' ),
 			),
 			'faq_items'            => array(
@@ -5025,16 +5025,16 @@ class Settings_Registry {
 			),
 			'coming_soon_subtitle'    => array(
 				'section'  => 'coming_soon',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Website is under construction',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Subtitle', 'phantom-core' ),
 			),
 			'coming_soon_title'       => array(
 				'section'  => 'coming_soon',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Coming Soon',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Title', 'phantom-core' ),
 			),
 			'coming_soon_date'        => array(
@@ -5058,9 +5058,9 @@ class Settings_Registry {
 		return array(
 			'404_title'       => array(
 				'section'  => 'error_404',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'We Could Not Find The Page You\'re Looking For',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( '404 Title', 'phantom-core' ),
 			),
 			'404_description' => array(
@@ -5084,9 +5084,9 @@ class Settings_Registry {
 		return array(
 			'login_title'              => array(
 				'section'  => 'login_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Welcome Back !',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Login Title', 'phantom-core' ),
 			),
 			'login_btn_text'           => array(
@@ -5152,9 +5152,9 @@ class Settings_Registry {
 		return array(
 			'join_title'            => array(
 				'section'  => 'register_page',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Create Your FREE Account',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Join Title', 'phantom-core' ),
 			),
 			'join_btn_text'         => array(
@@ -5227,9 +5227,9 @@ class Settings_Registry {
 		return array(
 			'portfolio_title'             => array(
 				'section'  => 'portfolio',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Projects',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Portfolio Title', 'phantom-core' ),
 			),
 			'portfolio_projects_per_page' => array(
@@ -5253,9 +5253,9 @@ class Settings_Registry {
 		return array(
 			'thank_you_title'    => array(
 				'section'  => 'thank_you',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Thank You!',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Thank You Title', 'phantom-core' ),
 			),
 			'thank_you_text'     => array(
@@ -5354,9 +5354,9 @@ class Settings_Registry {
 		return array(
 			'privacy_title'   => array(
 				'section'  => 'privacy',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Privacy Policy',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Title', 'phantom-core' ),
 			),
 			'privacy_content' => array(
@@ -5374,9 +5374,9 @@ class Settings_Registry {
 		return array(
 			'terms_title'   => array(
 				'section'  => 'terms',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Term of Use',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Title', 'phantom-core' ),
 			),
 			'terms_content' => array(
@@ -5394,30 +5394,30 @@ class Settings_Registry {
 		return array(
 			'team_title'           => array(
 				'section'  => 'team',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Team',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Title', 'phantom-core' ),
 			),
 			'team_title_inner'     => array(
 				'section'  => 'team',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Team Members',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Inner Title', 'phantom-core' ),
 			),
 			'team_heading'         => array(
 				'section'  => 'team',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Experts Team',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Heading', 'phantom-core' ),
 			),
 			'team_mission_heading' => array(
 				'section'  => 'team',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Mission',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Mission Heading', 'phantom-core' ),
 			),
 			'team_mission_title'   => array(
@@ -5442,23 +5442,23 @@ class Settings_Registry {
 		return array(
 			'testimonials_title'       => array(
 				'section'  => 'testimonials',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Testimonials',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Title', 'phantom-core' ),
 			),
 			'testimonials_title_inner' => array(
 				'section'  => 'testimonials',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Our Client Reviews',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Inner Title', 'phantom-core' ),
 			),
 			'testimonials_heading'     => array(
 				'section'  => 'testimonials',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Testimonials',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Heading', 'phantom-core' ),
 			),
 		);
@@ -5480,9 +5480,9 @@ class Settings_Registry {
 			),
 			'announcement_bar_text'       => array(
 				'section'  => 'announcement_bar',
-				'type'     => 'string',
+				'type'     => 'text',
 				'default'  => 'Free shipping on orders over $50!',
-				'sanitize' => 'sanitize_text_field',
+				'sanitize' => 'sanitize_textarea_field',
 				'label'    => __( 'Announcement Text', 'phantom-core' ),
 			),
 			'announcement_bar_bg'         => array(

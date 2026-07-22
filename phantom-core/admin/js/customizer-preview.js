@@ -89,8 +89,12 @@
     value.bind(function (newval) {
       var el = document.querySelector('.banner-con h1');
       if (el) {
-        el.innerHTML = '';
-        el.appendChild(document.createTextNode(newval));
+        el.textContent = '';
+        var lines = (newval || '').split('\n');
+        for (var i = 0; i < lines.length; i++) {
+          if (i > 0) el.appendChild(document.createElement('br'));
+          el.appendChild(document.createTextNode(lines[i]));
+        }
       }
     });
   });
@@ -100,8 +104,12 @@
     value.bind(function (newval) {
       var el = document.querySelector('.banner-con .center-context p');
       if (el) {
-        el.innerHTML = '';
-        el.appendChild(document.createTextNode(newval));
+        el.textContent = '';
+        var lines = (newval || '').split('\n');
+        for (var i = 0; i < lines.length; i++) {
+          if (i > 0) el.appendChild(document.createElement('br'));
+          el.appendChild(document.createTextNode(lines[i]));
+        }
       }
     });
   });
